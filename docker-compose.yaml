@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  client:
+    container_name: client-smartfox
+    build: ./client
+    ports:
+      - "80:80"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    restart: always 
+
+  server:
+    container_name: server-smartfox
+    build: ./server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: always  
+    environment:
+      - DB_HOST=mysql-db
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - EXPRESS_PORT=${EXPRESS_PORT}
+  mysql-db:
+    container_name: mysql-smartfox
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_DATABASE=FoxDrive
+    volumes:
+      - ./mysqlDB:/var/lib/mysql
+
+  phpmyadmin-db:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma-smartfox
+    depends_on:
+      - mysql-db
+    environment:
+      PMA_HOST: mysql-db
+    restart: always
+    ports:
+      - 8080:80
