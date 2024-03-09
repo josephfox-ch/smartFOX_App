@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephfox-ch/smartFOX_App.git"
+  },
+  "keywords": [
+    "smart-fox",
+    "smart",
+    "home",
+    "heating",
+    "system",
+    "energy",
+    "saving"
+  ],
+  "author": "Yunus YILDIZ",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/josephfox-ch/smartFOX_App.git/issues"
+  },
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}

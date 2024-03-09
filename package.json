@@ -1,0 +1,31 @@
+{
+  "name": "smartfox_app",
+  "version": "1.0.0",
+  "description": "Smart Home System Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd client && npm start\" \"cd server && nodemon index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephfox-ch/smartFOX_App.git"
+  },
+  "keywords": [
+    "smart-fox",
+    "smart",
+    "home",
+    "heating",
+    "system",
+    "energy",
+    "saving"
+  ],
+  "author": "Yunus YILDIZ",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/josephfox-ch/smartFOX_App.git/issues"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
