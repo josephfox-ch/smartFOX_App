@@ -10,10 +10,10 @@ const getAllUsers = async () => {
   return users;
 };
 
-const updateUser = async (userData) => {
+const updateUser = async (id,userData) => {
   const user = await User.update(userData, {
     where: {
-      id: userData.id,
+      id: id,
     },
   });
   return user;
