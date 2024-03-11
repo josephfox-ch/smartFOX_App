@@ -1,10 +1,17 @@
-import app from './src/app.js'
+import "dotenv/config";
+import { connectDB } from "./database/config.js";
+import app from "./src/app.js";
+
+const PORT = process.env.EXPRESS_PORT || 3000;
 
 
-const port=3000;
 
-
-
-app.listen(port,()=>{
-  console.log(`server is running on ${port}`)  
+connectDB().then(async ()=>{
+  app.listen(PORT, () => {
+    console.log(`server is running on ${PORT}`);
+  });
+}).catch((error)=>{
+  console.log('Database Connection Error ' + error.message);
+  process.exit(1);
 })
+
