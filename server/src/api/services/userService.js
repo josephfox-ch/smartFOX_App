@@ -10,5 +10,22 @@ const getAllUsers = async () => {
   return users;
 };
 
-export { createUser, getAllUsers };
+const updateUser = async (userData) => {
+  const user = await User.update(userData, {
+    where: {
+      id: userData.id,
+    },
+  });
+  return user;
+};
 
+const deleteUser = async (id) => {
+  const user = await User.destroy({
+    where: {
+      id: id,
+    },
+  });
+  return user;
+};
+
+export { createUser, getAllUsers, updateUser, deleteUser };
