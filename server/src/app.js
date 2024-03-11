@@ -1,22 +1,22 @@
-import Express from "express";
-import cors from "cors";
-import morgan from "morgan";
-import User from './api/models/user.js'
-import UserRoutes from './api/routes/userRoutes.js'
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import userRoutes from './api/routes/userRoutes.js';
 
-const app = Express();
+const app = express();
 
 app.use(cors());
 app.use(morgan('dev'));
-app.use(Express.json());
-app.use(Express.urlencoded({ extended: true }));
-app.use(Express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 
+app.use('/api/v1/users', userRoutes);
 
-app.use('/api/v1/users',UserRoutes)
+
 app.get('/', (req, res) => {
-    res.send('Hello my new World')
-  })
+  res.send('Hello, World!');
+});
 
 export default app;
