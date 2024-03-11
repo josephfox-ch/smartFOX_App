@@ -16,8 +16,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./server:/app
-      - /app/node_modules
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules/
     restart: always  
     environment:
       - DB_HOST=mysql-db
