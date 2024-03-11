@@ -1,11 +1,16 @@
 
 FROM node:14
 
+RUN npm install -g nodemon
 
-WORKDIR /app
+RUN mkdir -p /usr/src/app
 
 
-COPY package*.json ./
+WORKDIR /usr/src/app
+
+
+COPY package.json /usr/src/app
+
 
 
 RUN npm install
@@ -15,4 +20,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["nodemon", "server.js"]
