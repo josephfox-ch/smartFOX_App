@@ -8,7 +8,7 @@ const PORT = process.env.EXPRESS_PORT || 3000;
 
 connectDB().then(async ()=>{
   app.listen(PORT, () => {
-    console.log(`server is running on ${PORT}`);
+    console.log(`Server is running on ${PORT} port.`);
   });
 }).catch((error)=>{
   console.log('Database Connection Error ' + error.message);
