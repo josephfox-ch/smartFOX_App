@@ -1,4 +1,5 @@
 import "dotenv/config";
+import './src/api/models/index.js'
 import { connectDB } from "./database/config.js";
 import app from "./src/app.js";
 
