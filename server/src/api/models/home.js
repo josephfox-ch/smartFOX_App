@@ -1,6 +1,6 @@
-import sequelize from '../../../database/config.js';
-import { DataTypes } from 'sequelize';
-import { v4 as uuidv4 } from 'uuid';
+import sequelize from "../../../database/config.js";
+import { DataTypes } from "sequelize";
+import { v4 as uuidv4 } from "uuid";
 
 const Home = sequelize.define("Home", {
   id: {
@@ -63,12 +63,25 @@ const Home = sequelize.define("Home", {
   userId: {
     type: DataTypes.UUID,
     references: {
-      model: 'Users',
-      key: 'id',
+      model: "Users",
+      key: "id",
     },
+  },
+  smartSystemStartDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    comment: "The date when the home started using the smartFoX system",
+  },
+  smartSystemEndDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    comment: "The date when the home stopped using the smartFoX system",
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+    comment: "Indicates whether the relationship is currently active",
   },
 });
 
 export default Home;
-
-  
