@@ -12,11 +12,11 @@ const authService = {
   async login(email, password) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      throw new Error("User not found");
+      return res.status(401).json({ message: 'User not found.' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new Error("Invalid password");
+      return res.status(401).json({ message: 'Invalid Password.' });
     }
     const payload = { userId: user.id, email: user.email };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
