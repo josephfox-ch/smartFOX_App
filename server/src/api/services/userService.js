@@ -24,11 +24,9 @@ const getAllUsersWithDetails = async () => {
     include: [
       {
         model: UserDetails,
-        as: "userDetails",
       },
       {
         model: Home,
-        as: "homes",
       },
     ],
   });
@@ -40,11 +38,9 @@ const getUserWithDetailsById = async (userId) => {
       include: [
         {
           model: UserDetails,
-          as: 'userDetails',
         },
         {
           model: Home,
-          as: 'homes',
         },
       ],
     });
@@ -58,7 +54,6 @@ const getUserWithDetailsById = async (userId) => {
     return { success: false, error };
   }
 };
-
 
 const updateUserWithDetails = async (userId, userData, userDetailsData) => {
   return sequelize.transaction(async (transaction) => {
