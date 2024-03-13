@@ -13,6 +13,7 @@ const authController = {
       try {
         const {email, password} = req.body
         const {token,user} = await AuthService.login(email,password);
+        req.session.token = token;
         res.status(200).json({message: 'Login Successful', user: user,token: token});
       } catch (error) {
         res.status(500).json({ message: "Login failed", error: error.message });
