@@ -2,6 +2,7 @@ import User from "./user.js";
 import UserDetails from "./userDetails.js";
 import Home from "./home.js";
 import UserHome from "./userHome.js";
+import OTP from "./otp.js";
 
 User.hasOne(UserDetails, {
   foreignKey: "userId",
@@ -15,4 +16,4 @@ UserDetails.belongsTo(User, {
 User.belongsToMany(Home, { through: UserHome, foreignKey: "userId" });
 Home.belongsToMany(User, { through: UserHome, foreignKey: "homeId" });
 
-export { User, UserDetails, Home, UserHome };
+export { User, UserDetails, Home, UserHome, OTP };
