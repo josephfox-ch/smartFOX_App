@@ -36,6 +36,10 @@ const User = sequelize.define("User", {
     allowNull: true,
     defaultValue: "guest",
   },
+  isVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false, 
+  },
 });
 
 export default User;
