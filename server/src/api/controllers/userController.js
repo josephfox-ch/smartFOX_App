@@ -1,74 +1,63 @@
 import * as UserService from "../services/userService.js";
 
 const UserController = {
-  createUserWithDetails: async (req, res) => {
-    const { user, userDetails } = req.body;
+  createUser: async (req, res) => {
     try {
-      const result = await UserService.createUserWithDetails(user, userDetails);
+      const user = await UserService.createUser(req.body);
       return res.status(201).json({
-        message: "User and user details created successfully",
-        user: result.user,
-        userDetails: result.userDetails,
+        message: "User created successfully",
+        user,
       });
     } catch (error) {
       return res.status(500).json({
-        message: "Error creating user and user details",
+        message: "Error creating user",
         error: error.message,
       });
     }
   },
 
-  getAllUsersWithDetails: async (req, res) => {
+  getAllUsers: async (req, res) => {
     try {
-      const users = await UserService.getAllUsersWithDetails();
+      const users = await UserService.getAllUsers();
       return res.status(200).json(users);
     } catch (error) {
       return res.status(500).json({
-        message: "Error fetching users with details",
+        message: "Error fetching users",
         error: error.message,
       });
     }
   },
-  getUserWithDetailsById: async (req, res) => {
+  getUserById: async (req, res) => {
     const { userId } = req.params;
-    const { success, user, message, error } =
-      await UserService.getUserWithDetailsById(userId);
-
-    if (success) {
-      return res.status(200).json(user);
-    } else if (message) {
-      return res.status(404).json({ message });
-    } else {
-      return res
-        .status(500)
-        .json({
-          message: "Error fetching user with details",
-          error: error.message,
-        });
+    try {
+      const user = await UserService.getUserById(userId);
+      if (user) {
+        return res.status(200).json(user);
+      } else {
+        return res.status(404).json({ message: "User not found" });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        message: "Error fetching user",
+        error: error.message,
+      });
     }
   },
-
-  updateUserWithDetails: async (req, res) => {
+  updateUser: async (req, res) => {
     const { userId } = req.params;
-    const { user, userDetails } = req.body;
     try {
-      const result = await UserService.updateUserWithDetails(
-        userId,
-        user,
-        userDetails
-      );
+      const updatedUser = await UserService.updateUser(userId, req.body);
       return res.status(200).json({
-        message: "User and user details updated successfully",
-        data: result,
+        message: "User updated successfully",
+        data: updatedUser,
       });
     } catch (error) {
       return res.status(500).json({
-        message: "Error updating user and user details",
+        message: "Error updating user",
         error: error.message,
       });
     }
   },
-
   deleteUser: async (req, res) => {
     const { id } = req.params;
     try {
