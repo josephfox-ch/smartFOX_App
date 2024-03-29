@@ -1,11 +1,10 @@
 import sequelize from "../../../database/config.js";
 import { DataTypes } from "sequelize";
-import { v4 as uuidv4 } from "uuid";
 
 const User = sequelize.define("User", {
   id: {
     type: DataTypes.UUID,
-    defaultValue: uuidv4,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
   firstname: {
@@ -32,7 +31,7 @@ const User = sequelize.define("User", {
   },
   role: {
     type: DataTypes.ENUM,
-    values: ["owner", "resident", "guest"],
+    values: ["homeowner", "resident", "guest"],
     allowNull: true,
     defaultValue: "guest",
   },
