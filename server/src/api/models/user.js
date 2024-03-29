@@ -7,11 +7,11 @@ const User = sequelize.define("User", {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  firstname: {
+  firstName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  lastname: {
+  lastName: {
     type: DataTypes.STRING,
     allowNull: false,
   },

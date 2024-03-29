@@ -25,7 +25,7 @@ const AccessControl = sequelize.define("AccessControl", {
   },
   permissionLevel: {
     type: DataTypes.ENUM,
-    values: ["parents", "children", "guest"],
+    values: ["parents", "children", "guest"], //todo: manage permissions
     defaultValue: "children",
     allowNull: false,
   },
