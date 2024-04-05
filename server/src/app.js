@@ -16,9 +16,10 @@ app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+
 app.use(
   session({
-    name: 'smartFOX-sesion',
+    name: "smartFOX-sesion",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -30,8 +31,5 @@ app.use("/api/v1/users", userRoutes);
 // app.use('/api/v1/homes', homeRoutes);
 app.use("/api/v1/auth", authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
 
 export default app;

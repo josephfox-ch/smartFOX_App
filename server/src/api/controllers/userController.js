@@ -28,9 +28,9 @@ const UserController = {
     }
   },
   getUserById: async (req, res) => {
-    const { userId } = req.params;
+    const { id } = req.params;
     try {
-      const user = await UserService.getUserById(userId);
+      const user = await UserService.getUserById(id);
       if (user) {
         return res.status(200).json(user);
       } else {
@@ -44,9 +44,9 @@ const UserController = {
     }
   },
   updateUser: async (req, res) => {
-    const { userId } = req.params;
+    const { id } = req.params;
     try {
-      const updatedUser = await UserService.updateUser(userId, req.body);
+      const updatedUser = await UserService.updateUser(id, req.body);
       return res.status(200).json({
         message: "User updated successfully",
         data: updatedUser,

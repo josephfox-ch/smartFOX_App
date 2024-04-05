@@ -1,5 +1,5 @@
 import sequelize from "../../../database/config.js";
-import { User, Home } from "../models/index.js";
+import { User} from "../models/index.js";
 import bcrypt from "bcryptjs";
 
 const createUser = async (userData) => {
@@ -9,12 +9,11 @@ const createUser = async (userData) => {
       ...userData,
       password: hashedPassword,
     });
-    return user; 
+    return user;
   } catch (error) {
-    throw error; 
+    throw error;
   }
 };
-
 
 const getAllUsers = async () => {
   try {
@@ -39,11 +38,11 @@ const updateUser = async (userId, userData) => {
     userData.password = await bcrypt.hash(userData.password, 12);
   }
   try {
-    const [updateCount, updatedUsers] = await User.update(userData, {
+    const [updateCount] = await User.update(userData, {
       where: { id: userId },
     });
     if (updateCount > 0) {
-      const updatedUser = updatedUsers[0];
+      const updatedUser = await User.findByPk(userId);
       return updatedUser;
     } else {
       throw new Error("User not found");
@@ -61,10 +60,4 @@ const deleteUser = async (id) => {
   });
 };
 
-export {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-};
+export { createUser, getAllUsers, getUserById, updateUser, deleteUser };
