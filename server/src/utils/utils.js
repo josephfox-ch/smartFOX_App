@@ -1,5 +1,5 @@
-import Sequelize from 'sequelize';
-import OTP from '../api/models/otp.js'
+import Sequelize from "sequelize";
+import OTP from "../api/models/otp.js";
 
 export const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -7,7 +7,7 @@ export const generateOTP = () => {
 
 export const saveOTPForUser = async (userId, otp) => {
   const expiryTime = new Date();
-  expiryTime.setMinutes(expiryTime.getMinutes() + 10); 
+  expiryTime.setMinutes(expiryTime.getMinutes() + 10);
   await OTP.create({
     userId,
     otp,
@@ -20,10 +20,10 @@ export const checkOTPForUser = async (userId, inputOtp) => {
     where: {
       userId,
       expiresAt: {
-        [Sequelize.Op.gt]: new Date(), 
+        [Sequelize.Op.gt]: new Date(),
       },
     },
-    order: [["createdAt", "DESC"]], 
+    order: [["createdAt", "DESC"]],
   });
 
   if (!otpRecord) {
@@ -34,8 +34,7 @@ export const checkOTPForUser = async (userId, inputOtp) => {
     throw new Error("Invalid OTP.");
   }
 
-  
   await otpRecord.destroy();
 
-  return true; 
+  return true;
 };
