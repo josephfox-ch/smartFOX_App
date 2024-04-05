@@ -78,12 +78,17 @@ const LoginForm = ({ onSubmit, changeForm }) => {
           <button onClick={changeForm} className="btn  signup-button w-100">
             Sign Up Now
           </button>
+          <hr className="my-2" />
+          <small style={{ fontSize: "12px" }} className="text-muted ">
+            By signing up, you agree to the <a href="">Terms of Service</a> and{" "}
+            <a href="">Privacy Policy</a>, including <a href="">Cookie Use</a>.
+          </small>
           <div className="d-flex justify-content-around p-3">
             <a href="#">
-              <img height='30px' width="90px" src="appStore.png" alt="" />
+              <img height="30px" width="90px" src="appStore.png" alt="" />
             </a>{" "}
             <a href="#">
-              <img height='30px' width="90px" src="googleStore.png" alt="" />
+              <img height="30px" width="90px" src="googleStore.png" alt="" />
             </a>
           </div>
         </form>

@@ -7,7 +7,10 @@ import ClimateControl from "./climateControl.js";
 import EnergyCertificate from "./energyCertificate.js";
 import Event from "./event.js";
 import ExternalTemperature from "./externalTemperature.js";
+import UserPreferences from "./userPreference.js";
 
+User.hasOne(UserPreferences, {foreignKey: 'userId',onDelete: "CASCADE"});
+UserPreferences.belongsTo(User, {foreignKey: 'userId'});
 
 User.hasMany(Home, { foreignKey: "userId", onDelete: "CASCADE" });
 Home.belongsTo(User, { foreignKey: "userId" });
@@ -48,4 +51,5 @@ export {
   EnergyCertificate,
   Event,
   ExternalTemperature,
+  UserPreferences,
 };
