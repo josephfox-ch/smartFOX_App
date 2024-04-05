@@ -14,7 +14,7 @@ const Home = sequelize.define("Home", {
       key: "id",
     },
   },
-  homeName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },

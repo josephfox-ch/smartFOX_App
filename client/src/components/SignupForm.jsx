@@ -11,6 +11,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import axios from 'axios';
 
 const validationSchemas = [
   Yup.object({
@@ -73,27 +74,25 @@ const SignupForm = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (values, { setSubmitting }) => {
+    console.log('Final Form Values:', values);
     if (step < 2) {
       setStep(step + 1);
     } else {
-      fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/register`, {
-        method: "POST",
+      axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, values, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Form Submission Success:", data);
-          navigate("/login");
-        })
-        .catch((error) => {
-          console.error("Form Submission Error:", error);
-        })
-        .finally(() => {
-          setSubmitting(false);
-        });
+      .then((response) => {
+        console.log("Form Submission Success:", response.data);
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error("Form Submission Error:", error);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
     }
   };
 
