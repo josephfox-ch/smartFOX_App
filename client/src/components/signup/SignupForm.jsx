@@ -1,13 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, ErrorMessage, Form as FormikForm } from "formik";
 import * as Yup from "yup";
-import {
-  Button,
-  Container,
-  InputGroup,
-  FormControl,
-  FormCheck,
-} from "react-bootstrap";
+import { Button, Container, Accordion, Card, FormCheck } from "react-bootstrap";
 
 const validationSchemas = [
   Yup.object({
@@ -65,254 +59,300 @@ const initialValues = {
   acceptEmails: false,
 };
 
-const SignupForm = ({ step, onSubmit }) => {
+const formTitles = [
+  "Your Contact Information",
+  "Your Home Information",
+  "Your Login Information",
+];
+
+function CustomToggle({ title, eventKey, setActiveKey }) {
+  const handleClick = () => {
+    setActiveKey(eventKey);
+  };
+
+  return (
+    <Card.Header onClick={handleClick} style={{ cursor: "pointer" }}>
+      {title}
+    </Card.Header>
+  );
+}
+
+const SignupForm = ({ onSubmit }) => {
+  const [activeKey, setActiveKey] = useState("0");
+
+  const handleFormSubmit = (values, { setSubmitting, setErrors }) => {
+    const currentStep = parseInt(activeKey, 10);
+    if (currentStep < validationSchemas.length - 1) {
+      setActiveKey(`${currentStep + 1}`);
+      setSubmitting(false);
+    } else {
+      onSubmit(values, { setSubmitting, setErrors });
+    }
+  };
+
   return (
     <Container
       className="d-flex justify-content-center align-items-center"
       style={{ maxHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "500px" }}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchemas[step]}
-          onSubmit={onSubmit}
-        >
-          {({ isSubmitting, values, setFieldValue }) => (
-            <FormikForm className="p-4 shadow rounded">
-              {step === 0 && (
-                <>
-                  <h6 className=" mb-4 form-title">Your Contact Information</h6>
-                  <ErrorMessage
-                    name="firstName"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="firstName"
-                    placeholder="First Name"
-                    className="form-control mb-2 "
-                  />
+        <Accordion activeKey={activeKey}>
+          {validationSchemas.map((schema, index) => (
+            <Card key={index}>
+              <CustomToggle
+                eventKey={`${index}`}
+                setActiveKey={setActiveKey}
+                title={<h6 className=" m-2 form-title">{formTitles[index]}</h6>}
+              />
+              <Accordion.Collapse eventKey={`${index}`}>
+                <Card.Body>
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={schema}
+                    onSubmit={handleFormSubmit}
+                  >
+                    {(formikProps) => (
+                      <FormikForm>
+                        {index === 0 && (
+                          <>
+                            <ErrorMessage
+                              name="firstName"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="firstName"
+                              placeholder="First Name"
+                              className="form-control mb-2 "
+                            />
 
-                  <ErrorMessage
-                    name="lastName"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="lastName"
-                    placeholder="Last Name"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="lastName"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="lastName"
+                              placeholder="Last Name"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="email"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="email"
+                              type="email"
+                              placeholder="Email"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="confirmEmail"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="confirmEmail"
-                    type="email"
-                    placeholder="Confirm Email"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="confirmEmail"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="confirmEmail"
+                              type="email"
+                              placeholder="Confirm Email"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="phoneNumber"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="phoneNumber"
-                    placeholder="Primary Phone Number"
-                    className="form-control mb-2"
-                  />
-                </>
-              )}
-              {step === 1 && (
-                <>
-                  <h6 className=" mb-4 form-title">Your Home Information</h6>
-                  <ErrorMessage
-                    name="houseName"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="houseName"
-                    placeholder="House Name"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="phoneNumber"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="phoneNumber"
+                              placeholder="Primary Phone Number"
+                              className="form-control mb-2"
+                            />
+                          </>
+                        )}
+                        {index === 1 && (
+                          <>
+                            <ErrorMessage
+                              name="houseName"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="houseName"
+                              placeholder="House Name"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="streetAddress"
-                    component="div"
-                    className="text-danger"
-                  />
+                            <ErrorMessage
+                              name="streetAddress"
+                              component="div"
+                              className="text-danger"
+                            />
 
-                  <Field
-                    name="streetAddress"
-                    placeholder="Street Address"
-                    className="form-control mb-2"
-                  />
+                            <Field
+                              name="streetAddress"
+                              placeholder="Street Address"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="city"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="city"
-                    placeholder="City"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="city"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="city"
+                              placeholder="City"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="country"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="country"
-                    placeholder="Country"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="country"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="country"
+                              placeholder="Country"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="postalCode"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="postalCode"
-                    placeholder="Postal Code"
-                    className="form-control mb-2"
-                  />
+                            <ErrorMessage
+                              name="postalCode"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="postalCode"
+                              placeholder="Postal Code"
+                              className="form-control mb-2"
+                            />
 
-                  <ErrorMessage
-                    name="timeZone"
-                    component="div"
-                    className="text-danger"
-                  />
-                  <Field
-                    name="timeZone"
-                    placeholder="Time Zone"
-                    className="form-control mb-2"
-                  />
-                </>
-              )}
-              {step === 2 && (
-                <>
-                  <h6 className="mb-4 form-title">Your Login Information</h6>
-                  <InputGroup className="mb-2">
-                    <Field
-                      name="username"
-                      as={FormControl}
-                      placeholder="Username"
-                    />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </InputGroup>
+                            <ErrorMessage
+                              name="timeZone"
+                              component="div"
+                              className="text-danger"
+                            />
+                            <Field
+                              name="timeZone"
+                              placeholder="Time Zone"
+                              className="form-control mb-2"
+                            />
+                          </>
+                        )}
+                        {index === 2 && (
+                          <>
+                            <ErrorMessage
+                              name="username"
+                              component="div"
+                              className="text-danger"
+                            />
 
-                  <InputGroup className="mb-2">
-                    <Field
-                      name="password"
-                      type="password"
-                      as={FormControl}
-                      placeholder="Password"
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </InputGroup>
+                            <Field
+                              name="username"
+                              className="form-control mb-2"
+                              placeholder="Username"
+                            />
 
-                  <InputGroup className="mb-2">
-                    <Field
-                      name="confirmPassword"
-                      type="password"
-                      as={FormControl}
-                      placeholder="Confirm Password"
-                    />
-                    <ErrorMessage
-                      name="confirmPassword"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </InputGroup>
+                            <ErrorMessage
+                              name="password"
+                              component="div"
+                              className="text-danger"
+                            />
 
-                  <InputGroup className="mb-2">
-                    <Field
-                      name="securityQuestion"
-                      as={FormControl}
-                      placeholder="Security Question"
-                    />
-                    <ErrorMessage
-                      name="securityQuestion"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </InputGroup>
+                            <Field
+                              name="password"
+                              type="password"
+                              className="form-control mb-2"
+                              placeholder="Password"
+                            />
 
-                  <InputGroup className="mb-2">
-                    <Field
-                      name="securityAnswer"
-                      as={FormControl}
-                      placeholder="Security Answer"
-                    />
-                    <ErrorMessage
-                      name="securityAnswer"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </InputGroup>
+                            <ErrorMessage
+                              name="confirmPassword"
+                              component="div"
+                              className="text-danger"
+                            />
 
-                  <FormCheck
-                    id="acceptTerms"
-                    label="I accept terms and conditions"
-                    checked={values.acceptTerms}
-                    onChange={() =>
-                      setFieldValue("acceptTerms", !values.acceptTerms)
-                    }
-                    className="mb-3"
-                  />
+                            <Field
+                              name="confirmPassword"
+                              type="password"
+                              className="form-control mb-2"
+                              placeholder="Confirm Password"
+                            />
 
-                  <FormCheck
-                    id="acceptEmails"
-                    label="Accept emails from SmartFox about products"
-                    checked={values.acceptEmails}
-                    onChange={() =>
-                      setFieldValue("acceptEmails", !values.acceptEmails)
-                    }
-                    className="mb-3"
-                  />
-                </>
-              )}
+                            <ErrorMessage
+                              name="securityQuestion"
+                              component="div"
+                              className="text-danger"
+                            />
 
-              <Button
-                type="submit"
-                variant={step < 2 ? "primary" : "success"}
-                className="w-100 mt-4"
-              >
-                {step < 2 ? "Continue" : "Create My Account"}
-              </Button>
-            </FormikForm>
-          )}
-        </Formik>
+                            <Field
+                              name="securityQuestion"
+                              className="form-control mb-2"
+                              placeholder="Security Question"
+                            />
+
+                            <ErrorMessage
+                              name="securityAnswer"
+                              component="div"
+                              className="text-danger"
+                            />
+
+                            <Field
+                              name="securityAnswer"
+                              className="form-control mb-2"
+                              placeholder="Security Answer"
+                            />
+
+                            <FormCheck
+                              id="acceptTerms"
+                              label="I accept terms and conditions"
+                              checked={formikProps.values.acceptTerms}
+                              onChange={() =>
+                                formikProps.setFieldValue(
+                                  "acceptTerms",
+                                  !formikProps.values.acceptTerms
+                                )
+                              }
+                              className="mb-3"
+                            />
+
+                            <FormCheck
+                              id="acceptEmails"
+                              label="Accept emails from us about products"
+                              checked={formikProps.values.acceptEmails}
+                              onChange={() =>
+                                formikProps.setFieldValue(
+                                  "acceptEmails",
+                                  !formikProps.values.acceptEmails
+                                )
+                              }
+                              className="mb-3"
+                            />
+                          </>
+                        )}
+                        <Button
+                          type="submit"
+                          variant={index < validationSchemas.length - 1
+                            ? "primary"
+                            : "success"}
+                          className="mt-3 w-100"
+                        >
+                          {index < validationSchemas.length - 1
+                            ? "Continue"
+                            : "Create My Account"}
+                        </Button>
+                      </FormikForm>
+                    )}
+                  </Formik>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          ))}
+        </Accordion>
       </div>
     </Container>
   );

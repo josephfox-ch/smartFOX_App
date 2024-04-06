@@ -8,7 +8,6 @@ import {
 import Dashboard from "./components/dashboard/Dashboard";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./layouts/AuthLayout";
-import Signup from "./components/signup/Signup";
 
 const AppRoutes = () => {
   const {

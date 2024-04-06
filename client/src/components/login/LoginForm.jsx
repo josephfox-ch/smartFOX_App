@@ -27,7 +27,7 @@ const LoginForm = ({ onSubmit}) => {
         <form onSubmit={formik.handleSubmit} className="p-4 shadow rounded">
           <h6 className="form-title">Subscriber Login</h6>
           <div className="form-group mb-3">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email or Username</label>
             <input
               id="email"
               name="email"
