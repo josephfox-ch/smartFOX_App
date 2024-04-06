@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Login from './Login';
-import SignupForm from './SignupForm';
-import Footer from './Footer';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
+import Footer from '../components/Footer';
 
-const MainLayout = () => {
+const AuthLayout = () => {
   const [showForm, setShowForm] = useState('login');
 
   return (
@@ -21,7 +21,7 @@ const MainLayout = () => {
               {showForm === 'login' ? (
                 <Login changeForm={() => setShowForm('signup')} />
               ) : (
-                <SignupForm changeForm={() => setShowForm('login')} />
+                <Signup changeForm={() => setShowForm('login')} />
               )}
             </Col>
           </Row>
@@ -32,5 +32,8 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default AuthLayout;
+
+
+
 

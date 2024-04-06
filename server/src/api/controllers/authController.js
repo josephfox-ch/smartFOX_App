@@ -1,12 +1,20 @@
 import AuthService from '../services/authService.js';
 
 const authController = {
-  async register(req, res) {
+  async register(req, res){
     try {
-      const user = await AuthService.register(req.body);
-      res.status(201).json({ success: true, message: 'Registration started. OTP sent.', user: user });
+      const { user, home, preferences } = await AuthService.register(req.body);
+      res.status(201).json({
+        success: true,
+        message: 'Registration started. OTP sent.',
+        user: user, home: home, preferences: preferences
+      });
     } catch (error) {
-      res.status(400).json({ success: false, message: "Registration failed", error: error.message });
+      res.status(400).json({
+        success: false,
+        message: 'Registration failed',
+        error: error.message
+      });
     }
   },
 
