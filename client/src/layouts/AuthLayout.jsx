@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Login from "../components/login/Login";
 import Signup from "../components/signup/Signup";
 import Footer from "../components/footer/Footer";
 
 const AuthLayout = () => {
-  const [showForm, setShowForm] = useState("login");
+  const location = useLocation();
+
+  const showingSignup = location.pathname === "/signup";
+  const showingLogin = location.pathname === "/login" || location.pathname === "/";
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-    >
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <main style={{ flex: 1 }}>
         <Container className="py-5 container-custom">
           <Row className="align-items-center">
@@ -20,11 +22,8 @@ const AuthLayout = () => {
               <p>gateway to your smart future...</p>
             </Col>
             <Col lg={6}>
-              {showForm === "login" ? (
-                <Login changeForm={() => setShowForm("signup")} />
-              ) : (
-                <Signup changeForm={() => setShowForm("login")} />
-              )}
+              {showingLogin && <Login />}
+              {showingSignup && <Signup />}
             </Col>
           </Row>
         </Container>
@@ -35,3 +34,5 @@ const AuthLayout = () => {
 };
 
 export default AuthLayout;
+
+

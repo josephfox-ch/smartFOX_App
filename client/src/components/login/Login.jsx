@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import axiosWithAuth from "../../utils/axiosWithAuth";
 import LoginForm from "./LoginForm";
 
-const Login = ({ changeForm }) => {
+const Login = () => {
   const navigate = useNavigate();
   const { dispatch } = useAuth();
 
@@ -39,7 +39,7 @@ const Login = ({ changeForm }) => {
 
   return (
     <>
-      <LoginForm changeForm={changeForm} onSubmit={handleLoginSubmit} />
+      <LoginForm  onSubmit={handleLoginSubmit} />
     </>
   );
 };

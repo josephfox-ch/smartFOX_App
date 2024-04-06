@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SignupForm from "./SignupForm";
 
-const Signup = ({ changeForm }) => {
+const Signup = () => {
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/signup", { replace: true });
+  }, [step, navigate]);
 
   const handleSignupSubmit = (values, { setSubmitting }) => {
     console.log("Final Form Values:", values);
@@ -31,13 +35,7 @@ const Signup = ({ changeForm }) => {
     }
   };
 
-  return (
-    <SignupForm
-      step={step}
-      changeForm={changeForm}
-      onSubmit={handleSignupSubmit}
-    />
-  );
+  return <SignupForm step={step} onSubmit={handleSignupSubmit} />;
 };
 
 export default Signup;
