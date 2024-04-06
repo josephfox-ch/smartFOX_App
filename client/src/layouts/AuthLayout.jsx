@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import Login from '../components/Login';
-import Signup from '../components/Signup';
-import Footer from '../components/Footer';
+import React, { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import Login from "../components/login/Login";
+import Signup from "../components/signup/Signup";
+import Footer from "../components/footer/Footer";
 
 const AuthLayout = () => {
-  const [showForm, setShowForm] = useState('login');
+  const [showForm, setShowForm] = useState("login");
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <main style={{ flex: 1 }}>
         <Container className="py-5 container-custom">
           <Row className="align-items-center">
@@ -18,10 +20,10 @@ const AuthLayout = () => {
               <p>gateway to your smart future...</p>
             </Col>
             <Col lg={6}>
-              {showForm === 'login' ? (
-                <Login changeForm={() => setShowForm('signup')} />
+              {showForm === "login" ? (
+                <Login changeForm={() => setShowForm("signup")} />
               ) : (
-                <Signup changeForm={() => setShowForm('login')} />
+                <Signup changeForm={() => setShowForm("login")} />
               )}
             </Col>
           </Row>
@@ -33,7 +35,3 @@ const AuthLayout = () => {
 };
 
 export default AuthLayout;
-
-
-
-
