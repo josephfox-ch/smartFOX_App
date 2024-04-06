@@ -66,7 +66,6 @@ const initialValues = {
 };
 
 const SignupForm = ({ step, onSubmit }) => {
-
   return (
     <Container
       className="d-flex justify-content-center align-items-center"

@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const LoginForm = ({ onSubmit, changeForm }) => {
+const LoginForm = ({ onSubmit}) => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -75,7 +78,7 @@ const LoginForm = ({ onSubmit, changeForm }) => {
           <span className="form-title">
             Ready to join smartFOX&#8482; systems?
           </span>
-          <button onClick={changeForm} className="btn  signup-button w-100">
+          <button type="button" onClick={() => navigate("/signup")} className="btn  signup-button w-100">
             Sign Up Now
           </button>
           <hr className="my-2" />

@@ -8,6 +8,7 @@ import {
 import Dashboard from "./components/dashboard/Dashboard";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./layouts/AuthLayout";
+import Signup from "./components/signup/Signup";
 
 const AppRoutes = () => {
   const {
@@ -29,6 +30,11 @@ const AppRoutes = () => {
           element={
             !isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />
           }
+        />
+
+        <Route
+          path="/signup"
+          element={!isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />}
         />
 
         <Route
