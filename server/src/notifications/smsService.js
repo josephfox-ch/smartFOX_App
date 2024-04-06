@@ -5,7 +5,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const client = twilio(accountSid, authToken);
 
-const sendSMS = (to, body) => {
+const sendSMS = async (to, body) => {
   client.messages
     .create({
       body,

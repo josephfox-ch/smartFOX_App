@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { Formik, Field, ErrorMessage, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,10 +7,7 @@ import {
   InputGroup,
   FormControl,
   FormCheck,
-  Row,
-  Col,
 } from "react-bootstrap";
-import axios from 'axios';
 
 const validationSchemas = [
   Yup.object({
@@ -69,32 +65,7 @@ const initialValues = {
   acceptEmails: false,
 };
 
-const SignupForm = () => {
-  const [step, setStep] = useState(0);
-  const navigate = useNavigate();
-
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log('Final Form Values:', values);
-    if (step < 2) {
-      setStep(step + 1);
-    } else {
-      axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, values, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("Form Submission Success:", response.data);
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.error("Form Submission Error:", error);
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
-    }
-  };
+const SignupForm = ({ step, onSubmit }) => {
 
   return (
     <Container
@@ -105,7 +76,7 @@ const SignupForm = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchemas[step]}
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
         >
           {({ isSubmitting, values, setFieldValue }) => (
             <FormikForm className="p-4 shadow rounded">
