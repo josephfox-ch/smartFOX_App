@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 const Dashboard = () => {

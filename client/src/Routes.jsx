@@ -5,8 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./layouts/AuthLayout";
 
@@ -19,11 +18,19 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route
+          path="/"
+          index
+          element={
+            !isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />
+          }
+        />
+        <Route
           path="/login"
           element={
             !isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />
           }
         />
+
         <Route
           path="/dashboard"
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
