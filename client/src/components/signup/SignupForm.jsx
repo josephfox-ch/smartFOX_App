@@ -38,26 +38,32 @@ const validationSchemas = [
   }),
 ];
 
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  confirmEmail: "",
-  phoneNumber: "",
-  houseName: "",
-  streetAddress: "",
-  city: "",
-  country: "",
-  postalCode: "",
-  timeZone: "",
-  username: "",
-  password: "",
-  confirmPassword: "",
-  securityQuestion: "",
-  securityAnswer: "",
-  acceptTerms: false,
-  acceptEmails: false,
-};
+const initialValues = [
+  {
+    firstName: "",
+    lastName: "",
+    email: "",
+    confirmEmail: "",
+    phoneNumber: "",
+  },
+  {
+    houseName: "",
+    streetAddress: "",
+    city: "",
+    country: "",
+    postalCode: "",
+    timeZone: "",
+  },
+  {
+    username: "",
+    password: "",
+    confirmPassword: "",
+    securityQuestion: "",
+    securityAnswer: "",
+    acceptTerms: false,
+    acceptEmails: false,
+  },
+];
 
 const formTitles = [
   "Your Contact Information",
@@ -79,14 +85,19 @@ function CustomToggle({ title, eventKey, setActiveKey }) {
 
 const SignupForm = ({ onSubmit }) => {
   const [activeKey, setActiveKey] = useState("0");
+  const [formData, setFormData] = useState({});
 
-  const handleFormSubmit = (values, { setSubmitting, setErrors }) => {
+  const handleFormSubmit = async (values, { setSubmitting, setErrors }) => {
+    const updatedFormData = { ...formData, ...values };
     const currentStep = parseInt(activeKey, 10);
+
     if (currentStep < validationSchemas.length - 1) {
+      setFormData(updatedFormData);
       setActiveKey(`${currentStep + 1}`);
       setSubmitting(false);
     } else {
-      onSubmit(values, { setSubmitting, setErrors });
+      console.log("Final FormData", updatedFormData);
+      onSubmit(updatedFormData, { setSubmitting, setErrors });
     }
   };
 
@@ -107,9 +118,10 @@ const SignupForm = ({ onSubmit }) => {
               <Accordion.Collapse eventKey={`${index}`}>
                 <Card.Body>
                   <Formik
-                    initialValues={initialValues}
+                    initialValues={initialValues[index]}
                     validationSchema={schema}
                     onSubmit={handleFormSubmit}
+                    enableReinitialize={true}
                   >
                     {(formikProps) => (
                       <FormikForm>
@@ -336,9 +348,11 @@ const SignupForm = ({ onSubmit }) => {
                         )}
                         <Button
                           type="submit"
-                          variant={index < validationSchemas.length - 1
-                            ? "primary"
-                            : "success"}
+                          variant={
+                            index < validationSchemas.length - 1
+                              ? "primary"
+                              : "success"
+                          }
                           className="mt-3 w-100"
                         >
                           {index < validationSchemas.length - 1
