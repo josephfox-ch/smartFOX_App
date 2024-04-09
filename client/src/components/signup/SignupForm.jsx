@@ -66,9 +66,9 @@ const initialValues = [
 ];
 
 const formTitles = [
-  "Your Contact Information",
-  "Your Home Information",
-  "Your Login Information",
+  "Contact Information",
+  "Home Information",
+  "Login Information",
 ];
 
 function CustomToggle({ title, eventKey, setActiveKey }) {
@@ -96,7 +96,7 @@ const SignupForm = ({ onSubmit }) => {
       setActiveKey(`${currentStep + 1}`);
       setSubmitting(false);
     } else {
-      console.log("Final FormData", updatedFormData);
+      console.log("updated formData", updatedFormData);
       onSubmit(updatedFormData, { setSubmitting, setErrors });
     }
   };
@@ -107,7 +107,7 @@ const SignupForm = ({ onSubmit }) => {
       style={{ maxHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "500px" }}>
-        <Accordion activeKey={activeKey}>
+        <Accordion flush activeKey={activeKey}>
           {validationSchemas.map((schema, index) => (
             <Card key={index}>
               <CustomToggle
@@ -121,7 +121,7 @@ const SignupForm = ({ onSubmit }) => {
                     initialValues={initialValues[index]}
                     validationSchema={schema}
                     onSubmit={handleFormSubmit}
-                    enableReinitialize={true}
+                    enableReinitialize
                   >
                     {(formikProps) => (
                       <FormikForm>
@@ -130,59 +130,62 @@ const SignupForm = ({ onSubmit }) => {
                             <ErrorMessage
                               name="firstName"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="firstName"
-                              placeholder="First Name"
+                              placeholder="First Name *"
                               className="form-control mb-2 "
                             />
 
                             <ErrorMessage
                               name="lastName"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="lastName"
-                              placeholder="Last Name"
+                              placeholder="Last Name *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="email"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="email"
                               type="email"
-                              placeholder="Email"
+                              placeholder="Email *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="confirmEmail"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="confirmEmail"
                               type="email"
-                              placeholder="Confirm Email"
+                              placeholder="Confirm Email *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="phoneNumber"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="phoneNumber"
                               placeholder="Primary Phone Number"
                               className="form-control mb-2"
                             />
+                            <p className="form-deep-note mt-3">
+                              All fields are required (*) unless noted.
+                            </p>
                           </>
                         )}
                         {index === 1 && (
@@ -190,138 +193,150 @@ const SignupForm = ({ onSubmit }) => {
                             <ErrorMessage
                               name="houseName"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="houseName"
-                              placeholder="House Name"
+                              placeholder="House Name *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="streetAddress"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
 
                             <Field
                               name="streetAddress"
-                              placeholder="Street Address"
+                              placeholder="Street Address *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="city"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="city"
-                              placeholder="City"
+                              placeholder="City *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="country"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="country"
-                              placeholder="Country"
+                              placeholder="Country *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="postalCode"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="postalCode"
-                              placeholder="Postal Code"
+                              placeholder="Postal Code *"
                               className="form-control mb-2"
                             />
 
                             <ErrorMessage
                               name="timeZone"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
                             <Field
                               name="timeZone"
-                              placeholder="Time Zone"
+                              placeholder="Time Zone *"
                               className="form-control mb-2"
                             />
+                            <p className="form-deep-note mt-3">
+                              Please provide a name, address, and time zone for
+                              your home. This provides access to location-based
+                              functionality within smartFOX® Home and ensures
+                              scheduled events occur at the correct time.
+                            </p>
                           </>
                         )}
                         {index === 2 && (
                           <>
+                            <p className="form-deep-note">
+                              THIS INFORMATION IS YOUR KEY FOR USING smartFOX®
+                              HOME. MAKE SURE YOU CAN REMEMBER YOUR USERNAME AND
+                              PASSWORD OR YOU WILL LOSE ACCESS TO smartFOX®
+                              HOME!
+                            </p>
                             <ErrorMessage
                               name="username"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
 
                             <Field
                               name="username"
                               className="form-control mb-2"
-                              placeholder="Username"
+                              placeholder="Username *"
                             />
 
                             <ErrorMessage
                               name="password"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
 
                             <Field
                               name="password"
                               type="password"
                               className="form-control mb-2"
-                              placeholder="Password"
+                              placeholder="Password *"
                             />
 
                             <ErrorMessage
                               name="confirmPassword"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
 
                             <Field
                               name="confirmPassword"
                               type="password"
                               className="form-control mb-2"
-                              placeholder="Confirm Password"
+                              placeholder="Confirm Password *"
                             />
 
                             <ErrorMessage
                               name="securityQuestion"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
 
                             <Field
                               name="securityQuestion"
                               className="form-control mb-2"
-                              placeholder="Security Question"
+                              placeholder="Security Question *"
                             />
 
                             <ErrorMessage
                               name="securityAnswer"
                               component="div"
-                              className="text-danger"
+                              className="text-danger form-required-message"
                             />
 
                             <Field
                               name="securityAnswer"
                               className="form-control mb-2"
-                              placeholder="Security Answer"
+                              placeholder="Security Answer *"
                             />
 
                             <FormCheck
                               id="acceptTerms"
-                              label="I accept terms and conditions"
+                              label="I accept the smartFOX® Home Terms and Conditions "
                               checked={formikProps.values.acceptTerms}
                               onChange={() =>
                                 formikProps.setFieldValue(
@@ -329,12 +344,12 @@ const SignupForm = ({ onSubmit }) => {
                                   !formikProps.values.acceptTerms
                                 )
                               }
-                              className="mb-3"
+                              className="form-check mb-3"
                             />
 
                             <FormCheck
                               id="acceptEmails"
-                              label="Accept emails from us about products"
+                              label="By checking this box, I agree to receive emails from smartFOX® Home regarding products, services, and promotional offers."
                               checked={formikProps.values.acceptEmails}
                               onChange={() =>
                                 formikProps.setFieldValue(
@@ -342,8 +357,20 @@ const SignupForm = ({ onSubmit }) => {
                                   !formikProps.values.acceptEmails
                                 )
                               }
-                              className="mb-3"
+                              className="form-check mb-3"
                             />
+
+                            <p className="form-deep-note">
+                              Please refer to our <a href="">Privacy Policy</a>{" "}
+                              or <a href="">Contact smartFOX® Home</a> for more
+                              details.
+                            </p>
+
+                            <p className="form-deep-note">
+                              Please accept BOTH smartFOX® Home products and
+                              services email and smartFOX® Home Terms and
+                              Conditions to continue
+                            </p>
                           </>
                         )}
                         <Button
@@ -354,9 +381,14 @@ const SignupForm = ({ onSubmit }) => {
                               : "success"
                           }
                           className="mt-3 w-100"
+                          disabled={
+                            index === 2 &&
+                            (!formikProps.values.acceptTerms ||
+                              !formikProps.values.acceptEmails)
+                          }
                         >
                           {index < validationSchemas.length - 1
-                            ? "Continue"
+                            ? "Save & Continue"
                             : "Create My Account"}
                         </Button>
                       </FormikForm>

@@ -14,7 +14,7 @@ const AuthLayout = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <main style={{ flex: 1 }}>
-        <Container className="py-5 container-custom">
+        <Container className="py-4 container-custom">
           <Row className="align-items-center">
             <Col lg={6} className="text-center">
               <img width="350px" src="SFX.png" alt="Logo" className="mb-4" />
