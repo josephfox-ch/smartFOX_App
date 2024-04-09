@@ -51,6 +51,16 @@
   border-radius: 5px; 
   font-size: 15px;
 }
+.form-required-message{
+  color: red;
+  width: 100%;  
+  border-radius: 5px;
+  font-size: 14px;
+}
+.form-check{
+font-size: 15px;
+color: rgb(98, 98, 101);
+}
 
 #main-footer {
   position: relative;
@@ -88,7 +98,13 @@
 }
 
 .form-title{
-  color:rgb(3, 26, 131);
+  color:rgb(15, 7, 130);
   font-weight: bold;
-  font-size: small;
+  
+}
+.form-deep-note{
+  color:rgb(250, 71, 17);
+  font-weight: bold;
+  font-size: 11px;
+  
 }

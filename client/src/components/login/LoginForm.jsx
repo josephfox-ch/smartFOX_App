@@ -76,7 +76,7 @@ const LoginForm = ({ onSubmit}) => {
             </a>
           </div>
           <span className="form-title">
-            Ready to join smartFOX&#8482; systems?
+            Ready to join smartFOX® systems?
           </span>
           <button type="button" onClick={() => navigate("/signup")} className="btn  signup-button w-100">
             Sign Up Now

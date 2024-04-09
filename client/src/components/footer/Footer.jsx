@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => (
   <footer
       id="main-footer"
-      className=" text-muted text-center text-small "
+      className=" text-muted text-center text-small"
       
     >
       <ul className="list-language">
