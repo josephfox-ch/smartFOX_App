@@ -1,53 +1,32 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Dashboard from "./components/dashboard/Dashboard";
-import { useAuth } from "./context/AuthContext";
-import AuthLayout from "./layouts/AuthLayout";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/dashboard/Dashboard';
+import AuthLayout from './layouts/AuthLayout';
+import VerifyOTP from './components/VerifyOTP';
+import PrivateRoute from './components/PrivateRoute';  
+import NotFound from './components/NotFound';  
 
 const AppRoutes = () => {
-  const {
-    state: { isAuthenticated },
-  } = useAuth();
-
-  return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          index
-          element={
-            !isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            !isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />
-          }
-        />
-
-        <Route
-          path="/signup"
-          element={!isAuthenticated ? <AuthLayout /> : <Navigate to="/dashboard" />}
-        />
-
-        <Route
-          path="/dashboard"
-          element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="*"
-          element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />}
-        />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<AuthLayout />} />
+                <Route path="/login" element={<AuthLayout />} />
+                <Route path="/signup" element={<AuthLayout />} />
+                <Route path="/verify-otp" element={<VerifyOTP />} />
+                <Route 
+                    path="/dashboard" 
+                    element={
+                        <PrivateRoute>
+                            <Dashboard />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </Router>
+    );
 };
 
 export default AppRoutes;
+

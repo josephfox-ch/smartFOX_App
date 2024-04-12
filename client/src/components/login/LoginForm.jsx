@@ -10,10 +10,12 @@ const LoginForm = ({ onSubmit}) => {
     initialValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string().required("Required"),
+      rememberMe: Yup.boolean(),
     }),
     onSubmit: onSubmit,
   });
@@ -57,6 +59,20 @@ const LoginForm = ({ onSubmit}) => {
               }`}
             />
             <div className="invalid-feedback">{formik.errors.password}</div>
+          </div>
+          <div className="form-group form-check mb-3">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              checked={formik.values.rememberMe}
+              className="form-check-input"
+            />
+            <label htmlFor="rememberMe" className="form-check-label">
+              Remember me
+            </label>
           </div>
           {formik.errors.general && (
             <div className="alert alert-danger error-message" role="alert">

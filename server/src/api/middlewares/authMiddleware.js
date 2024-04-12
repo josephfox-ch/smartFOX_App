@@ -22,3 +22,20 @@ export const flexibleAuth = (req, res, next) => {
     })(req, res, next);
   });
 };
+
+
+//todo: implement
+// import { verifyAccessToken } from './utils/jwtHelper';
+
+// function authenticateToken(req, res, next) {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
+//     if (token == null) return res.sendStatus(401);
+
+//     const { isValid, payload, error } = verifyAccessToken(token);
+//     if (!isValid) return res.sendStatus(403);
+
+//     req.user = payload;
+//     next();
+// }
+

@@ -8,12 +8,16 @@ import EnergyCertificate from "./energyCertificate.js";
 import Event from "./event.js";
 import ExternalTemperature from "./externalTemperature.js";
 import UserPreferences from "./userPreference.js";
+import RefreshToken from "./refreshToken.js";
 
 User.hasOne(UserPreferences, {foreignKey: 'userId',onDelete: "CASCADE"});
 UserPreferences.belongsTo(User, {foreignKey: 'userId'});
 
 User.hasMany(Home, { foreignKey: "userId", onDelete: "CASCADE" });
 Home.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(RefreshToken, { foreignKey: 'userId',onDelete: "CASCADE" });
+RefreshToken.belongsTo(User, { foreignKey: 'userId' });
 
 Home.hasMany(Device, { foreignKey: "homeId", onDelete: "CASCADE" });
 Device.belongsTo(Home, { foreignKey: "homeId" });
@@ -46,6 +50,7 @@ export {
   Home,
   OTP,
   Device,
+  RefreshToken,
   AccessControl,
   ClimateControl,
   EnergyCertificate,
