@@ -38,3 +38,18 @@ export const checkOTPForUser = async (userId, inputOtp) => {
 
   return true;
 };
+
+export function setCookie(res, name, value, options) {
+  const defaults = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV, 
+      sameSite: 'Strict',
+      path: '/', 
+      //todo:  domain: 'example.com', 
+  };
+ 
+  const finalOptions = { ...defaults, ...options };
+
+  res.cookie(name, value, finalOptions);
+}
+

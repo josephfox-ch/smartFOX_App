@@ -9,17 +9,22 @@ const AuthLayout = () => {
   const location = useLocation();
 
   const showingSignup = location.pathname === "/signup";
-  const showingLogin = location.pathname === "/login" || location.pathname === "/";
+  const showingLogin =
+    location.pathname === "/login" || location.pathname === "/";
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <main style={{ flex: 1 }}>
-        <Container className="py-4 container-custom">
+        <Container className="py-5 my-5 mb-md-0">
           <Row className="align-items-center">
             <Col lg={6} className="text-center">
               <img width="350px" src="SFX.png" alt="Logo" className="mb-4" />
-              <h1 className="h2">smartFOX</h1>
-              <p>gateway to your smart future...</p>
+              <h1 id="brandName" className="h2">
+                smartFOX
+              </h1>
+              <p id="brandSlogan">gateway to your smart future...</p>
             </Col>
             <Col lg={6}>
               {showingLogin && <Login />}
@@ -34,5 +39,3 @@ const AuthLayout = () => {
 };
 
 export default AuthLayout;
-
-
