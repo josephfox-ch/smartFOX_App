@@ -4,6 +4,7 @@ import morgan from "morgan";
 import session from "express-session";
 import RedisStore from "connect-redis";
 import { createClient } from "redis";
+import cookieParser from 'cookie-parser';
 import passport from "./config/passport.js";
 import userRoutes from "./api/routes/userRoutes.js";
 // import homeRoutes from './api/routes/homeRoutes.js';
@@ -33,6 +34,7 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));

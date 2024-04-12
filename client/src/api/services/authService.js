@@ -7,10 +7,17 @@ const authService = {
     return response.data;
   },
 
+ 
   logout: async () => {
-    const response = await API.post('/auth/logout');
-    console.log("Logout response:", response.data);
-    return response.data; 
+    try {
+      const response = await API.post('/auth/logout');
+      console.log("Logout response:", response.data);
+    
+      return { success: true, message: 'Logout successful' };
+    } catch (error) {
+      console.error("Logout failed:", error);
+      return { success: false, message: 'Logout failed', error: error };
+    }
   },
 
   register: async (email, password, additionalData) => {

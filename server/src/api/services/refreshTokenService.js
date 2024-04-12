@@ -1,7 +1,7 @@
 import { RefreshToken } from "../models/index.js";
 import { verifyRefreshToken } from "../../utils/jwtHelpers.js";
 
-const refreshTokenService = {
+const RefreshTokenService = {
   async saveRefreshToken(userId, refreshToken, rememberMe) {
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + (rememberMe ? 30 : 7));
@@ -14,9 +14,12 @@ const refreshTokenService = {
   },
 
   async removeRefreshToken(token) {
-    await RefreshToken.destroy({
-      where: { token },
-    });
+    try {
+      const result = await RefreshToken.destroy({ where: { token } });
+      return result;
+    } catch (error) {
+      throw new Error('Error removing refresh token');
+    }
   },
 
   async validateRefreshToken(token) {
@@ -37,4 +40,4 @@ const refreshTokenService = {
   },
 };
 
-export default refreshTokenService;
+export default RefreshTokenService;
