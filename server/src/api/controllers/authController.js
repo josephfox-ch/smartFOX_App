@@ -1,6 +1,7 @@
 import AuthService from "../services/authService.js";
 import { setCookie } from "../../utils/utils.js";
 import { User } from "../models/index.js";
+import RefreshTokenService from "../services/refreshTokenService.js";
 
 const authController = {
   async register(req, res) {
@@ -105,7 +106,7 @@ const authController = {
     }
 
     try {
-      const userId = await refreshTokenService.validateRefreshToken(
+      const userId = await RefreshTokenService.validateRefreshToken(
         refreshToken
       );
       if (!userId) {
@@ -127,12 +128,17 @@ const authController = {
   },
 
   async logout(req, res) {
-    const { refreshToken } = req.body;
     try {
-      await refreshTokenService.removeRefreshToken(refreshToken);
-      res.status(200).json({ message: "Logout successful, token removed." });
+      const { cookies, session } = req;
+      const result = await AuthService.logout(cookies, session);
+      
+      result.clearCookies.forEach(cookie => {
+        res.clearCookie(cookie.name, { path: cookie.path });
+      });
+      res.status(200).json({ message: result.message });
     } catch (error) {
-      res.status(500).json({ message: "Failed to logout." });
+      console.error("Logout Error:", error);
+      res.status(500).json({ message: "Failed to logout, internal server error." });
     }
   },
 };
@@ -140,3 +146,6 @@ const authController = {
 export default authController;
 
 
+// res.cookie('smartFOXAccessToken', '', { maxAge: 0, httpOnly: true, secure: true, sameSite: 'Strict', path: '/' });
+// res.cookie('smartFOXRefreshToken', '', { maxAge: 0, httpOnly: true, secure: true, sameSite: 'Strict', path: '/' });
+// res.clearCookie('smartFOX-session', { path: '/' });

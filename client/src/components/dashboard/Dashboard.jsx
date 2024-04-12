@@ -1,12 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import authService from '../../api/services/authService';
 
 const Dashboard = () => {
-  const { state, dispatch } = useAuth();
+  const {state, dispatch } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      dispatch({ type: "LOGOUT" });
+      
+      navigate('/login');
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -32,21 +42,5 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-// import React from "react";
-// import { useAuth0 } from "@auth0/auth0-react";
 
-// const Dashboard = () => {
-//   const { user, logout } = useAuth0();
 
-//   return (
-//     <div>
-//       <h2>Dashboard</h2>
-//       <p>Welcome {user.name}!</p>
-//       <button onClick={() => logout({ returnTo: window.location.origin })}>
-//         Log Out
-//       </button>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;

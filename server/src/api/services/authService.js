@@ -109,6 +109,32 @@ const authService = {
       refreshToken,
     };
   },
+  async logout(cookies, session) {
+    const refreshToken = cookies["smartFOXRefreshToken"];
+
+    if (!refreshToken) {
+      throw new Error("No refresh token provided");
+    }
+
+    await RefreshTokenService.removeRefreshToken(refreshToken);
+
+    return new Promise((resolve, reject) => {
+      session.destroy((err) => {
+        if (err) {
+          reject({ message: "Failed to destroy session" });
+        } else {
+          resolve({
+            message: "Logout successful, Tokens and Session cleared.",
+            clearCookies: [
+              { name: "smartFOXAccessToken",  path: "/"  },
+              { name: "smartFOXRefreshToken",  path: "/"  },
+              { name: "smartFOX-session",  path: "/"  },
+            ],
+          });
+        }
+      });
+    });
+  },
 };
 
 export default authService;
