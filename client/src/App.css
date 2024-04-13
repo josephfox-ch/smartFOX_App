@@ -103,11 +103,20 @@ color: rgb(98, 98, 101);
   
 }
 .signup-form-notes{
-  color:rgb(232, 4, 4);
+  color:rgb(236, 91, 13);
   font-size: 12px;
   
 }
 
 #verifyPageTitle{
   background-color: rgb(202, 200, 200);
+}
+
+.phone-input-container .PhoneInput {
+  width: 100%; /* Tam genişlik uygula */
+  height: calc(2.25rem + 2px); /* Bootstrap form yüksekliği */
+  padding: 0.375rem 0.75rem; /* Bootstrap form padding */
+  font-size: 1rem; /* Bootstrap font boyutu */
+  line-height: 1.5; /* Bootstrap satır yüksekliği */
+  border: 1px solid #ced4da; /* Bootstrap sınır stili */
 }
