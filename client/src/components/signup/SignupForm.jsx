@@ -183,7 +183,7 @@ const SignupForm = ({ onSubmit }) => {
                               placeholder="Primary Phone Number"
                               className="form-control mb-2"
                             />
-                            <p className="form-deep-note mt-3">
+                            <p className="signup-form-notes mt-3">
                               All fields are required (*) unless noted.
                             </p>
                           </>
@@ -256,7 +256,7 @@ const SignupForm = ({ onSubmit }) => {
                               placeholder="Time Zone *"
                               className="form-control mb-2"
                             />
-                            <p className="form-deep-note mt-3">
+                            <p className="signup-form-notes mt-3">
                               Please provide a name, address, and time zone for
                               your home. This provides access to location-based
                               functionality within smartFOX® Home and ensures
@@ -266,7 +266,7 @@ const SignupForm = ({ onSubmit }) => {
                         )}
                         {index === 2 && (
                           <>
-                            <p className="form-deep-note">
+                            <p className="fw-bold signup-form-notes">
                               THIS INFORMATION IS YOUR KEY FOR USING smartFOX®
                               HOME. MAKE SURE YOU CAN REMEMBER YOUR USERNAME AND
                               PASSWORD OR YOU WILL LOSE ACCESS TO smartFOX®
@@ -360,13 +360,13 @@ const SignupForm = ({ onSubmit }) => {
                               className="form-check mb-3"
                             />
 
-                            <p className="form-deep-note">
+                            <p className="signup-form-notes">
                               Please refer to our <a href="">Privacy Policy</a>{" "}
                               or <a href="">Contact smartFOX® Home</a> for more
                               details.
                             </p>
 
-                            <p className="form-deep-note">
+                            <p className="signup-form-notes">
                               Please accept BOTH smartFOX® Home products and
                               services email and smartFOX® Home Terms and
                               Conditions to continue

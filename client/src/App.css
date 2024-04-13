@@ -102,10 +102,9 @@ color: rgb(98, 98, 101);
   font-weight: bold;
   
 }
-.form-deep-note{
-  color:rgb(250, 71, 17);
-  font-weight: bold;
-  font-size: 11px;
+.signup-form-notes{
+  color:rgb(232, 4, 4);
+  font-size: 12px;
   
 }
 
