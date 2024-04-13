@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Button, Container, Accordion, Card, FormCheck } from "react-bootstrap";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import CountrySelect from "./CountrySelect";
 
 const phoneRegex =
   /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -248,11 +249,16 @@ const SignupForm = ({ onSubmit }) => {
                               component="div"
                               className="text-danger form-required-message"
                             />
-                            <Field
-                              name="country"
-                              placeholder="Country *"
-                              className="form-control mb-2"
-                            />
+                            <Field name="country">
+                              {({ form, field }) => (
+                                <CountrySelect
+                                  value={field.value}
+                                  onChange={(option) =>
+                                    form.setFieldValue(field.name, option.value)
+                                  }
+                                />
+                              )}
+                            </Field>
 
                             <ErrorMessage
                               name="postalCode"
