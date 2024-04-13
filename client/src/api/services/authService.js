@@ -63,9 +63,9 @@ const AuthService = {
       throw error.response.data.error || "Unable to send reset link.";
     }
   },
-  resetPassword: async (token) => {
+  resetPassword: async (token,password) => {
     try {
-      const response = await API.post("/auth/reset-password", { token });
+      const response = await API.post("/auth/reset-password", { token , password});
       return response.data;
     } catch (error) {
       throw error.response.data.error || "Unable to reset password.";
