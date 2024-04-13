@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { Formik, Field, ErrorMessage, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import { Button, Container, Accordion, Card, FormCheck } from "react-bootstrap";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
+const phoneRegex =
+  /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
 const validationSchemas = [
   Yup.object({
@@ -13,7 +18,9 @@ const validationSchemas = [
     confirmEmail: Yup.string()
       .oneOf([Yup.ref("email"), null], "Emails must match")
       .required("Confirm email is required"),
-    phoneNumber: Yup.string().required("Primary phone number is required"),
+    phoneNumber: Yup.string()
+      .matches(phoneRegex, "Invalid phone number")
+      .required("Primary phone number is required"),
   }),
   Yup.object({
     houseName: Yup.string().required("House name is required"),
@@ -71,6 +78,17 @@ const formTitles = [
   "Login Information",
 ];
 
+const PhoneInputField = React.memo(({ field, form }) => (
+  <PhoneInput
+    international
+    countryCallingCodeEditable={false}
+    defaultCountry="CH"
+    value={field.value}
+    onChange={(value) => form.setFieldValue(field.name, value)}
+    className="form-control mb-2"
+  />
+));
+
 function CustomToggle({ title, eventKey, setActiveKey }) {
   const handleClick = () => {
     setActiveKey(eventKey);
@@ -122,6 +140,8 @@ const SignupForm = ({ onSubmit }) => {
                     validationSchema={schema}
                     onSubmit={handleFormSubmit}
                     enableReinitialize
+                    validateOnBlur={true}
+                    validateOnChange={false}
                   >
                     {(formikProps) => (
                       <FormikForm>
@@ -180,8 +200,7 @@ const SignupForm = ({ onSubmit }) => {
                             />
                             <Field
                               name="phoneNumber"
-                              placeholder="Primary Phone Number"
-                              className="form-control mb-2"
+                              component={PhoneInputField}
                             />
                             <p className="signup-form-notes mt-3">
                               All fields are required (*) unless noted.
