@@ -5,6 +5,7 @@ import { Button, Container, Accordion, Card, FormCheck } from "react-bootstrap";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import CountrySelect from "./CountrySelect";
+import TimeZoneSelect from "./TimeZoneSelect";
 
 const phoneRegex =
   /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -254,7 +255,10 @@ const SignupForm = ({ onSubmit }) => {
                                 <CountrySelect
                                   value={field.value}
                                   onChange={(option) =>
-                                    form.setFieldValue(field.name, option.value)
+                                    form.setFieldValue(
+                                      field.name,
+                                      option ? option.value : ""
+                                    )
                                   }
                                 />
                               )}
@@ -278,9 +282,16 @@ const SignupForm = ({ onSubmit }) => {
                             />
                             <Field
                               name="timeZone"
-                              placeholder="Time Zone *"
-                              className="form-control mb-2"
+                              component={({ field, form }) => (
+                                <TimeZoneSelect
+                                  value={field.value}
+                                  onChange={(option) =>
+                                    form.setFieldValue(field.name, option.value)
+                                  }
+                                />
+                              )}
                             />
+
                             <p className="signup-form-notes mt-3">
                               Please provide a name, address, and time zone for
                               your home. This provides access to location-based
