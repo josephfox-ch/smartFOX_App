@@ -175,19 +175,36 @@ const AuthController = {
     }
   },
 
-  async forgotPassword(req, res) {
+  forgotPassword: async (req, res) => {
     try {
       const { email } = req.body;
       await AuthService.forgotPassword(email);
       res.status(200).json({
         success: true,
-        message: "An email has been sent to reset your password.",
+        message: "An email has been sent to reset your password. Please check your inbox."
       });
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "Failed to reset password",
-        error: error.message,
+        message: "Failed to reset password. Please try again later.",
+        error: error.message
+      });
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    try {
+      const { token, password } = req.body;
+      await AuthService.resetPassword(token, password);
+      res.status(200).json({
+        success: true,
+        message: "Your password has been reset successfully."
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to reset password. Please try again later.",
+        error: error.message
       });
     }
   }

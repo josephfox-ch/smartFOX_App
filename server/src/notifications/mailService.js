@@ -28,20 +28,24 @@ const sendOTPMail = async (email, otp) => {
 };
 
 
-const sendResetPaswordLinkMail = async(email,resetLink) => {
+const sendResetPasswordLinkMail = async (email, resetLink) => {
   const mailOptions = {
     from: process.env.APP_EMAIL_ADDRESS,
     to: email,
-    subject: 'Password Reset Link',
-    html: `Please click on the following link to reset your password: <a href="${resetLink}">${resetLink}</a>`,
+    subject: 'Password Reset',
+    html: `You are receiving this because you (or someone else) have requested the reset of the password for your account.<br><br>
+    Please click on the following link, or paste this into your browser to complete the process:<br><br>
+    <a href="${resetLink}">${resetLink}</a><br><br>
+    If you did not request this, please ignore this email and your password will remain unchanged.<br>`,
   };
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).send('Reset link sent to your email if it exists in our system.');
+    return 'Reset link sent to your email if it exists in our system.';
   } catch (error) {
     console.error('Failed to send email:', error);
-    res.status(500).send('Failed to send reset link.');
+    throw new Error('Failed to send reset link.'); 
   }
 };
 
-export default {sendOTPMail,sendResetPaswordLinkMail};
+export {sendOTPMail,sendResetPasswordLinkMail};
+

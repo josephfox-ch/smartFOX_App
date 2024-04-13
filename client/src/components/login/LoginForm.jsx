@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate,Link, NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -87,7 +87,7 @@ const LoginForm = ({ onSubmit}) => {
             Log In
           </button>
           <div className="text-center mb-2">
-            <Link style={{ textDecoration: "none" }} to="">
+            <Link style={{ textDecoration: "none" }} to="/forgot-password">
               forgot password?
             </Link>
           </div>
@@ -99,8 +99,8 @@ const LoginForm = ({ onSubmit}) => {
           </button>
           <hr className="my-2" />
           <small style={{ fontSize: "12px" }} className="text-muted ">
-            By signing up, you agree to the <a href="">Terms of Service</a> and{" "}
-            <a href="">Privacy Policy</a>, including <a href="">Cookie Use</a>.
+            By signing up, you agree to the <Link to="">Terms of Service</Link> and{" "}
+            <Link to="">Privacy Policy</Link>, including <Link to="">Cookie Use</Link>.
           </small>
           <div className="d-flex justify-content-around p-3">
             <a href="#">
@@ -117,3 +117,4 @@ const LoginForm = ({ onSubmit}) => {
 };
 
 export default LoginForm;
+

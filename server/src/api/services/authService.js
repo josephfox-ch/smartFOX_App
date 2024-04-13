@@ -5,13 +5,14 @@ import { User, Home, UserPreferences,OTP } from "../models/index.js";
 import { generateTokens } from "../../utils/jwtHelpers.js";
 import RefreshTokenService from "./refreshTokenService.js";
 import sendSMS from "../../notifications/smsService.js";
-import sendOTPMail from "../../notifications/mailService.js";
+import {sendOTPMail,sendResetPasswordLinkMail} from "../../notifications/mailService.js";
 import {
   generateOTP,
   saveOTPForUser,
   checkOTPForUser,
 } from "../../utils/utils.js";
 import sequelize from "../../../database/config.js";
+
 
 const AuthService = {
   async register(userData) {
@@ -165,9 +166,49 @@ async resendOTP(userId) {
     });
   },
 
- 
+  forgotPassword: async (email) => {
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        throw new Error("Incorrect email address.");
+      }
+      if (!user.isVerified) {
+        throw new Error("User account is not yet verified.");
+      }
+    
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+    
+      await sendResetPasswordLinkMail(user.email, resetLink);
+    
+      return { success: true, message: "Reset password link sent successfully." };
+    } catch (error) {
+      throw error; 
+    }
+  },
+
+  resetPassword: async (token, password) => {
+    try {
+      const { id } = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error("User not found.");
+      }
+      if (!user.isVerified) {
+        throw new Error("User account is not yet verified.");
+      }
+      const hashedPassword = await bcrypt.hash(password, 12);
+      console.log('hashed password',hashedPassword);
+      await user.update({ password: hashedPassword });
+      return { success: true, message: "Password changed successfully." };
+    } catch (error) {
+      console.log(error)
+      throw error; 
+    }
+  }
 
 
 };
 
 export default AuthService;
+
