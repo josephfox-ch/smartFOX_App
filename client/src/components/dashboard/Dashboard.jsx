@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import authService from '../../api/services/authService';
+import AuthService from '../../api/services/authService';
 
 const Dashboard = () => {
   const {state, dispatch } = useAuth();
@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await authService.logout();
+      await AuthService.logout();
       dispatch({ type: "LOGOUT" });
       
       navigate('/login');
