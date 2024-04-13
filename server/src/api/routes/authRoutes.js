@@ -17,6 +17,8 @@ router.post('/refresh-token', AuthController.refreshToken); //todo: implement la
 
 router.post('/forgot-password', AuthController.forgotPassword);
 
+router.post('/reset-password', AuthController.resetPassword);
+
 router.post('/logout', AuthController.logout);
 
 export default router;
