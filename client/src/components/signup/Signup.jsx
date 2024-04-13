@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import AuthService from "../../api/services/authService";
 import { useNavigate } from "react-router-dom";
 import SignupForm from "./SignupForm";
 
@@ -9,17 +9,10 @@ const Signup = () => {
   const handleSignup = async (values, { setSubmitting }) => {
     try {
       console.log("Final Form Values:", values);
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/register`,
-        values,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Form Submission Success:", response.data);
-      navigate("/login");
+      const response = await AuthService.register(values)
+      console.log("Form Submission Success:", response);
+      navigate(`/verify-otp?userId=${response.userId}`);
+;
     } catch (error) {
       console.error("Form Submission Error:", error);
     } finally {

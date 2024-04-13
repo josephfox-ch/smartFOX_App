@@ -5,13 +5,15 @@ const router = express.Router();
 
 router.post("/register", AuthController.register);
 
-router.post("/register/verify-otp", AuthController.verifyRegistration);
+router.post("/verify-otp", AuthController.verifyRegistration);
+
+router.post('/resend-otp',AuthController.resendOTP)
 
 router.post("/login",AuthController.login);
 
-router.post("/login/verify-otp", AuthController.verifyLogin);
+router.post("/login/verify-otp", AuthController.verifyLogin); //todo: 2FA authentication
 
-router.post('/refresh-token', AuthController.refreshToken);
+router.post('/refresh-token', AuthController.refreshToken); //todo: implement later
 
 router.post('/logout', AuthController.logout);
 

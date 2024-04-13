@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import authService from "../../api/services/authService";
+import AuthService from "../../api/services/authService";
 import LoginForm from "./LoginForm";
 
 const Login = () => {
@@ -10,8 +10,10 @@ const Login = () => {
 
   const handleLoginSubmit = async (values, actions) => {
     try {
-      const data = await authService.login(values);
-      console.log("Login-User", data.user);
+      const data = await AuthService.login(values);
+      if (data.error) {
+        throw new Error(data.message || "An error occurred");
+      }
       dispatch({
         type: "LOGIN",
         payload: {
@@ -20,14 +22,11 @@ const Login = () => {
       });
       navigate("/dashboard");
     } catch (error) {
-      const errorMsg = error.response?.data.message || "An error occurred";
-      if (errorMsg.toLowerCase().includes("password")) {
-        actions.setFieldError("password", errorMsg);
-      } else if (
-        errorMsg.toLowerCase().includes("email") ||
-        errorMsg.toLowerCase().includes("user")
-      ) {
-        actions.setFieldError("email", errorMsg);
+      const errorMsg = error.message || "An unexpected error occurred";
+      if (errorMsg.includes("User is not yet verified")) {
+        actions.setFieldError("general", <>
+          {errorMsg} <Link to="/verify-otp">Verify your account.</Link>
+        </>);
       } else {
         actions.setFieldError("general", errorMsg);
       }
@@ -43,3 +42,4 @@ const Login = () => {
 };
 
 export default Login;
+

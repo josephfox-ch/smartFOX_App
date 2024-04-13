@@ -28,6 +28,7 @@ export const checkOTPForUser = async (userId, inputOtp) => {
 
   if (!otpRecord) {
     throw new Error("OTP expired or not found.");
+    
   }
 
   if (otpRecord.otp !== inputOtp) {
