@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -87,9 +87,9 @@ const LoginForm = ({ onSubmit}) => {
             Log In
           </button>
           <div className="text-center mb-2">
-            <a style={{ textDecoration: "none" }} href="">
+            <Link style={{ textDecoration: "none" }} to="">
               forgot password?
-            </a>
+            </Link>
           </div>
           <span className="form-title">
             Ready to join smartFOX® systems?

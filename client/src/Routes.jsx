@@ -4,7 +4,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import AuthLayout from './layouts/AuthLayout';
 import VerifyOTP from './components/VerifyOTP';
 import PrivateRoute from './components/PrivateRoute';  
-import NotFound from './components/NotFound';  
+import NotFound from './pages/NotFound';  
 
 const AppRoutes = () => {
     return (
