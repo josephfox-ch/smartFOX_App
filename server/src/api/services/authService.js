@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User, Home, UserPreferences } from "../models/index.js";
+import {Op} from 'sequelize';
+import { User, Home, UserPreferences,OTP } from "../models/index.js";
 import { generateTokens } from "../../utils/jwtHelpers.js";
 import RefreshTokenService from "./refreshTokenService.js";
 import sendSMS from "../../notifications/smsService.js";
@@ -12,7 +13,7 @@ import {
 } from "../../utils/utils.js";
 import sequelize from "../../../database/config.js";
 
-const authService = {
+const AuthService = {
   async register(userData) {
     const transaction = await sequelize.transaction();
 
@@ -66,35 +67,63 @@ const authService = {
       throw error;
     }
   },
-  async verifyOTP(userId, otpInput) {
-    await checkOTPForUser(userId, otpInput);
+  async verifyRegistration(userId, otpInput) {
+    try {
+      await checkOTPForUser(userId, otpInput);
+  
+      await User.update({ isVerified: true }, { where: { id: userId } });
+  
+      const user = await User.findByPk(userId);
+      if (!user) {
+        throw new Error("User Not Found.");
+      }
+  
+      const { accessToken, refreshToken } = generateTokens(user);  
+  
+      return {
+        success: true,
+        user: { id: user.id, email: user.email, isVerified: user.isVerified },
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      };
+    } catch (error) {
+      console.log('Service error:', error.message);
+      return { success: false, message: error.message }; 
+    }
+  }
+  ,
 
-    await User.update({ isVerified: true }, { where: { id: userId } });
+async resendOTP(userId) {
+  
+  await OTP.destroy({
+    where: {
+      userId
+    }
+  });
 
-    const user = await User.findByPk(userId);
-    if (!user) throw new Error("User Not Found.");
+  const newOTP = generateOTP();
 
-    const payload = { userId: user.id, email: user.email };
+  const user = await User.findByPk(userId);
+  if (!user) {
+    throw new Error("User not found.");
+  }
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1w",
-    });
+  await saveOTPForUser(userId, newOTP);
 
-    return {
-      token,
-      user: { id: user.id, email: user.email, isVerified: user.isVerified },
-    };
-  },
+  await sendOTPMail(user.email, newOTP);
+
+}
+,
 
   async login(email, password, rememberMe) {
     const user = await User.findOne({ where: { email } });
-    if (!user) throw new Error("User not found.");
+    if (!user) throw new Error("Incorrect email or password.");
     if (!user.isVerified)
       throw new Error(
-        "User is not yet verified. Please complete the 2FA verification."
+        "User is not yet verified."
       );
     if (!(await bcrypt.compare(password, user.password)))
-      throw new Error("Invalid Password.");
+      throw new Error("Incorrect email or password.");
 
     const { accessToken, refreshToken } = generateTokens(user, rememberMe);
     await RefreshTokenService.saveRefreshToken(
@@ -137,4 +166,4 @@ const authService = {
   },
 };
 
-export default authService;
+export default AuthService;

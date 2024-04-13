@@ -1,31 +1,63 @@
-import API from '../index';
+import API from "../index";
 
-const authService = {
+const AuthService = {
   login: async ({ email, password, rememberMe }) => {
-    const response = await API.post('/auth/login', { email, password, rememberMe });
-    console.log("Login response:", response.data);
-    return response.data;
+    try {
+      const response = await API.post("/auth/login", {
+        email,
+        password,
+        rememberMe,
+      });
+      console.log("Login response:", response.data);
+      return response.data;
+    } catch (error) {
+     
+      console.error("Login error:", error.response || error);
+      return {
+        error: true,
+        message: error.response?.data?.error || "Login failed due to server error"
+      }
+    }
+  
   },
 
- 
   logout: async () => {
     try {
-      const response = await API.post('/auth/logout');
+      const response = await API.post("/auth/logout");
       console.log("Logout response:", response.data);
-    
-      return { success: true, message: 'Logout successful' };
+
+      return { success: true, message: "Logout successful" };
     } catch (error) {
       console.error("Logout failed:", error);
-      return { success: false, message: 'Logout failed', error: error };
+      return { success: false, message: "Logout failed", error: error };
     }
   },
 
-  register: async (email, password, additionalData) => {
-    const response = await API.post('/auth/register', { email, password, ...additionalData });
+  register: async (userData) => {
+    const response = await API.post("/auth/register",userData);
     console.log("Register response:", response.data);
-    return response.data; 
+    return response.data;
   },
+
+
+  verifyOTP: async (userId, otp) => {
+    try {
+      const response = await API.post('/auth/verify-otp', {
+        userId,
+        otp
+      });
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+      throw new Error(errorMessage);
+    }
+  }
+  ,
+  resendOTP: async (userId) => {
+    const response = await API.post('/auth/resend-otp', { userId });
+    return response.data;
+  }
+
 };
 
-export default authService;
-
+export default AuthService;
