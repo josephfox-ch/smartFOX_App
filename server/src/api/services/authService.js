@@ -164,6 +164,10 @@ async resendOTP(userId) {
       });
     });
   },
+
+ 
+
+
 };
 
 export default AuthService;

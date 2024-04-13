@@ -15,6 +15,8 @@ router.post("/login/verify-otp", AuthController.verifyLogin); //todo: 2FA authen
 
 router.post('/refresh-token', AuthController.refreshToken); //todo: implement later
 
+router.post('/forgot-password', AuthController.forgotPassword);
+
 router.post('/logout', AuthController.logout);
 
 export default router;

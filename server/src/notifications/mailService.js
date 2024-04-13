@@ -27,4 +27,21 @@ const sendOTPMail = async (email, otp) => {
   }
 };
 
-export default sendOTPMail;
+
+const sendResetPaswordLinkMail = async(email,resetLink) => {
+  const mailOptions = {
+    from: process.env.APP_EMAIL_ADDRESS,
+    to: email,
+    subject: 'Password Reset Link',
+    html: `Please click on the following link to reset your password: <a href="${resetLink}">${resetLink}</a>`,
+  };
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).send('Reset link sent to your email if it exists in our system.');
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    res.status(500).send('Failed to send reset link.');
+  }
+};
+
+export default {sendOTPMail,sendResetPaswordLinkMail};
