@@ -59,9 +59,9 @@ const initialValues = [
     houseName: "",
     streetAddress: "",
     city: "",
-    country: "",
+    country: "CH",
     postalCode: "",
-    timeZone: "",
+    timeZone: "Europe/Zurich",
   },
   {
     username: "",
