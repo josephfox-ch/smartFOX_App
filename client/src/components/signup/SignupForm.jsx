@@ -246,6 +246,17 @@ const SignupForm = ({ onSubmit }) => {
                             />
 
                             <ErrorMessage
+                              name="postalCode"
+                              component="div"
+                              className="text-danger form-required-message"
+                            />
+                            <Field
+                              name="postalCode"
+                              placeholder="Postal Code *"
+                              className="form-control mb-2"
+                            />
+
+                            <ErrorMessage
                               name="country"
                               component="div"
                               className="text-danger form-required-message"
@@ -263,17 +274,6 @@ const SignupForm = ({ onSubmit }) => {
                                 />
                               )}
                             </Field>
-
-                            <ErrorMessage
-                              name="postalCode"
-                              component="div"
-                              className="text-danger form-required-message"
-                            />
-                            <Field
-                              name="postalCode"
-                              placeholder="Postal Code *"
-                              className="form-control mb-2"
-                            />
 
                             <ErrorMessage
                               name="timeZone"

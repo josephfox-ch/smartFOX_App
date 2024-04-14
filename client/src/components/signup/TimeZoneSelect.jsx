@@ -37,10 +37,13 @@ const customStyles = {
   }),
 };
 
-const TimeZoneSelect = ({ value, onChange }) => (
+
+const defaultValue = timezoneOptions.find(option => option.value === "Europe/Zurich");
+
+const TimeZoneSelect = ({ onChange }) => (
   <Select
     options={timezoneOptions}
-    value={timezoneOptions.find((option) => option.value === value)}
+    defaultValue={defaultValue}  
     placeholder="Select a timezone..."
     onChange={onChange}
     styles={customStyles}
@@ -48,3 +51,4 @@ const TimeZoneSelect = ({ value, onChange }) => (
 );
 
 export default TimeZoneSelect;
+

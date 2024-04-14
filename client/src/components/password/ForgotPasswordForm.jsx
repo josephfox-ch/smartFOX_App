@@ -41,24 +41,14 @@ const ForgotPasswordForm = () => {
     >
       <Row className="justify-content-center">
         <Col>
-          <div className="text-center">
-            <img width="250" src="SFX.png" alt="Logo" className="mb-3" />
-            <h1 id="brandName" className="h2 mb-3">
-              smartFOX
-            </h1>
-            <p id="brandSlogan" className="mb-4">
-              gateway to your smart future...
-            </p>
-          </div>
           <Card>
             <Card.Body>
-              <Card.Title>Forgot Password?</Card.Title>
-              <p className="text-muted mb-4">
-                Remember your password? <Link to="/login">Login here.</Link>
-              </p>
+              <div className="text-center mb-4">
+                <img width="250" src="/SFX.png" alt="Logo" />
+                <h1 className="h3 mt-3">Forgot Password</h1>
+              </div>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Email address</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
@@ -86,6 +76,9 @@ const ForgotPasswordForm = () => {
                   </Alert>
                 )}
               </Form>
+              <p className="text-muted mt-3">
+                Remember your password? <Link to="/login">Login here.</Link>
+              </p>
             </Card.Body>
           </Card>
         </Col>
@@ -95,4 +88,3 @@ const ForgotPasswordForm = () => {
 };
 
 export default ForgotPasswordForm;
-

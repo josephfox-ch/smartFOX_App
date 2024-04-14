@@ -53,10 +53,14 @@ const customStyles = {
 const filterOption = ({ data }, inputValue) =>
   data.name.includes(inputValue.toLowerCase());
 
+
+const defaultValue = countryOptions.find(option => option.value === "CH");
+
 const CountrySelect = ({ onChange }) => (
   <Select
     options={countryOptions}
     styles={customStyles}
+    defaultValue={defaultValue}  
     placeholder="Select a country..."
     onChange={onChange}
     filterOption={filterOption}
@@ -64,3 +68,4 @@ const CountrySelect = ({ onChange }) => (
 );
 
 export default CountrySelect;
+
