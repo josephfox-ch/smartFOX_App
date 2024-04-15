@@ -1,0 +1,40 @@
+  .policy-header {
+    background-color: #f2efec;
+    padding: 20px;
+    height: 100px;
+    border-bottom: 1px solid #f48a39 ;
+  }
+  
+  .policy-tabs .nav-link {
+    background-color: #f48a39;
+    color: white;
+    margin: 5px 0;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .policy-tabs .nav-link.active {
+    background-color: #9b4503;
+  }
+  
+  .policy-content {
+    padding: 20px;
+    border-radius: 5px;
+    overflow: auto;
+  }
+  
+  .policy-footer {
+    background-color: #f48a39;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .policy-footer-nav a {
+    color: #ffffff; 
+    text-decoration: none; 
+  }
+  
+  .policy-footer-nav a:hover {
+    text-decoration: underline; 
+  }
