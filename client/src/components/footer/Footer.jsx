@@ -28,7 +28,7 @@ const Footer = () => (
       </li>
     </ul>
     <p>Rue des Dauphins, 00 1201 Genève</p>
-    <p>&copy; 2024 smartFOX Systems</p>
+    <p>&copy; 2024 smartFOX® Home Systems</p>
     <ul className="list-pts mx-1">
       <li className="list-inline-item">
         <Link to="/policy?tab=terms">Terms of Service</Link>
@@ -40,16 +40,19 @@ const Footer = () => (
         <Link to="/policy?tab=cookiePolicy">Cookie Policy</Link>
       </li>
       <li className="list-inline-item">
-        <Link to="#">Marketing</Link>
+        <Link to="/marketing">Marketing</Link>
       </li>
       <li className="list-inline-item">
-        <Link to="#">Support</Link>
+        <Link to="/support">Support</Link>
       </li>
       <li className="list-inline-item">
-        <Link to="#">Contact</Link>
+        <Link to="/contact">Contact</Link>
       </li>
       <li className="list-inline-item">
-        <Link to="#">Settings</Link>
+        <Link to="/about-us">About Us</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="/settings">Settings</Link>
       </li>
     </ul>
   </footer>

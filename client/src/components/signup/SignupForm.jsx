@@ -399,7 +399,7 @@ const SignupForm = ({ onSubmit }) => {
 
                             <p className="signup-form-notes">
                               Please refer to our <Link to="/policy?tab=privacy">Privacy Policy</Link>
-                              or <Link to="#">Contact smartFOX® Home</Link> for more
+                              or <Link to="/contact">Contact smartFOX® Home</Link> for more
                               details.
                             </p>
 

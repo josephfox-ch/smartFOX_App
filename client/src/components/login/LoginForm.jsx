@@ -102,9 +102,9 @@ const LoginForm = ({ onSubmit }) => {
           <hr className="my-2" />
           <small style={{ fontSize: "12px" }} className="text-muted ">
             By signing up, you agree to the{" "}
-            <Link to="/policy?tab=terms">Terms of Service</Link> and{" "}
-            <Link to="/policy?tab=privacy">Privacy Policy</Link>, including{" "}
-            <Link to="/policy?tab=cookieUse">Cookie Use</Link>.
+            <Link className='login-policy-links' to="/policy?tab=terms">Terms of Service</Link> and{" "}
+            <Link className="login-policy-links" to="/policy?tab=privacy">Privacy Policy</Link>, including{" "}
+            <Link className="login-policy-links" to="/policy?tab=cookieUse">Cookie Use</Link>.
           </small>
           <div className="d-flex justify-content-around p-3">
             <a href="#">
