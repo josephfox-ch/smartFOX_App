@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Container, Nav, Tab, Row, Col } from "react-bootstrap";
 import TermsOfService from "../components/policy/TermsOfService";
 import PrivacyPolicy from "../components/policy/PrivacyPolicy";
@@ -8,7 +9,13 @@ import PolicyFooter from "../components/policy/PolicyFooter";
 import "../css/PolicyPage.css";
 
 const PolicyPage = () => {
-  const [key, setKey] = useState("terms");
+  const location = useLocation();
+  const [key, setKey] = useState(new URLSearchParams(location.search).get('tab') || 'terms');
+
+  useEffect(() => {
+    const tab = new URLSearchParams(location.search).get('tab');
+    if (tab) setKey(tab);
+  }, [location]);
 
   return (
     <div className="d-flex flex-column vh-100">

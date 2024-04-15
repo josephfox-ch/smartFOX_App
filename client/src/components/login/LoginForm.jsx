@@ -1,9 +1,9 @@
 import React from "react";
-import { useNavigate,Link, NavLink } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const LoginForm = ({ onSubmit}) => {
+const LoginForm = ({ onSubmit }) => {
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -91,16 +91,20 @@ const LoginForm = ({ onSubmit}) => {
               forgot password?
             </Link>
           </div>
-          <span className="form-title">
-            Ready to join smartFOX® systems?
-          </span>
-          <button type="button" onClick={() => navigate("/signup")} className="btn  signup-button w-100">
+          <span className="form-title">Ready to join smartFOX® systems?</span>
+          <button
+            type="button"
+            onClick={() => navigate("/signup")}
+            className="btn  signup-button w-100"
+          >
             Sign Up Now
           </button>
           <hr className="my-2" />
           <small style={{ fontSize: "12px" }} className="text-muted ">
-            By signing up, you agree to the <Link to="">Terms of Service</Link> and{" "}
-            <Link to="">Privacy Policy</Link>, including <Link to="">Cookie Use</Link>.
+            By signing up, you agree to the{" "}
+            <Link to="/policy?tab=terms">Terms of Service</Link> and{" "}
+            <Link to="/policy?tab=privacy">Privacy Policy</Link>, including{" "}
+            <Link to="/policy?tab=cookieUse">Cookie Use</Link>.
           </small>
           <div className="d-flex justify-content-around p-3">
             <a href="#">
@@ -117,4 +121,3 @@ const LoginForm = ({ onSubmit}) => {
 };
 
 export default LoginForm;
-

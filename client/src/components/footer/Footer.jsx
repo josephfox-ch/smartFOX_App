@@ -1,60 +1,58 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
+import '../../css/Footer.css';
 
 const Footer = () => (
-  <footer
-      id="main-footer"
-      className=" text-muted text-center text-small"
-      
-    >
-      <ul className="list-language">
+  <footer id="mainFooter" className="text-muted text-center text-small">
+    <ul className="list-language">
       <li className="list-inline-item">
-          <a href="#">English(US)</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Français</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Deutsch</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Italiano</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">日本語</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Türkçe</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Русский</a>
-        </li>
-      </ul>
-      <p>Rue des Dauphins , 00 1201 Genève</p>
-      <p > &copy; 2024 smartFOX Systems </p>
-      <ul className="list-pts mx-1">
-        <li className="list-inline-item ">
-          <a href="#">Privacy Policy</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Terms of Service</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Cookie Policy</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Marketing</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Support</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Contact</a>
-        </li>
-        <li className="list-inline-item">
-          <a href="#">Settings</a>
-        </li>
-      </ul>
-    </footer>
+        <Link to="#">English(US)</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Français</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Deutsch</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Italiano</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">日本語</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Türkçe</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Русский</Link>
+      </li>
+    </ul>
+    <p>Rue des Dauphins, 00 1201 Genève</p>
+    <p>&copy; 2024 smartFOX Systems</p>
+    <ul className="list-pts mx-1">
+      <li className="list-inline-item">
+        <Link to="/policy?tab=terms">Terms of Service</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="/policy?tab=privacy">Privacy Policy</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="/policy?tab=cookiePolicy">Cookie Policy</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Marketing</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Support</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Contact</Link>
+      </li>
+      <li className="list-inline-item">
+        <Link to="#">Settings</Link>
+      </li>
+    </ul>
+  </footer>
 );
 
 export default Footer;

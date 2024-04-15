@@ -62,21 +62,6 @@
   color: rgb(98, 98, 101);
 }
 
-#main-footer {
-  position: relative;
-  font-size: small;
-  width: 100%;
-  background-color: #fefefe;
-  border-top: 1px solid rgb(216, 214, 214);
-  padding: 10px;
-  color: #646cff;
-  min-height: 200px;
-}
-
-#main-footer a {
-  color: #646cff;
-  text-decoration: inherit;
-}
 .signup-button {
   background-color: rgb(245, 110, 26);
   color: white;
@@ -117,9 +102,6 @@
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 } */
-.fox-color{
-color:rgb(245, 110, 26)
+.fox-color {
+  color: rgb(245, 110, 26);
 }
-
-
-

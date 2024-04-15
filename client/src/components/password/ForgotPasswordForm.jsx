@@ -41,7 +41,7 @@ const ForgotPasswordForm = () => {
     >
       <Row className="justify-content-center">
         <Col>
-          <Card>
+          <Card className="shadow rounded p-3">
             <Card.Body>
               <div className="text-center mb-4">
                 <img width="250" src="/SFX.png" alt="Logo" />
