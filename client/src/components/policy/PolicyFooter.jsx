@@ -19,7 +19,7 @@ const PolicyFooter = () => {
         </nav>
       </Col>
       <Col>
-        <p className="fw-bold mx-2">smartFOX &copy; {new Date().getFullYear()} </p>
+        <p className="mx-2">smartFOX® Home Systems &copy; {new Date().getFullYear()} </p>
       </Col>
     </Container>
   );

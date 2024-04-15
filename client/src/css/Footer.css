@@ -2,14 +2,20 @@
     position: relative;
     font-size: small;
     width: 100%;
-    background-color: #fefefe;
-    border-top: 1px solid rgb(216, 214, 214);
+    background-color: #fdfdfd;
+    border-top: 1px solid #c4c6c4;;
     padding: 10px;
-    color: #646cff;
+    /* color: #646cff; */
+    color:#0c5460;
     min-height: 200px;
   }
   
   #mainFooter a {
     color: #646cff;
-    text-decoration: inherit;
+    /* color:#265a88; */
+    text-decoration: none;
+  }
+  #mainFooter a:hover {
+    
+    text-decoration: underline;
   }
