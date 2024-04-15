@@ -1,0 +1,15 @@
+#mainFooter {
+    position: relative;
+    font-size: small;
+    width: 100%;
+    background-color: #fefefe;
+    border-top: 1px solid rgb(216, 214, 214);
+    padding: 10px;
+    color: #646cff;
+    min-height: 200px;
+  }
+  
+  #mainFooter a {
+    color: #646cff;
+    text-decoration: inherit;
+  }
