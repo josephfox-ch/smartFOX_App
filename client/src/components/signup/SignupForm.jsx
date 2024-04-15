@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Formik, Field, ErrorMessage, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import { Button, Container, Accordion, Card, FormCheck } from "react-bootstrap";
@@ -397,8 +398,8 @@ const SignupForm = ({ onSubmit }) => {
                             />
 
                             <p className="signup-form-notes">
-                              Please refer to our <a href="">Privacy Policy</a>{" "}
-                              or <a href="">Contact smartFOX® Home</a> for more
+                              Please refer to our <Link to="/policy?tab=privacy">Privacy Policy</Link>
+                              or <Link to="#">Contact smartFOX® Home</Link> for more
                               details.
                             </p>
 

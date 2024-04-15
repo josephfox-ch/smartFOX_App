@@ -10,16 +10,16 @@ const PolicyFooter = () => {
     >
       <Col>
         <nav className="policy-footer-nav">
-          <Link className="text-white mx-2" to="/">
+          <Link className=" mx-2" to="/">
             Home
           </Link>
-          <Link className="text-white mx-2" to="/contact">
+          <Link className=" mx-2" to="/contact">
             Contact
           </Link>
         </nav>
       </Col>
       <Col>
-        <p>&copy; {new Date().getFullYear()} smartFOX. All rights reserved.</p>
+        <p className="fw-bold mx-2">smartFOX &copy; {new Date().getFullYear()} </p>
       </Col>
     </Container>
   );
