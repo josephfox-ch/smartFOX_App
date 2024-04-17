@@ -10,8 +10,8 @@ const AuthController = {
       res.status(201).json({
         success: true,
         message: "Registration started. OTP sent.",
-        userId: user.id, 
-        otpSent: !!otp 
+        userId: user.id,
+        otpSent: !!otp,
       });
     } catch (error) {
       res.status(400).json({
@@ -26,49 +26,55 @@ const AuthController = {
     try {
       const { userId, otp } = req.body;
       const result = await AuthService.verifyRegistration(userId, otp);
-  
+
       if (!result.success) {
         return res.status(400).json({
           success: false,
-          message: result.message 
+          message: result.message,
         });
       }
-  
+
       const { user, accessToken, refreshToken } = result;
-  
+
       req.session.user = { id: user.id, username: user.username };
-  
-      setCookie(res, "smartFOXAccessToken", accessToken, { maxAge: 15 * 60 * 1000 });
-      const refreshCookieMaxAge = 7 * 24 * 60 * 60 * 1000;  
-      setCookie(res, "smartFOXRefreshToken", refreshToken, { maxAge: refreshCookieMaxAge });
-  
+
+      setCookie(res, "smartFOXAccessToken", accessToken, {
+        maxAge: 15 * 60 * 1000,
+      });
+      const refreshCookieMaxAge = 7 * 24 * 60 * 60 * 1000;
+      setCookie(res, "smartFOXRefreshToken", refreshToken, {
+        maxAge: refreshCookieMaxAge,
+      });
+
       res.status(200).json({
         success: true,
         message: "Registration Successful. User verified.",
         user,
       });
     } catch (error) {
-      console.error('Controller error:', error);
+      console.error("Controller error:", error);
       res.status(500).json({
         success: false,
         message: "OTP Verification failed",
-        error: error.message || error.toString()
+        error: error.message || error.toString(),
       });
     }
-  }
-  
-,
+  },
 
   async login(req, res) {
     try {
-      const { email, password, rememberMe } = req.body;
+      const { identifier, password, rememberMe } = req.body;
       const { user, accessToken, refreshToken } = await AuthService.login(
-        email,
+        identifier,
         password,
         rememberMe
       );
 
-      req.session.user = { id: user.id, username: user.username };
+      req.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      };
 
       setCookie(res, "smartFOXAccessToken", accessToken, {
         maxAge: 15 * 60 * 1000,
@@ -142,36 +148,36 @@ const AuthController = {
   },
   async resendOTP(req, res) {
     try {
-      const { userId } = req.body; 
+      const { userId } = req.body;
       await AuthService.resendOTP(userId);
-  
+
       res.status(200).json({
         success: true,
-        message: "A new Authentication Code has been sent to your email."
+        message: "A new Authentication Code has been sent to your email.",
       });
     } catch (error) {
       console.error("Resend OTP Error: ", error);
       res.status(500).json({
         success: false,
         message: "Failed to resend OTP",
-        error: error.message
+        error: error.message,
       });
     }
-  }
-  ,
-   
-   async logout(req, res) {
+  },
+  async logout(req, res) {
     try {
       const { cookies, session } = req;
       const result = await AuthService.logout(cookies, session);
-      
-      result.clearCookies.forEach(cookie => {
+
+      result.clearCookies.forEach((cookie) => {
         res.clearCookie(cookie.name, { path: cookie.path });
       });
       res.status(200).json({ message: result.message });
     } catch (error) {
       console.error("Logout Error:", error);
-      res.status(500).json({ message: "Failed to logout, internal server error." });
+      res
+        .status(500)
+        .json({ message: "Failed to logout, internal server error." });
     }
   },
 
@@ -181,13 +187,14 @@ const AuthController = {
       await AuthService.forgotPassword(email);
       res.status(200).json({
         success: true,
-        message: "An email has been sent to reset your password. Please check your inbox."
+        message:
+          "An email has been sent to reset your password. Please check your inbox.",
       });
     } catch (error) {
       res.status(500).json({
         success: false,
         message: "Failed to reset password. Please try again later.",
-        error: error.message
+        error: error.message,
       });
     }
   },
@@ -198,16 +205,16 @@ const AuthController = {
       await AuthService.resetPassword(token, password);
       res.status(200).json({
         success: true,
-        message: "Your password has been reset successfully."
+        message: "Your password has been reset successfully.",
       });
     } catch (error) {
       res.status(500).json({
         success: false,
         message: "Failed to reset password. Please try again later.",
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  },
 };
 
 export default AuthController;

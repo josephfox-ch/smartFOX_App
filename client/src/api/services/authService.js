@@ -1,10 +1,10 @@
 import API from "../index";
 
 const AuthService = {
-  login: async ({ email, password, rememberMe }) => {
+  login: async ({ identifier, password, rememberMe }) => {
     try {
       const response = await API.post("/auth/login", {
-        email,
+        identifier,
         password,
         rememberMe,
       });

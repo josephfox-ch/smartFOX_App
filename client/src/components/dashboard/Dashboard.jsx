@@ -27,7 +27,7 @@ const Dashboard = () => {
             <Card.Body>
               <Card.Title>Dashboard</Card.Title>
               <Card.Text>
-                Welcome, {state.user ? state.user.firstName : "User"}!
+                Welcome, {state.user ? state.user.username : "User"}!
               </Card.Text>
               <Button variant="primary" onClick={handleLogout}>
                 Log out
