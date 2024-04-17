@@ -1,18 +1,20 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import {Op} from 'sequelize';
-import { User, Home, UserPreferences,OTP } from "../models/index.js";
+import { Op } from "sequelize";
+import { User, Home, UserPreferences, OTP } from "../models/index.js";
 import { generateTokens } from "../../utils/jwtHelpers.js";
 import RefreshTokenService from "./refreshTokenService.js";
 import sendSMS from "../../notifications/smsService.js";
-import {sendOTPMail,sendResetPasswordLinkMail} from "../../notifications/mailService.js";
+import {
+  sendOTPMail,
+  sendResetPasswordLinkMail,
+} from "../../notifications/mailService.js";
 import {
   generateOTP,
   saveOTPForUser,
   checkOTPForUser,
 } from "../../utils/utils.js";
 import sequelize from "../../../database/config.js";
-
 
 const AuthService = {
   async register(userData) {
@@ -71,60 +73,61 @@ const AuthService = {
   async verifyRegistration(userId, otpInput) {
     try {
       await checkOTPForUser(userId, otpInput);
-  
+
       await User.update({ isVerified: true }, { where: { id: userId } });
-  
+
       const user = await User.findByPk(userId);
       if (!user) {
         throw new Error("User Not Found.");
       }
-  
-      const { accessToken, refreshToken } = generateTokens(user);  
-  
+
+      const { accessToken, refreshToken } = generateTokens(user);
+
       return {
         success: true,
-        user: { id: user.id, email: user.email, isVerified: user.isVerified },
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          firstName: user.firstName,
+          lastname: user.lastName,
+          isVerified: user.isVerified,
+        },
         accessToken: accessToken,
-        refreshToken: refreshToken
+        refreshToken: refreshToken,
       };
     } catch (error) {
-      console.log('Service error:', error.message);
-      return { success: false, message: error.message }; 
+      console.log("Service error:", error.message);
+      return { success: false, message: error.message };
     }
-  }
-  ,
+  },
+  async resendOTP(userId) {
+    await OTP.destroy({
+      where: {
+        userId,
+      },
+    });
 
-async resendOTP(userId) {
-  
-  await OTP.destroy({
-    where: {
-      userId
+    const newOTP = generateOTP();
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new Error("User not found.");
     }
-  });
 
-  const newOTP = generateOTP();
+    await saveOTPForUser(userId, newOTP);
 
-  const user = await User.findByPk(userId);
-  if (!user) {
-    throw new Error("User not found.");
-  }
-
-  await saveOTPForUser(userId, newOTP);
-
-  await sendOTPMail(user.email, newOTP);
-
-}
-,
-
-  async login(email, password, rememberMe) {
-    const user = await User.findOne({ where: { email } });
-    if (!user) throw new Error("Incorrect email or password.");
-    if (!user.isVerified)
-      throw new Error(
-        "User is not yet verified."
-      );
+    await sendOTPMail(user.email, newOTP);
+  },
+  async login(identifier, password, rememberMe) {
+    const condition = identifier.includes("@")
+      ? { email: identifier }
+      : { username: identifier };
+    const user = await User.findOne({ where: condition });
+    if (!user) throw new Error("Incorrect username/email or password.");
+    if (!user.isVerified) throw new Error("User is not yet verified.");
     if (!(await bcrypt.compare(password, user.password)))
-      throw new Error("Incorrect email or password.");
+      throw new Error("Incorrect username/email or password.");
 
     const { accessToken, refreshToken } = generateTokens(user, rememberMe);
     await RefreshTokenService.saveRefreshToken(
@@ -134,7 +137,13 @@ async resendOTP(userId) {
     );
 
     return {
-      user: { id: user.id, email: user.email },
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
       accessToken,
       refreshToken,
     };
@@ -156,9 +165,9 @@ async resendOTP(userId) {
           resolve({
             message: "Logout successful, Tokens and Session cleared.",
             clearCookies: [
-              { name: "smartFOXAccessToken",  path: "/"  },
-              { name: "smartFOXRefreshToken",  path: "/"  },
-              { name: "smartFOX-session",  path: "/"  },
+              { name: "smartFOXAccessToken", path: "/" },
+              { name: "smartFOXRefreshToken", path: "/" },
+              { name: "smartFOX-session", path: "/" },
             ],
           });
         }
@@ -175,15 +184,20 @@ async resendOTP(userId) {
       if (!user.isVerified) {
         throw new Error("User account is not yet verified.");
       }
-    
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
       const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
-    
+
       await sendResetPasswordLinkMail(user.email, resetLink);
-    
-      return { success: true, message: "Reset password link sent successfully." };
+
+      return {
+        success: true,
+        message: "Reset password link sent successfully.",
+      };
     } catch (error) {
-      throw error; 
+      throw error;
     }
   },
 
@@ -198,17 +212,14 @@ async resendOTP(userId) {
         throw new Error("User account is not yet verified.");
       }
       const hashedPassword = await bcrypt.hash(password, 12);
-      console.log('hashed password',hashedPassword);
+      console.log("hashed password", hashedPassword);
       await user.update({ password: hashedPassword });
       return { success: true, message: "Password changed successfully." };
     } catch (error) {
-      console.log(error)
-      throw error; 
+      console.log(error);
+      throw error;
     }
-  }
-
-
+  },
 };
 
 export default AuthService;
-

@@ -8,13 +8,13 @@ const LoginForm = ({ onSubmit }) => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      identifier: "", 
       password: "",
       rememberMe: false,
     },
     validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string().required("Required"),
+      identifier: Yup.string().required("Email or username is required"),
+      password: Yup.string().required("Password is required"),
       rememberMe: Yup.boolean(),
     }),
     onSubmit: onSubmit,
@@ -31,17 +31,17 @@ const LoginForm = ({ onSubmit }) => {
           <div className="form-group mb-3">
             <label htmlFor="email">Email or Username</label>
             <input
-              id="email"
-              name="email"
-              type="email"
+              id="identifier"
+              name="identifier"
+              type="text"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.email}
+              value={formik.values.identifier}
               className={`form-control ${
-                formik.touched.email && formik.errors.email ? "is-invalid" : ""
+                formik.touched.identifier && formik.errors.identifier ? "is-invalid" : ""
               }`}
             />
-            <div className="invalid-feedback">{formik.errors.email}</div>
+            <div className="invalid-feedback">{formik.errors.identifier}</div>
           </div>
           <div className="form-group mb-3">
             <label htmlFor="password">Password</label>

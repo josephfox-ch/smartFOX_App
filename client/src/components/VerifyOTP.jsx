@@ -25,6 +25,7 @@ const VerifyOTP = () => {
             user: response.user
           }
         });
+        console.log('verify-response', response)
         navigate("/dashboard");
       } else {
         throw new Error(response.message || "Verification failed");
