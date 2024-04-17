@@ -8,8 +8,8 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      console.log('action:' + JSON.stringify(action));
-      console.log('payload',action.payload);
+      console.log("action:" + JSON.stringify(action));
+      console.log("payload", action.payload);
       return {
         ...state,
         isAuthenticated: true,
@@ -39,4 +39,3 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-

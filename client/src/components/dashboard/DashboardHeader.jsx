@@ -1,10 +1,9 @@
 import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import AuthService from "../../api/services/authService";
+import { FaUserCircle } from "react-icons/fa";
 
 const DashboardHeader = () => {
   const { state, dispatch } = useAuth();
@@ -14,7 +13,6 @@ const DashboardHeader = () => {
     try {
       await AuthService.logout();
       dispatch({ type: "LOGOUT" });
-
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -25,32 +23,42 @@ const DashboardHeader = () => {
     <Navbar
       bg="light"
       expand="lg"
-      className="dashboard-header justify-content-between"
+      className="dashboard-header justify-content-between px-3"
     >
       <Navbar.Brand href="#home" className="d-flex align-items-center">
         <img
           src="/SFX.png"
           alt="smartFOX Logo"
-          width="90"
+          width="70"
           style={{ marginRight: "10px" }}
         />
-        <div>
-          <div className="h5 mb-0">smartFOX</div>
-          <small>Gateway to your smart future</small>
+        <div className="text-center">
+          <div className="dashboard-brand-name">smartFOX</div>
+          <p className="brand-slogan">Gateway to your smart future...</p>
         </div>
       </Navbar.Brand>
-      <div> Welcome, {state.user ? state.user.username : "User"}!</div>
       <Nav>
-        <Link to="/dashboard" className="nav-link">
-          Dashboard
-        </Link>
-        <Link to="/events" className="nav-link">
-          Events
-        </Link>
+        <Dropdown align="end">
+          <Dropdown.Toggle
+            variant="light"
+            id="dropdown-basic"
+            className="d-flex align-items-center"
+          >
+            <FaUserCircle size="2.5em" className="me-2" />
+            {state.user ? state.user.username : "User"}
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/account-settings">
+              Account Settings
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={handleLogout} className="text-danger">
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Nav>
-      <Button variant="primary" onClick={handleLogout}>
-        Log out
-      </Button>
     </Navbar>
   );
 };

@@ -24,9 +24,12 @@ const Login = () => {
     } catch (error) {
       const errorMsg = error.message || "An unexpected error occurred";
       if (errorMsg.includes("User is not yet verified")) {
-        actions.setFieldError("general", <>
-          {errorMsg} <Link to="/verify-otp">Verify your account.</Link>
-        </>);
+        actions.setFieldError(
+          "general",
+          <>
+            {errorMsg} <Link to="/verify-otp">Verify your account.</Link>
+          </>
+        );
       } else {
         actions.setFieldError("general", errorMsg);
       }
@@ -42,4 +45,3 @@ const Login = () => {
 };
 
 export default Login;
-
