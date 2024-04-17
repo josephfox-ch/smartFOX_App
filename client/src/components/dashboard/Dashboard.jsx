@@ -2,18 +2,18 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import AuthService from '../../api/services/authService';
+import AuthService from "../../api/services/authService";
 
 const Dashboard = () => {
-  const {state, dispatch } = useAuth();
+  const { state, dispatch } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await AuthService.logout();
       dispatch({ type: "LOGOUT" });
-      
-      navigate('/login');
+
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -29,9 +29,6 @@ const Dashboard = () => {
               <Card.Text>
                 Welcome, {state.user ? state.user.username : "User"}!
               </Card.Text>
-              <Button variant="primary" onClick={handleLogout}>
-                Log out
-              </Button>
             </Card.Body>
           </Card>
         </Col>
@@ -41,6 +38,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-

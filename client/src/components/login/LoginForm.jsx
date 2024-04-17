@@ -8,7 +8,7 @@ const LoginForm = ({ onSubmit }) => {
 
   const formik = useFormik({
     initialValues: {
-      identifier: "", 
+      identifier: "",
       password: "",
       rememberMe: false,
     },
@@ -38,7 +38,9 @@ const LoginForm = ({ onSubmit }) => {
               onBlur={formik.handleBlur}
               value={formik.values.identifier}
               className={`form-control ${
-                formik.touched.identifier && formik.errors.identifier ? "is-invalid" : ""
+                formik.touched.identifier && formik.errors.identifier
+                  ? "is-invalid"
+                  : ""
               }`}
             />
             <div className="invalid-feedback">{formik.errors.identifier}</div>
@@ -102,9 +104,18 @@ const LoginForm = ({ onSubmit }) => {
           <hr className="my-2" />
           <small style={{ fontSize: "12px" }} className="text-muted ">
             By signing up, you agree to the{" "}
-            <Link className='login-policy-links' to="/policy?tab=terms">Terms of Service</Link> and{" "}
-            <Link className="login-policy-links" to="/policy?tab=privacy">Privacy Policy</Link>, including{" "}
-            <Link className="login-policy-links" to="/policy?tab=cookieUse">Cookie Use</Link>.
+            <Link className="login-policy-links" to="/policy?tab=terms">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link className="login-policy-links" to="/policy?tab=privacy">
+              Privacy Policy
+            </Link>
+            , including{" "}
+            <Link className="login-policy-links" to="/policy?tab=cookieUse">
+              Cookie Use
+            </Link>
+            .
           </small>
           <div className="d-flex justify-content-around p-3">
             <a href="#">

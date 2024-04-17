@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Button, Form, Container, Row, Col, Alert } from "react-bootstrap";
-import AuthService from '../api/services/authService'
+import AuthService from "../api/services/authService";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
@@ -13,19 +13,19 @@ const VerifyOTP = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");  
+    setError("");
     setMessage("");
     try {
-      const userId = new URLSearchParams(window.location.search).get('userId');
+      const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.verifyOTP(userId, otp);
       if (response.success) {
         dispatch({
           type: "LOGIN",
           payload: {
-            user: response.user
-          }
+            user: response.user,
+          },
         });
-        console.log('verify-response', response)
+        console.log("verify-response", response);
         navigate("/dashboard");
       } else {
         throw new Error(response.message || "Verification failed");
@@ -34,22 +34,20 @@ const VerifyOTP = () => {
       setError(error.message);
     }
   };
-  
 
   const handleResendOTP = async () => {
-    setError("");  
+    setError("");
     setMessage("");
     try {
-      const userId = new URLSearchParams(window.location.search).get('userId');
+      const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.resendOTP(userId);
       setMessage("A new Authentication Code has been sent to your email.");
       console.log("OTP has been resent");
-      console.log('otp response', response);
+      console.log("otp response", response);
     } catch (error) {
       setError("Failed to resend OTP");
     }
   };
-  
 
   return (
     <Container
@@ -65,7 +63,7 @@ const VerifyOTP = () => {
           <p id="brandSlogan">gateway to your smart future...</p>
         </Col>
         <Col className="mb-md-0">
-          <h3 id='verifyPageTitle' className=" p-2 rounded text-center mb-4">
+          <h3 id="verifyPageTitle" className=" p-2 rounded text-center mb-4">
             Verify Account
           </h3>
           {error && <Alert variant="danger">{error}</Alert>}
@@ -101,4 +99,3 @@ const VerifyOTP = () => {
 };
 
 export default VerifyOTP;
-
