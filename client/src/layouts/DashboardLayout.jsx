@@ -1,32 +1,36 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import DashboardHeader from '../components/dashboard/DashboardHeader';
-import DashboardNavbar from '../components/dashboard/DashboardNavbar';
-import DashboardControlPanel from '../components/dashboard/DashboardControlPanel';
-import DashboardFooter from '../components/dashboard/DashboardFooter';
-import DashboardMainContent from '../components/dashboard/DashboardMainContent';
-import '../css/DashboardLayout.css';
+import React, { useState } from 'react';
+import Header from '../components/header/index';
+import Sidebar from '../components/sidebar/index';
 
-const DashboardLayout = () => {
+// The DashboardLayout component accepts children as props and defines the layout structure
+const DashboardLayout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);  // State to manage sidebar visibility
+
   return (
-    <div className="dashboard-layout">
-      <DashboardHeader />
-      <DashboardNavbar />
-      <div className="content-area">
-        <div className="sidebar">
-          <DashboardControlPanel />
+    <div className="dark:bg-boxdark-2 dark:text-bodydark">
+      {/* Page Wrapper Start */}
+      <div className="flex h-screen overflow-hidden">
+        {/* Sidebar Start */}
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+        {/* Content Area Start */}
+        <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+          {/* Header Start */}
+          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+          {/* Main Content Start */}
+          <main>
+            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+              {children}  // Rendering children within the main content area
+            </div>
+          </main>
+          {/* Main Content End */}
         </div>
-        <div className="main-content">
-          <DashboardMainContent />
-        </div>
+        {/* Content Area End */}
       </div>
-      <DashboardFooter className="footer" />
+      {/* Page Wrapper End */}
     </div>
   );
 };
 
 export default DashboardLayout;
-
-
-
-

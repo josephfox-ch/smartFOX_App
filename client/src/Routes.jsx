@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DashboardLayout from "./layouts/DashboardLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import VerifyOTP from "./components/VerifyOTP";
 import PrivateRoute from "./components/PrivateRoute";
@@ -8,6 +7,7 @@ import ForgotPasswordForm from "./components/password/ForgotPasswordForm";
 import ResetPasswordForm from "./components/password/ResetPasswordForm";
 import PolicyPage from "./pages/PolicyPage";
 import NotFound from "./pages/NotFound";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 const AppRoutes = () => {
   return (

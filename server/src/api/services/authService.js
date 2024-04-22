@@ -124,10 +124,10 @@ const AuthService = {
       ? { email: identifier }
       : { username: identifier };
     const user = await User.findOne({ where: condition });
-    if (!user) throw new Error("Incorrect username/email or password.");
+    if (!user) throw new Error("Incorrect authentication credentials.");
     if (!user.isVerified) throw new Error("User is not yet verified.");
     if (!(await bcrypt.compare(password, user.password)))
-      throw new Error("Incorrect username/email or password.");
+      throw new Error("Incorrect authentication credentials.");
 
     const { accessToken, refreshToken } = generateTokens(user, rememberMe);
     await RefreshTokenService.saveRefreshToken(

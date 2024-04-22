@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { MdNoEncryptionGmailerrorred } from "react-icons/md";
 
 const LoginForm = ({ onSubmit }) => {
   const navigate = useNavigate();
@@ -77,8 +78,8 @@ const LoginForm = ({ onSubmit }) => {
             </label>
           </div>
           {formik.errors.general && (
-            <div className="alert alert-danger error-message" role="alert">
-              {formik.errors.general}
+            <div className="  error-message" role="alert">
+             <MdNoEncryptionGmailerrorred /> {formik.errors.general}
             </div>
           )}
           <button
