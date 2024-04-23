@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import SidebarLinkGroup from './SidebarLinkGroup';
-import Logo from '../../images/logo/logo.svg';
+import React, { useEffect, useRef, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import SidebarLinkGroup from "./SidebarLinkGroup";
+import Logo from "../../images/logo/logo.svg";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -10,20 +10,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const trigger = useRef(null);
   const sidebar = useRef(null);
 
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
+  const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
   // Close sidebar on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!sidebar.current || !trigger.current) return;
-      if (!sidebarOpen || sidebar.current.contains(target) || trigger.current.contains(target)) return;
+      if (
+        !sidebarOpen ||
+        sidebar.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
       setSidebarOpen(false);
     };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
   }, [sidebarOpen]);
 
   // Close sidebar if the ESC key is pressed
@@ -32,17 +37,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       if (!sidebarOpen || keyCode !== 27) return;
       setSidebarOpen(false);
     };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
   }, [sidebarOpen]);
 
   // Update local storage and body class on sidebar expanded state change
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded.toString());
+    localStorage.setItem("sidebar-expanded", sidebarExpanded.toString());
     if (sidebarExpanded) {
-      document.body.classList.add('sidebar-expanded');
+      document.body.classList.add("sidebar-expanded");
     } else {
-      document.body.classList.remove('sidebar-expanded');
+      document.body.classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
 
@@ -50,13 +55,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     <aside
       ref={sidebar}
       className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to="/">
-          <img src={Logo} alt="Logo" />
+      <div className="flex items-center justify-center gap-2 px-3 py-2 lg:py-2">
+        <NavLink to="/dashboard">
+          <div className="flex items-center text-white text-xl font-bold">
+            <img width="70px" src="./SFX.png" alt="Logo" /> SmartFOX Home®
+          </div>
         </NavLink>
 
         <button
@@ -96,7 +103,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Dashboard --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/' || pathname.includes('dashboard')
+                  pathname === "/" || pathname.includes("dashboard")
                 }
               >
                 {(handleClick, open) => {
@@ -105,9 +112,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/' ||
-                            pathname.includes('dashboard')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/" ||
+                            pathname.includes("dashboard")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -144,7 +151,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Dashboard
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -163,7 +170,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -171,8 +178,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               eCommerce
@@ -182,8 +189,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/dashboard/analytics"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Analytics
@@ -196,8 +203,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/dashboard/marketing"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Marketing
@@ -210,8 +217,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/dashboard/crm"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               CRM
@@ -224,8 +231,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/dashboard/stocks"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Stocks
@@ -248,8 +255,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/calendar"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('calendar') &&
-                    'bg-graydark dark:bg-meta-4'
+                    pathname.includes("calendar") &&
+                    "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <svg
@@ -275,7 +282,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/profile"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                    pathname.includes("profile") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <svg
@@ -303,7 +310,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Task --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/tasks' || pathname.includes('tasks')
+                  pathname === "/tasks" || pathname.includes("tasks")
                 }
               >
                 {(handleClick, open) => {
@@ -312,9 +319,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/tasks' ||
-                            pathname.includes('tasks')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/tasks" ||
+                            pathname.includes("tasks")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -366,7 +373,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Task
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -385,7 +392,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -393,8 +400,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/tasks/task-list"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               List
@@ -407,8 +414,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/tasks/task-kanban"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Kanban
@@ -429,7 +436,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Forms --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/forms' || pathname.includes('forms')
+                  pathname === "/forms" || pathname.includes("forms")
                 }
               >
                 {(handleClick, open) => {
@@ -438,9 +445,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/forms' ||
-                            pathname.includes('forms')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/forms" ||
+                            pathname.includes("forms")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -481,7 +488,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Forms
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -500,7 +507,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -508,8 +515,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/forms/form-elements"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Form Elements
@@ -519,8 +526,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/forms/pro-form-elements"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Pro Form Elements
@@ -533,8 +540,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/forms/form-layout"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Form Layout
@@ -544,8 +551,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/forms/pro-form-layout"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Pro Form Layout
@@ -566,7 +573,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Tables --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/tables' || pathname.includes('tables')
+                  pathname === "/tables" || pathname.includes("tables")
                 }
               >
                 {(handleClick, open) => {
@@ -575,9 +582,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/tables' ||
-                            pathname.includes('tables')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/tables" ||
+                            pathname.includes("tables")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -614,7 +621,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Tables
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -633,7 +640,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -641,8 +648,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/tables/tables"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Tables
@@ -652,8 +659,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/tables/pro-tables"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Pro Tables
@@ -674,7 +681,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Pages --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/pages' || pathname.includes('pages')
+                  pathname === "/pages" || pathname.includes("pages")
                 }
               >
                 {(handleClick, open) => {
@@ -683,9 +690,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/pages' ||
-                            pathname.includes('pages')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/pages" ||
+                            pathname.includes("pages")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -730,7 +737,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Pages
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -749,7 +756,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -757,8 +764,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/settings"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Settings
@@ -768,8 +775,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/file-manager"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               File Manager
@@ -782,8 +789,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/data-tables"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Data Tables
@@ -796,8 +803,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/pricing-tables"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Pricing Tables
@@ -810,8 +817,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/error-page"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Error Page
@@ -824,8 +831,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/faq"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Faq's
@@ -838,8 +845,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/team"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Teams
@@ -852,8 +859,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/terms-conditions"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Terms & Conditions
@@ -866,8 +873,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/pages/mail-success"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Mail Success
@@ -899,8 +906,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/messages"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('messages') &&
-                    'bg-graydark dark:bg-meta-4'
+                    pathname.includes("messages") &&
+                    "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <svg
@@ -932,7 +939,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/inbox"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('inbox') && 'bg-graydark dark:bg-meta-4'
+                    pathname.includes("inbox") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <svg
@@ -965,7 +972,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <NavLink
                   to="/invoice"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('invoice') && 'bg-graydark dark:bg-meta-4'
+                    pathname.includes("invoice") && "bg-graydark dark:bg-meta-4"
                   }`}
                 >
                   <svg
@@ -1037,7 +1044,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Chart --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/chart' || pathname.includes('chart')
+                  pathname === "/chart" || pathname.includes("chart")
                 }
               >
                 {(handleClick, open) => {
@@ -1046,9 +1053,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/chart' ||
-                            pathname.includes('chart')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/chart" ||
+                            pathname.includes("chart")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -1084,7 +1091,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Chart
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -1103,7 +1110,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -1111,8 +1118,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/chart/basic-chart"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Basic Chart
@@ -1122,8 +1129,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/chart/advanced-chart"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Advanced Chart
@@ -1143,7 +1150,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               {/* <!-- Menu Item Ui Elements --> */}
               <SidebarLinkGroup
-                activeCondition={pathname === '/ui' || pathname.includes('ui')}
+                activeCondition={pathname === "/ui" || pathname.includes("ui")}
               >
                 {(handleClick, open) => {
                   return (
@@ -1151,8 +1158,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/ui' || pathname.includes('ui')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/ui" || pathname.includes("ui")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -1197,7 +1204,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         UI Elements
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -1216,7 +1223,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
@@ -1224,8 +1231,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/accordion"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Accordion
@@ -1238,8 +1245,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/alerts"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Alerts
@@ -1249,8 +1256,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/avatars"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Avatars
@@ -1263,8 +1270,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/badge"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Badge
@@ -1277,8 +1284,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/breadcrumbs"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Breadcrumbs
@@ -1291,8 +1298,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/buttons"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Buttons
@@ -1302,8 +1309,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/buttons-group"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Buttons Group
@@ -1316,8 +1323,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/cards"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Cards
@@ -1330,8 +1337,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/carousel"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Carousel
@@ -1344,8 +1351,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/dropdowns"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Dropdowns
@@ -1358,8 +1365,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/images"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Images
@@ -1372,8 +1379,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/list"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               List
@@ -1386,8 +1393,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/modals"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Modals
@@ -1400,8 +1407,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/notifications"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Notifications
@@ -1414,8 +1421,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/pagination"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Pagination
@@ -1428,8 +1435,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/popovers"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Popovers
@@ -1442,8 +1449,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/progress"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Progress
@@ -1456,8 +1463,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/spinners"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Spinners
@@ -1470,8 +1477,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/tabs"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Tabs
@@ -1484,8 +1491,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/tooltips"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Tooltips
@@ -1499,8 +1506,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/ui/videos"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Videos
@@ -1521,7 +1528,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Auth Pages --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/auth' || pathname.includes('auth')
+                  pathname === "/auth" || pathname.includes("auth")
                 }
               >
                 {(handleClick, open) => {
@@ -1530,8 +1537,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/auth' || pathname.includes('auth')) &&
-                          'bg-graydark dark:bg-meta-4'
+                          (pathname === "/auth" || pathname.includes("auth")) &&
+                          "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -1572,7 +1579,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         Authentication
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && 'rotate-180'
+                            open && "rotate-180"
                           }`}
                           width="20"
                           height="20"
@@ -1591,7 +1598,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
                         className={`translate transform overflow-hidden ${
-                          !open && 'hidden'
+                          !open && "hidden"
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
@@ -1599,8 +1606,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/auth/signin"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Sign In
@@ -1610,8 +1617,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/auth/signup"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Sign Up
@@ -1621,8 +1628,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/auth/reset-password"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Reset Password
@@ -1635,8 +1642,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/auth/coming-soon"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Coming Soon
@@ -1649,8 +1656,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/auth/two-step-verification"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               2 Step Verification
@@ -1663,8 +1670,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             <NavLink
                               to="/auth/under-maintenance"
                               className={({ isActive }) =>
-                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                (isActive && '!text-white')
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
                               }
                             >
                               Under Maintenance

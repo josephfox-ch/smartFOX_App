@@ -1,25 +1,14 @@
-import { Auth0Provider } from '@auth0/auth0-react';
-import App from './App';
-import { createRoot } from 'react-dom/client';
-import './index.css'
-import './css/style.css'
-import './css/satoshi.css'
+import React from 'react';
+import App from "./App";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import "./css/style.css";
+import "./css/satoshi.css";
 
-
-const root = createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById("root"));
 
 root.render(
-  <Auth0Provider
-    domain="dev-q6sl7tm1jcbjck1h.eu.auth0.com"
-    clientId="SEPkv7BoWWIUjthLLoT9KxYjj9b9E1TH"
-    authorizationParams={{
-      redirect_uri: 'http://localhost:5137/callback',
-      audience: "https://smartfoxhome.com/api",
-      response_type: "code",
-      scope: "openid profile email",
-    }}
-  >
+  <React.StrictMode>
     <App />
-  </Auth0Provider>
+  </React.StrictMode>
 );
-
