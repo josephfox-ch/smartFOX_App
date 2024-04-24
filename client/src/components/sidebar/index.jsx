@@ -14,6 +14,7 @@ import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { BsFillGeoFill } from "react-icons/bs";
 import { FaLightbulb } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
+import { FiPlusCircle } from "react-icons/fi";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -104,7 +105,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
-        <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
+        <button className="bg-gray-300 text-bodydark1 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-5 py-2 mt-7 border border-gray-400 rounded shadow flex items-center justify-center">
+          <span className="mr-2">
+            <FiPlusCircle size="25" />
+          </span>
+          Add Device
+        </button>
+
+        <nav className="mt-5 py-2 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
