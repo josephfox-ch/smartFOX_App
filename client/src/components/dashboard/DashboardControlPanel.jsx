@@ -9,7 +9,7 @@ const DashboardControlPanel = () => {
       <div className="home-selector mt-3">
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Select Home
+            Select Home Page
           </Dropdown.Toggle>
 
           <Button variant="primary" className="m-2">
