@@ -132,3 +132,4 @@ dist
 
 .bash
 *.bash
+node_modules

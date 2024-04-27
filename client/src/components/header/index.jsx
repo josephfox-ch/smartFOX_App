@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
-// import DropdownMessage from './DropdownMessage';
+import DropdownMessage from './DropdownMessage';
 // import DropdownNotification from './DropdownNotification';
 import DropdownUser from './DropdownUser';
-import LogoIcon from '../../images/logo/logo-icon.svg';
 import DarkModeSwitcher from './DarkModeSwitcher';
-
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
@@ -53,8 +51,8 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden" to="/">
-            <img src={LogoIcon} alt="Logo" />
+          <Link className="block flex-shrink-0 lg:hidden" to="/dashboard">
+            <img width='50' src='./SFX.png' alt="Logo" />
           </Link>
         </div>
 
@@ -101,7 +99,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             {/* <!-- Notification Menu Area --> */}
             {/* <DropdownNotification /> */}
             {/* <!-- Chat Notification Area --> */}
-            {/* <DropdownMessage /> */}
+            <DropdownMessage />
           </ul>
 
           {/* <!-- User Area --> */}

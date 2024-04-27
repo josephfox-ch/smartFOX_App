@@ -15,6 +15,7 @@ import { BsFillGeoFill } from "react-icons/bs";
 import { FaLightbulb } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
+import { BsHousesFill } from "react-icons/bs";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -27,6 +28,37 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
+
+  const [currentTime, setCurrentTime] = useState(
+    new Date().toLocaleTimeString()
+  );
+  const [houses, setHouses] = useState(["Home 1", "Home 2", "Home 3"]);
+  const [selectedHouse, setSelectedHouse] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+        timeZoneName: "short",
+      };
+      setCurrentTime(now.toLocaleTimeString("en-EN", options));
+    };
+
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleHouseChange = (event) => {
+    setSelectedHouse(event.target.value);
+  };
 
   // Close sidebar on click outside
   useEffect(() => {
@@ -105,12 +137,42 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
-        <button className="bg-gray-300 text-bodydark1 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-5 py-2 mt-7 border border-gray-400 rounded shadow flex items-center justify-center">
-          <span className="mr-2">
-            <FiPlusCircle size="25" />
-          </span>
-          Add Device
-        </button>
+
+        {/* <!--Home Menu --> */}
+        <div className="p-4">
+          <div className="flex flex-col items-center mb-4 text-bodydark1">
+            <BsHousesFill size={80} />
+          </div>
+          <div className="flex flex-col items-center text-bodydark1 mb-4 p-1 text-sm border border-gray-300 rounded-lg ">
+            {currentTime}
+          </div>
+          <select
+            className="p-2 w-full border border-gray-600 shadow rounded-md mb-2"
+            onChange={handleHouseChange}
+            value={selectedHouse}
+          >
+            <option value="">Select Home</option>
+            {houses.map((house, index) => (
+              <option key={index} value={house}>
+                {house}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* <!--Home Menu --> */}
+
+        {/* <!--Add Device Button --> */}
+       
+          <button className=" bg-gray-300 text-bodydark1 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-4 py-2 mt-1 border border-gray-400 rounded shadow flex items-center justify-center">
+            <span className="mr-2">
+              <FiPlusCircle size="25" />
+            </span>
+            Add Device
+          </button>
+     
+
+        {/* <!--Add Device Button --> */}
 
         <nav className="mt-5 py-2 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
@@ -345,252 +407,150 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   Irrigation
                 </NavLink>
               </li>
+            </ul>
+          </div>
 
-              {/* <!-- Menu Item Forms --> */}
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/forms" || pathname.includes("forms")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <NavLink
-                        to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/forms" ||
-                            pathname.includes("forms")) &&
-                          "bg-graydark dark:bg-meta-4"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <svg
-                          className="fill-current"
+          {/* <!-- Support Group --> */}
+          <div>
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+              SUPPORT
+            </h3>
+
+            <ul className="mb-6 flex flex-col gap-1.5">
+              {/* <!-- Menu Item Messages --> */}
+              <li>
+                <NavLink
+                  to="/messages"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("messages") &&
+                    "bg-graydark dark:bg-meta-4"
+                  }`}
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.7499 2.75208H2.2499C1.29365 2.75208 0.478027 3.53957 0.478027 4.52395V13.6364C0.478027 14.5927 1.26553 15.4083 2.2499 15.4083H15.7499C16.7062 15.4083 17.5218 14.6208 17.5218 13.6364V4.49583C17.5218 3.53958 16.7062 2.75208 15.7499 2.75208ZM15.7499 4.0177C15.778 4.0177 15.8062 4.0177 15.8343 4.0177L8.9999 8.4052L2.16553 4.0177C2.19365 4.0177 2.22178 4.0177 2.2499 4.0177H15.7499ZM15.7499 14.0865H2.2499C1.96865 14.0865 1.74365 13.8615 1.74365 13.5802V5.2552L8.3249 9.47395C8.52178 9.61457 8.74678 9.67083 8.97178 9.67083C9.19678 9.67083 9.42178 9.61457 9.61865 9.47395L16.1999 5.2552V13.6083C16.2562 13.8896 16.0312 14.0865 15.7499 14.0865Z"
+                      fill=""
+                    />
+                  </svg>
+                  Messages
+                  <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
+                    5
+                  </span>
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Messages --> */}
+
+              {/* <!-- Menu Item Inbox --> */}
+              <li>
+                <NavLink
+                  to="/inbox"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("inbox") && "bg-graydark dark:bg-meta-4"
+                  }`}
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.8749 7.44902C16.5374 7.44902 16.228 7.73027 16.228 8.0959V13.3834C16.228 14.4803 15.4124 15.3521 14.3999 15.3521H3.5999C2.55928 15.3521 1.77178 14.4803 1.77178 13.3834V8.06777C1.77178 7.73027 1.49053 7.4209 1.1249 7.4209C0.759277 7.4209 0.478027 7.70215 0.478027 8.06777V13.3553C0.478027 15.1271 1.85615 16.5896 3.57178 16.5896H14.3999C16.1155 16.5896 17.4937 15.1553 17.4937 13.3553V8.06777C17.5218 7.73027 17.2124 7.44902 16.8749 7.44902Z"
+                      fill=""
+                    />
+                    <path
+                      d="M8.5498 11.6396C8.6623 11.7521 8.83105 11.8365 8.9998 11.8365C9.16855 11.8365 9.30918 11.7803 9.4498 11.6396L12.8811 8.23652C13.1342 7.9834 13.1342 7.58965 12.8811 7.33652C12.6279 7.0834 12.2342 7.0834 11.9811 7.33652L9.64668 9.64277V2.16152C9.64668 1.82402 9.36543 1.51465 8.9998 1.51465C8.6623 1.51465 8.35293 1.7959 8.35293 2.16152V9.69902L6.01855 7.36465C5.76543 7.11152 5.37168 7.11152 5.11855 7.36465C4.86543 7.61777 4.86543 8.01152 5.11855 8.26465L8.5498 11.6396Z"
+                      fill=""
+                    />
+                  </svg>
+                  Inbox
+                  <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
+                    7
+                  </span>
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Inbox --> */}
+
+              {/* <!-- Menu Item Invoice --> */}
+              <li>
+                <NavLink
+                  to="/invoice"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("invoice") && "bg-graydark dark:bg-meta-4"
+                  }`}
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clipPath="url(#clip0_130_9787)">
+                      <path
+                        d="M15.8343 2.49902C15.8343 1.43027 14.9624 0.530273 13.8655 0.530273H4.13428C3.06553 0.530273 2.16553 1.40215 2.16553 2.49902V16.6178C2.16553 16.8428 2.30615 17.0678 2.50303 17.1803C2.6999 17.2928 2.95303 17.2646 3.1499 17.1521L4.55615 16.224L6.44053 17.4615C6.66553 17.6021 6.91865 17.6021 7.14365 17.4615L8.9999 16.224L10.8562 17.4615C10.9687 17.5459 11.0812 17.574 11.1937 17.574C11.3062 17.574 11.4468 17.5459 11.5312 17.4615L13.3874 16.224L14.7937 17.1803C14.9905 17.3209 15.2437 17.3209 15.4405 17.2084C15.6374 17.0959 15.778 16.8709 15.778 16.6459L15.8343 2.49902ZM14.0343 15.099C13.6687 14.8459 13.1905 14.8459 12.8249 15.099L11.2218 16.1678L9.61865 15.099C9.42178 14.9865 9.2249 14.9021 8.9999 14.9021C8.80303 14.9021 8.57803 14.9584 8.40928 15.099L6.80615 16.1678L5.20303 15.099C4.8374 14.8459 4.35928 14.8459 3.99365 15.099L3.45928 15.4365V2.49902C3.45928 2.10527 3.76865 1.7959 4.1624 1.7959H13.9218C14.3155 1.7959 14.6249 2.10527 14.6249 2.49902V15.4365L14.0343 15.099Z"
+                        fill=""
+                      />
+                      <path
+                        d="M7.93106 3.79272H5.5123C5.1748 3.79272 4.89355 4.07397 4.89355 4.41147C4.89355 4.74897 5.1748 5.03022 5.5123 5.03022H7.93106C8.26856 5.03022 8.54981 4.74897 8.54981 4.41147C8.54981 4.07397 8.26856 3.79272 7.93106 3.79272Z"
+                        fill=""
+                      />
+                      <path
+                        d="M12.347 3.79272H11.672C11.3345 3.79272 11.0532 4.07397 11.0532 4.41147C11.0532 4.74897 11.3345 5.03022 11.672 5.03022H12.347C12.6845 5.03022 12.9657 4.74897 12.9657 4.41147C12.9657 4.07397 12.6845 3.79272 12.347 3.79272Z"
+                        fill=""
+                      />
+                      <path
+                        d="M5.5123 8.74275H7.05918C7.39668 8.74275 7.67793 8.4615 7.67793 8.124C7.67793 7.7865 7.39668 7.50525 7.05918 7.50525H5.5123C5.1748 7.50525 4.89355 7.7865 4.89355 8.124C4.89355 8.4615 5.14668 8.74275 5.5123 8.74275Z"
+                        fill=""
+                      />
+                      <path
+                        d="M12.347 7.47717H11.672C11.3345 7.47717 11.0532 7.75842 11.0532 8.09592C11.0532 8.43342 11.3345 8.71467 11.672 8.71467H12.347C12.6845 8.71467 12.9657 8.43342 12.9657 8.09592C12.9657 7.75842 12.6845 7.47717 12.347 7.47717Z"
+                        fill=""
+                      />
+                      <path
+                        d="M7.93106 11.1334H5.5123C5.1748 11.1334 4.89355 11.4147 4.89355 11.7522C4.89355 12.0897 5.1748 12.3709 5.5123 12.3709H7.93106C8.26856 12.3709 8.54981 12.0897 8.54981 11.7522C8.54981 11.4147 8.26856 11.1334 7.93106 11.1334Z"
+                        fill=""
+                      />
+                      <path
+                        d="M12.347 11.1334H11.672C11.3345 11.1334 11.0532 11.4147 11.0532 11.7522C11.0532 12.0897 11.3345 12.3709 11.672 12.3709H12.347C12.6845 12.3709 12.9657 12.0897 12.9657 11.7522C12.9657 11.4147 12.6845 11.1334 12.347 11.1334Z"
+                        fill=""
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_130_9787">
+                        <rect
                           width="18"
                           height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1.43425 7.5093H2.278C2.44675 7.5093 2.55925 7.3968 2.58737 7.31243L2.98112 6.32805H5.90612L6.27175 7.31243C6.328 7.48118 6.46862 7.5093 6.58112 7.5093H7.453C7.76237 7.48118 7.87487 7.25618 7.76237 7.03118L5.428 1.4343C5.37175 1.26555 5.3155 1.23743 5.14675 1.23743H3.88112C3.76862 1.23743 3.59987 1.29368 3.57175 1.4343L1.153 7.08743C1.0405 7.2843 1.20925 7.5093 1.43425 7.5093ZM4.47175 2.98118L5.3155 5.17493H3.59987L4.47175 2.98118Z"
-                            fill=""
-                          />
-                          <path
-                            d="M10.1249 2.5031H16.8749C17.2124 2.5031 17.5218 2.22185 17.5218 1.85623C17.5218 1.4906 17.2405 1.20935 16.8749 1.20935H10.1249C9.7874 1.20935 9.47803 1.4906 9.47803 1.85623C9.47803 2.22185 9.75928 2.5031 10.1249 2.5031Z"
-                            fill=""
-                          />
-                          <path
-                            d="M16.8749 6.21558H10.1249C9.7874 6.21558 9.47803 6.49683 9.47803 6.86245C9.47803 7.22808 9.75928 7.50933 10.1249 7.50933H16.8749C17.2124 7.50933 17.5218 7.22808 17.5218 6.86245C17.5218 6.49683 17.2124 6.21558 16.8749 6.21558Z"
-                            fill=""
-                          />
-                          <path
-                            d="M16.875 11.1656H1.77187C1.43438 11.1656 1.125 11.4469 1.125 11.8125C1.125 12.1781 1.40625 12.4594 1.77187 12.4594H16.875C17.2125 12.4594 17.5219 12.1781 17.5219 11.8125C17.5219 11.4469 17.2125 11.1656 16.875 11.1656Z"
-                            fill=""
-                          />
-                          <path
-                            d="M16.875 16.1156H1.77187C1.43438 16.1156 1.125 16.3969 1.125 16.7625C1.125 17.1281 1.40625 17.4094 1.77187 17.4094H16.875C17.2125 17.4094 17.5219 17.1281 17.5219 16.7625C17.5219 16.3969 17.2125 16.1156 16.875 16.1156Z"
-                            fill="white"
-                          />
-                        </svg>
-                        Forms
-                        <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && "rotate-180"
-                          }`}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                            fill=""
-                          />
-                        </svg>
-                      </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/forms/form-elements"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Form Elements
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/forms/pro-form-elements"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Pro Form Elements
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/forms/form-layout"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Form Layout
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/forms/pro-form-layout"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Pro Form Layout
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* <!-- Menu Item Forms --> */}
+                          fill="white"
+                          transform="translate(0 0.052124)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  Invoice
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Invoice --> */}
+            </ul>
+          </div>
 
-              {/* <!-- Menu Item Tables --> */}
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/tables" || pathname.includes("tables")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <NavLink
-                        to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/tables" ||
-                            pathname.includes("tables")) &&
-                          "bg-graydark dark:bg-meta-4"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <svg
-                          className="fill-current"
-                          width="18"
-                          height="19"
-                          viewBox="0 0 18 19"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_130_9756)">
-                            <path
-                              d="M15.7501 0.55835H2.2501C1.29385 0.55835 0.506348 1.34585 0.506348 2.3021V15.8021C0.506348 16.7584 1.29385 17.574 2.27822 17.574H15.7782C16.7345 17.574 17.5501 16.7865 17.5501 15.8021V2.3021C17.522 1.34585 16.7063 0.55835 15.7501 0.55835ZM6.69385 10.599V6.4646H11.3063V10.5709H6.69385V10.599ZM11.3063 11.8646V16.3083H6.69385V11.8646H11.3063ZM1.77197 6.4646H5.45635V10.5709H1.77197V6.4646ZM12.572 6.4646H16.2563V10.5709H12.572V6.4646ZM2.2501 1.82397H15.7501C16.0313 1.82397 16.2563 2.04897 16.2563 2.33022V5.2271H1.77197V2.3021C1.77197 2.02085 1.96885 1.82397 2.2501 1.82397ZM1.77197 15.8021V11.8646H5.45635V16.3083H2.2501C1.96885 16.3083 1.77197 16.0834 1.77197 15.8021ZM15.7501 16.3083H12.572V11.8646H16.2563V15.8021C16.2563 16.0834 16.0313 16.3083 15.7501 16.3083Z"
-                              fill=""
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_130_9756">
-                              <rect
-                                width="18"
-                                height="18"
-                                fill="white"
-                                transform="translate(0 0.052124)"
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        Tables
-                        <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && "rotate-180"
-                          }`}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                            fill=""
-                          />
-                        </svg>
-                      </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/tables/tables"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Tables
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/tables/pro-tables"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Pro Tables
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* <!-- Menu Item Tables --> */}
+          {/* <!-- Others Group --> */}
+          <div>
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+              OTHERS
+            </h3>
 
+            <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Pages --> */}
               <SidebarLinkGroup
                 activeCondition={
@@ -693,9 +653,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               File Manager
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -707,9 +664,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Data Tables
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -721,9 +675,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Pricing Tables
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -735,9 +686,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Error Page
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -749,9 +697,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Faq's
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -763,9 +708,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Teams
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -777,9 +719,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Terms & Conditions
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                           <li>
@@ -791,9 +730,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Mail Success
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                         </ul>
@@ -804,160 +740,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 }}
               </SidebarLinkGroup>
               {/* <!-- Menu Item Pages --> */}
-            </ul>
-          </div>
 
-          {/* <!-- Support Group --> */}
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              SUPPORT
-            </h3>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
-              {/* <!-- Menu Item Messages --> */}
-              <li>
-                <NavLink
-                  to="/messages"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("messages") &&
-                    "bg-graydark dark:bg-meta-4"
-                  }`}
-                >
-                  <svg
-                    className="fill-current"
-                    width="18"
-                    height="19"
-                    viewBox="0 0 18 19"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M15.7499 2.75208H2.2499C1.29365 2.75208 0.478027 3.53957 0.478027 4.52395V13.6364C0.478027 14.5927 1.26553 15.4083 2.2499 15.4083H15.7499C16.7062 15.4083 17.5218 14.6208 17.5218 13.6364V4.49583C17.5218 3.53958 16.7062 2.75208 15.7499 2.75208ZM15.7499 4.0177C15.778 4.0177 15.8062 4.0177 15.8343 4.0177L8.9999 8.4052L2.16553 4.0177C2.19365 4.0177 2.22178 4.0177 2.2499 4.0177H15.7499ZM15.7499 14.0865H2.2499C1.96865 14.0865 1.74365 13.8615 1.74365 13.5802V5.2552L8.3249 9.47395C8.52178 9.61457 8.74678 9.67083 8.97178 9.67083C9.19678 9.67083 9.42178 9.61457 9.61865 9.47395L16.1999 5.2552V13.6083C16.2562 13.8896 16.0312 14.0865 15.7499 14.0865Z"
-                      fill=""
-                    />
-                  </svg>
-                  Messages
-                  <span className="absolute right-14 top-1/2 -translate-y-1/2 rounded bg-primary py-1 px-2.5 text-xs font-medium text-white">
-                    5
-                  </span>
-                  <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                    Pro
-                  </span>
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Messages --> */}
-
-              {/* <!-- Menu Item Inbox --> */}
-              <li>
-                <NavLink
-                  to="/inbox"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("inbox") && "bg-graydark dark:bg-meta-4"
-                  }`}
-                >
-                  <svg
-                    className="fill-current"
-                    width="18"
-                    height="19"
-                    viewBox="0 0 18 19"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.8749 7.44902C16.5374 7.44902 16.228 7.73027 16.228 8.0959V13.3834C16.228 14.4803 15.4124 15.3521 14.3999 15.3521H3.5999C2.55928 15.3521 1.77178 14.4803 1.77178 13.3834V8.06777C1.77178 7.73027 1.49053 7.4209 1.1249 7.4209C0.759277 7.4209 0.478027 7.70215 0.478027 8.06777V13.3553C0.478027 15.1271 1.85615 16.5896 3.57178 16.5896H14.3999C16.1155 16.5896 17.4937 15.1553 17.4937 13.3553V8.06777C17.5218 7.73027 17.2124 7.44902 16.8749 7.44902Z"
-                      fill=""
-                    />
-                    <path
-                      d="M8.5498 11.6396C8.6623 11.7521 8.83105 11.8365 8.9998 11.8365C9.16855 11.8365 9.30918 11.7803 9.4498 11.6396L12.8811 8.23652C13.1342 7.9834 13.1342 7.58965 12.8811 7.33652C12.6279 7.0834 12.2342 7.0834 11.9811 7.33652L9.64668 9.64277V2.16152C9.64668 1.82402 9.36543 1.51465 8.9998 1.51465C8.6623 1.51465 8.35293 1.7959 8.35293 2.16152V9.69902L6.01855 7.36465C5.76543 7.11152 5.37168 7.11152 5.11855 7.36465C4.86543 7.61777 4.86543 8.01152 5.11855 8.26465L8.5498 11.6396Z"
-                      fill=""
-                    />
-                  </svg>
-                  Inbox
-                  <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                    Pro
-                  </span>
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Inbox --> */}
-
-              {/* <!-- Menu Item Invoice --> */}
-              <li>
-                <NavLink
-                  to="/invoice"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes("invoice") && "bg-graydark dark:bg-meta-4"
-                  }`}
-                >
-                  <svg
-                    className="fill-current"
-                    width="18"
-                    height="19"
-                    viewBox="0 0 18 19"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clipPath="url(#clip0_130_9787)">
-                      <path
-                        d="M15.8343 2.49902C15.8343 1.43027 14.9624 0.530273 13.8655 0.530273H4.13428C3.06553 0.530273 2.16553 1.40215 2.16553 2.49902V16.6178C2.16553 16.8428 2.30615 17.0678 2.50303 17.1803C2.6999 17.2928 2.95303 17.2646 3.1499 17.1521L4.55615 16.224L6.44053 17.4615C6.66553 17.6021 6.91865 17.6021 7.14365 17.4615L8.9999 16.224L10.8562 17.4615C10.9687 17.5459 11.0812 17.574 11.1937 17.574C11.3062 17.574 11.4468 17.5459 11.5312 17.4615L13.3874 16.224L14.7937 17.1803C14.9905 17.3209 15.2437 17.3209 15.4405 17.2084C15.6374 17.0959 15.778 16.8709 15.778 16.6459L15.8343 2.49902ZM14.0343 15.099C13.6687 14.8459 13.1905 14.8459 12.8249 15.099L11.2218 16.1678L9.61865 15.099C9.42178 14.9865 9.2249 14.9021 8.9999 14.9021C8.80303 14.9021 8.57803 14.9584 8.40928 15.099L6.80615 16.1678L5.20303 15.099C4.8374 14.8459 4.35928 14.8459 3.99365 15.099L3.45928 15.4365V2.49902C3.45928 2.10527 3.76865 1.7959 4.1624 1.7959H13.9218C14.3155 1.7959 14.6249 2.10527 14.6249 2.49902V15.4365L14.0343 15.099Z"
-                        fill=""
-                      />
-                      <path
-                        d="M7.93106 3.79272H5.5123C5.1748 3.79272 4.89355 4.07397 4.89355 4.41147C4.89355 4.74897 5.1748 5.03022 5.5123 5.03022H7.93106C8.26856 5.03022 8.54981 4.74897 8.54981 4.41147C8.54981 4.07397 8.26856 3.79272 7.93106 3.79272Z"
-                        fill=""
-                      />
-                      <path
-                        d="M12.347 3.79272H11.672C11.3345 3.79272 11.0532 4.07397 11.0532 4.41147C11.0532 4.74897 11.3345 5.03022 11.672 5.03022H12.347C12.6845 5.03022 12.9657 4.74897 12.9657 4.41147C12.9657 4.07397 12.6845 3.79272 12.347 3.79272Z"
-                        fill=""
-                      />
-                      <path
-                        d="M5.5123 8.74275H7.05918C7.39668 8.74275 7.67793 8.4615 7.67793 8.124C7.67793 7.7865 7.39668 7.50525 7.05918 7.50525H5.5123C5.1748 7.50525 4.89355 7.7865 4.89355 8.124C4.89355 8.4615 5.14668 8.74275 5.5123 8.74275Z"
-                        fill=""
-                      />
-                      <path
-                        d="M12.347 7.47717H11.672C11.3345 7.47717 11.0532 7.75842 11.0532 8.09592C11.0532 8.43342 11.3345 8.71467 11.672 8.71467H12.347C12.6845 8.71467 12.9657 8.43342 12.9657 8.09592C12.9657 7.75842 12.6845 7.47717 12.347 7.47717Z"
-                        fill=""
-                      />
-                      <path
-                        d="M7.93106 11.1334H5.5123C5.1748 11.1334 4.89355 11.4147 4.89355 11.7522C4.89355 12.0897 5.1748 12.3709 5.5123 12.3709H7.93106C8.26856 12.3709 8.54981 12.0897 8.54981 11.7522C8.54981 11.4147 8.26856 11.1334 7.93106 11.1334Z"
-                        fill=""
-                      />
-                      <path
-                        d="M12.347 11.1334H11.672C11.3345 11.1334 11.0532 11.4147 11.0532 11.7522C11.0532 12.0897 11.3345 12.3709 11.672 12.3709H12.347C12.6845 12.3709 12.9657 12.0897 12.9657 11.7522C12.9657 11.4147 12.6845 11.1334 12.347 11.1334Z"
-                        fill=""
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_130_9787">
-                        <rect
-                          width="18"
-                          height="18"
-                          fill="white"
-                          transform="translate(0 0.052124)"
-                        />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                  Invoice
-                  <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                    Pro
-                  </span>
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Invoice --> */}
-            </ul>
-          </div>
-
-          {/* <!-- Others Group --> */}
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              OTHERS
-            </h3>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Chart --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === "/chart" || pathname.includes("chart")
+                  pathname === "/statistics" || pathname.includes("statistics")
                 }
               >
                 {(handleClick, open) => {
@@ -966,8 +753,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/chart" ||
-                            pathname.includes("chart")) &&
+                          (pathname === "/statistics" ||
+                            pathname.includes("statistics")) &&
                           "bg-graydark dark:bg-meta-4"
                         }`}
                         onClick={(e) => {
@@ -1001,7 +788,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             </clipPath>
                           </defs>
                         </svg>
-                        Chart
+                        Statistics
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && "rotate-180"
@@ -1029,7 +816,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                           <li>
                             <NavLink
-                              to="/chart/basic-chart"
+                              to="/statistics/basic-chart"
                               className={({ isActive }) =>
                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
@@ -1040,16 +827,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <NavLink
-                              to="/chart/advanced-chart"
+                              to="/statistics/advanced-chart"
                               className={({ isActive }) =>
                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
                               Advanced Chart
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
                             </NavLink>
                           </li>
                         </ul>
@@ -1060,170 +844,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 }}
               </SidebarLinkGroup>
               {/* <!-- Menu Item Chart --> */}
-
-              {/* <!-- Menu Item Auth Pages --> */}
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/auth" || pathname.includes("auth")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <NavLink
-                        to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === "/auth" || pathname.includes("auth")) &&
-                          "bg-graydark dark:bg-meta-4"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <svg
-                          className="fill-current"
-                          width="18"
-                          height="19"
-                          viewBox="0 0 18 19"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g clipPath="url(#clip0_130_9814)">
-                            <path
-                              d="M12.7127 0.55835H9.53457C8.80332 0.55835 8.18457 1.1771 8.18457 1.90835V3.84897C8.18457 4.18647 8.46582 4.46772 8.80332 4.46772C9.14082 4.46772 9.45019 4.18647 9.45019 3.84897V1.88022C9.45019 1.82397 9.47832 1.79585 9.53457 1.79585H12.7127C13.3877 1.79585 13.9221 2.33022 13.9221 3.00522V15.0709C13.9221 15.7459 13.3877 16.2802 12.7127 16.2802H9.53457C9.47832 16.2802 9.45019 16.2521 9.45019 16.1959V14.2552C9.45019 13.9177 9.16894 13.6365 8.80332 13.6365C8.43769 13.6365 8.18457 13.9177 8.18457 14.2552V16.1959C8.18457 16.9271 8.80332 17.5459 9.53457 17.5459H12.7127C14.0908 17.5459 15.1877 16.4209 15.1877 15.0709V3.03335C15.1877 1.65522 14.0627 0.55835 12.7127 0.55835Z"
-                              fill=""
-                            />
-                            <path
-                              d="M10.4346 8.60205L7.62207 5.7333C7.36895 5.48018 6.97519 5.48018 6.72207 5.7333C6.46895 5.98643 6.46895 6.38018 6.72207 6.6333L8.46582 8.40518H3.45957C3.12207 8.40518 2.84082 8.68643 2.84082 9.02393C2.84082 9.36143 3.12207 9.64268 3.45957 9.64268H8.49395L6.72207 11.4427C6.46895 11.6958 6.46895 12.0896 6.72207 12.3427C6.83457 12.4552 7.00332 12.5114 7.17207 12.5114C7.34082 12.5114 7.50957 12.4552 7.62207 12.3145L10.4346 9.4458C10.6877 9.24893 10.6877 8.85518 10.4346 8.60205Z"
-                              fill=""
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_130_9814">
-                              <rect
-                                width="18"
-                                height="18"
-                                fill="white"
-                                transform="translate(0 0.052124)"
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                        Authentication
-                        <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                            open && "rotate-180"
-                          }`}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                            fill=""
-                          />
-                        </svg>
-                      </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/auth/signin"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Sign In
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/signup"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Sign Up
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/reset-password"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Reset Password
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/coming-soon"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Coming Soon
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/two-step-verification"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              2 Step Verification
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/under-maintenance"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Under Maintenance
-                              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs font-medium text-white">
-                                Pro
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* <!-- Menu Item Auth Pages --> */}
             </ul>
           </div>
         </nav>
