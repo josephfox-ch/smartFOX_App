@@ -6,7 +6,7 @@ import UserTwo from '../../images/user/user-02.png';
 import UserThree from '../../images/user/user-03.png';
 import UserFour from '../../images/user/user-04.png';
 
-const DropdownMessage = () => {
+const MessagePanel = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
 
@@ -196,7 +196,7 @@ const DropdownMessage = () => {
   );
 };
 
-export default DropdownMessage;
+export default MessagePanel;
 
 
 
