@@ -140,25 +140,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <div className="flex flex-col items-center text-bodydark1 mb-4 p-1 text-sm border border-gray-300 rounded-lg ">
             {currentTime}
           </div>
-          <select
-            className="p-2 w-full border border-gray-600 shadow rounded-md mb-2"
-            onChange={handleHouseChange}
-            value={selectedHouse}
-          >
-            <option value="">Select Home</option>
-            {houses.map((house, index) => (
-              <option key={index} value={house}>
-                {house}
-              </option>
-            ))}
-          </select>
+          <div className="  relative">
+            <select
+              className="block appearance-none bg-transparent text-white p-2 w-full border border-gray-600 shadow rounded-md mb-2 leading-tight focus:outline-none focus:bg-graydark focus:border-gray-500"
+              onChange={handleHouseChange}
+              value={selectedHouse}
+            >
+              <option value="">Select Home</option>
+              {houses.map((house, index) => (
+                <option key={index} value={house}>
+                  {house}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+              <IoIosArrowDown
+                size="20"
+                className="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
+              />
+            </div>
+          </div>
         </div>
 
         {/* <!--Home Menu --> */}
 
         {/* <!--Add Device Button --> */}
 
-        <button className=" bg-gray-300 text-bodydark1 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-4 py-2 mt-1 border border-gray-400 rounded shadow flex items-center justify-center">
+        <button className=" font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-4 py-2 mt-1 border border-gray-400 rounded shadow flex items-center justify-center">
           <span className="mr-2">
             <FiPlusCircle size="25" />
           </span>
