@@ -1,30 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import useOutsideClick from "../../hooks/useOutsideClick";
+import useKeydown from "../../hooks/useKeydown";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import SidebarHeader from "./SidebarHeader";
 import TimeDisplay from "./TimeDisplay";
 import HouseSelector from "./HouseSelector";
 import { PiThermometerHot } from "react-icons/pi";
 import { TbTimelineEventExclamation } from "react-icons/tb";
-import { MdOutlineBrightnessAuto,MdAddAlert,MdDashboard , MdBlindsClosed } from "react-icons/md";
+import {
+  MdOutlineBrightnessAuto,
+  MdAddAlert,
+  MdDashboard,
+  MdBlindsClosed,
+} from "react-icons/md";
 import { VscColorMode } from "react-icons/vsc";
 import { GiSecurityGate, GiPlantWatering, GiLockedDoor } from "react-icons/gi";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
-import { BsFillGeoFill,BsHousesFill,BsFillInfoCircleFill  } from "react-icons/bs";
-import { FaLightbulb,FaVideo,FaMobileAlt ,FaChartLine } from "react-icons/fa";
+import {
+  BsFillGeoFill,
+  BsHousesFill,
+  BsFillInfoCircleFill,
+} from "react-icons/bs";
+import { FaLightbulb, FaVideo, FaMobileAlt, FaChartLine } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMiniInboxArrowDown } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 
-
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
-
   const location = useLocation();
   const { pathname } = location;
 
   const trigger = useRef(null);
-  const sidebar = useRef(null);
+  const sidebarRef = useRef(null);
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
@@ -32,30 +41,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   );
 
   // Close sidebar on click outside
-  useEffect(() => {
-    const clickHandler = ({ target }) => {
-      if (!sidebar.current || !trigger.current) return;
-      if (
-        !sidebarOpen ||
-        sidebar.current.contains(target) ||
-        trigger.current.contains(target)
-      )
-        return;
-      setSidebarOpen(false);
-    };
-    document.addEventListener("click", clickHandler);
-    return () => document.removeEventListener("click", clickHandler);
-  }, [sidebarOpen]);
+  useOutsideClick(sidebarRef, () => {
+    if (sidebarOpen) {
+      setSidebarOpen(false);  // Eğer sidebar açıksa ve dışına tıklanırsa, kapat
+    }
+  });
 
   // Close sidebar if the ESC key is pressed
-  useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
-      if (!sidebarOpen || keyCode !== 27) return;
-      setSidebarOpen(false);
-    };
-    document.addEventListener("keydown", keyHandler);
-    return () => document.removeEventListener("keydown", keyHandler);
-  }, [sidebarOpen]);
+  useKeydown(27, () => setSidebarOpen(false), sidebarOpen);
+
 
   // Update local storage and body class on sidebar expanded state change
   useEffect(() => {
@@ -69,14 +63,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   return (
     <aside
-      ref={sidebar}
+      ref={sidebarRef}
       className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <SidebarHeader setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} trigger={trigger}/>
-      {/* <!-- SIDEBAR HEADER --> */}
+      <SidebarHeader
+        setSidebarOpen={setSidebarOpen}
+        sidebarOpen={sidebarOpen}
+        trigger={trigger}
+      />
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
@@ -86,12 +83,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <div className="flex flex-col items-center mb-4 text-bodydark1">
             <BsHousesFill size={80} />
           </div>
-         {/* <!-- Time Display --> */}
+          {/* <!-- Time Display --> */}
           <TimeDisplay />
-         {/* <!-- Time Display --> */}
-         {/* <!-- House Selector --> */}
-          <HouseSelector />
+
           {/* <!-- House Selector --> */}
+          <HouseSelector />
         </div>
 
         {/* <!--Home Menu --> */}
