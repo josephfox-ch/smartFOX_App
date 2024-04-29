@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useKeydown from "../../hooks/useKeydown";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import SidebarHeader from "./SidebarHeader";
 import TimeDisplay from "./TimeDisplay";
@@ -35,25 +36,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const trigger = useRef(null);
   const sidebarRef = useRef(null);
 
-  const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
+  const [sidebarExpanded, setSidebarExpanded] = useLocalStorage(
+    "sidebar-expanded",
+    false
   );
 
   // Close sidebar on click outside
   useOutsideClick(sidebarRef, () => {
     if (sidebarOpen) {
-      setSidebarOpen(false);  // Eğer sidebar açıksa ve dışına tıklanırsa, kapat
+      setSidebarOpen(false);
     }
   });
 
   // Close sidebar if the ESC key is pressed
   useKeydown(27, () => setSidebarOpen(false), sidebarOpen);
 
-
   // Update local storage and body class on sidebar expanded state change
   useEffect(() => {
-    localStorage.setItem("sidebar-expanded", sidebarExpanded.toString());
     if (sidebarExpanded) {
       document.body.classList.add("sidebar-expanded");
     } else {
