@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-      <h1>404 - Page Not Found</h1>
-      <p>Sorry, the page you are looking for does not exist. If you think this is a mistake, you can return to the homepage using the link below.</p>
-      <Link to="/" style={{ marginTop: '20px', textDecoration: 'none', color: 'blue' }}>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold">404 - Page Not Found</h1>
+      <p className="text-center mt-4">
+        Sorry, the page you are looking for does not exist. If you think this is a mistake, you can return to the homepage using the link below.
+      </p>
+      <Link to="/" className="mt-5 text-blue-600 hover:text-blue-800 underline">
         Go to Homepage
       </Link>
     </div>
@@ -14,3 +16,4 @@ const NotFound = () => {
 };
 
 export default NotFound;
+

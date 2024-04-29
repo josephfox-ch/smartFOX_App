@@ -8,6 +8,7 @@ import ResetPasswordForm from "./components/password/ResetPasswordForm";
 import PolicyPage from "./pages/PolicyPage";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
+import AccountSettings from './pages/AccountSettings';
 
 const AppRoutes = () => {
   return (
@@ -20,11 +21,22 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         <Route path="/reset-password/:token" element={<ResetPasswordForm />} />
         <Route path="/policy" element={<PolicyPage />} />
+        
         <Route
           path="/dashboard"
           element={
-            // <PrivateRoute>
+            //  <PrivateRoute>
               <DashboardLayout />
+            //  </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/account-settings"
+          element={
+            // <PrivateRoute>
+              <DashboardLayout>
+                <AccountSettings />
+              </DashboardLayout>
             // </PrivateRoute>
           }
         />

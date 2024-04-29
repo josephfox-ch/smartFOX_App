@@ -84,7 +84,7 @@ const LoginForm = ({ onSubmit }) => {
           )}
           <button
             type="submit"
-            className="btn btn-primary w-100 mb-3"
+            className="bg-primary w-full mb-3"
             disabled={formik.isSubmitting}
           >
             Log In
@@ -98,7 +98,7 @@ const LoginForm = ({ onSubmit }) => {
           <button
             type="button"
             onClick={() => navigate("/signup")}
-            className="btn  signup-button w-100"
+            className="  signup-button w-full"
           >
             Sign Up Now
           </button>
