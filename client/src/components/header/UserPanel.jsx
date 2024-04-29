@@ -85,7 +85,12 @@ const UserPanel = () => {
           dropdownOpen === true ? "block" : "hidden"
         }`}
       >
-        <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
+        <div className="px-5.5 py-2 border-b border-stroke dark:border-strokedark">
+          <h5 className="text-sm font-medium text-bodydark2">
+            {state.user ? state.user.email : "user@user.com"}
+          </h5>
+        </div>
+        <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark ">
           <li>
             <Link
               to="/profile"
@@ -108,7 +113,7 @@ const UserPanel = () => {
         </ul>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          className="flex items-center gap-3.5 px-6 py-3 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
         >
           <TbLogout2 size="22" />
           Log Out
