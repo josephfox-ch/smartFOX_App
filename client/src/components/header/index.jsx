@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import DropdownMessage from './DropdownMessage';
-import DropdownNotification from './DropdownNotification';
-import DropdownUser from './DropdownUser';
+import MessagePanel from './MessagePanel';
+import NotificationPanel from './NotificationPanel';
+import UserPanel from './UserPanel';
 import DarkModeSwitcher from './DarkModeSwitcher';
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   return (
@@ -97,13 +97,13 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             {/* <!-- Dark Mode Toggler --> */}
             <DarkModeSwitcher />
             {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
+            <NotificationPanel />
             {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
+            <MessagePanel />
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          <UserPanel />
           {/* <!-- User Area --> */}
         </div>
       </div>
