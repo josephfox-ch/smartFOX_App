@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import useCurrentTime from "../../hooks/useCurrentTime";
+import SidebarHeader from "./SidebarHeader";
+import TimeDisplay from "./TimeDisplay";
+import HouseSelector from "./HouseSelector";
 import { PiThermometerHot } from "react-icons/pi";
 import { TbTimelineEventExclamation } from "react-icons/tb";
 import { MdOutlineBrightnessAuto,MdAddAlert,MdDashboard , MdBlindsClosed } from "react-icons/md";
@@ -11,14 +13,12 @@ import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { BsFillGeoFill,BsHousesFill,BsFillInfoCircleFill  } from "react-icons/bs";
 import { FaLightbulb,FaVideo,FaMobileAlt ,FaChartLine } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
-import { FaArrowLeft } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMiniInboxArrowDown } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
-  const currentTime = useCurrentTime();
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   const location = useLocation();
   const { pathname } = location;
@@ -30,14 +30,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
-
-  const [houses, setHouses] = useState(["Home 1", "Home 2", "Home 3"]);
-  const [selectedHouse, setSelectedHouse] = useState("");
-
-
-  const handleHouseChange = (event) => {
-    setSelectedHouse(event.target.value);
-  };
 
   // Close sidebar on click outside
   useEffect(() => {
@@ -83,23 +75,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-center gap-2 px-3 py-2 lg:py-2">
-        <NavLink to="/dashboard">
-          <div className="flex items-center text-white text-xl font-bold">
-            <img width="70px" src="./SFX.png" alt="Logo" /> SmartFOX Home®
-          </div>
-        </NavLink>
-
-        <button
-          ref={trigger}
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-controls="sidebar"
-          aria-expanded={sidebarOpen}
-          className="block lg:hidden"
-        >
-          <FaArrowLeft size="20" />
-        </button>
-      </div>
+      <SidebarHeader setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} trigger={trigger}/>
       {/* <!-- SIDEBAR HEADER --> */}
 
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
@@ -110,29 +86,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <div className="flex flex-col items-center mb-4 text-bodydark1">
             <BsHousesFill size={80} />
           </div>
-          <div className="flex flex-col items-center text-bodydark1 mb-4 p-1 text-sm border border-gray-300 rounded-lg ">
-            {currentTime}
-          </div>
-          <div className="  relative">
-            <select
-              className="block appearance-none bg-transparent text-white p-2 w-full border border-gray-600 shadow rounded-md mb-2 leading-tight focus:outline-none focus:bg-graydark focus:border-gray-500"
-              onChange={handleHouseChange}
-              value={selectedHouse}
-            >
-              <option value="">Select Home</option>
-              {houses.map((house, index) => (
-                <option key={index} value={house}>
-                  {house}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-              <IoIosArrowDown
-                size="20"
-                className="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
-              />
-            </div>
-          </div>
+         {/* <!-- Time Display --> */}
+          <TimeDisplay />
+         {/* <!-- Time Display --> */}
+         {/* <!-- House Selector --> */}
+          <HouseSelector />
+          {/* <!-- House Selector --> */}
         </div>
 
         {/* <!--Home Menu --> */}
