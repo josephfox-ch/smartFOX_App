@@ -1,29 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
+import useCurrentTime from "../../hooks/useCurrentTime";
 import { PiThermometerHot } from "react-icons/pi";
 import { TbTimelineEventExclamation } from "react-icons/tb";
-import { MdOutlineBrightnessAuto } from "react-icons/md";
+import { MdOutlineBrightnessAuto,MdAddAlert,MdDashboard , MdBlindsClosed } from "react-icons/md";
 import { VscColorMode } from "react-icons/vsc";
-import { MdAddAlert } from "react-icons/md";
-import { FaMobileAlt } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
 import { GiSecurityGate, GiPlantWatering, GiLockedDoor } from "react-icons/gi";
-import { MdBlindsClosed } from "react-icons/md";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
-import { BsFillGeoFill } from "react-icons/bs";
-import { FaLightbulb } from "react-icons/fa";
-import { FaVideo } from "react-icons/fa";
+import { BsFillGeoFill,BsHousesFill,BsFillInfoCircleFill  } from "react-icons/bs";
+import { FaLightbulb,FaVideo,FaMobileAlt ,FaChartLine } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
-import { BsHousesFill } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMiniInboxArrowDown } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { FaChartLine } from "react-icons/fa";
-import { BsFillInfoCircleFill } from "react-icons/bs";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
+
+  const currentTime = useCurrentTime();
+
   const location = useLocation();
   const { pathname } = location;
 
@@ -35,32 +31,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
-  const [currentTime, setCurrentTime] = useState(
-    new Date().toLocaleTimeString()
-  );
   const [houses, setHouses] = useState(["Home 1", "Home 2", "Home 3"]);
   const [selectedHouse, setSelectedHouse] = useState("");
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-        timeZoneName: "short",
-      };
-      setCurrentTime(now.toLocaleTimeString("en-EN", options));
-    };
-
-    updateTime();
-    const timer = setInterval(updateTime, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   const handleHouseChange = (event) => {
     setSelectedHouse(event.target.value);
