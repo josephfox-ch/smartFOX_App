@@ -42,12 +42,12 @@
   color: white;
 }
 .signup-button:hover {
-  background-color: rgb(220, 97, 20);
+  background-color: #dc6114;
   color: white;
 }
 
 .form-title {
-  color: rgb(15, 7, 130);
+  color: #0f0782;
   font-weight: bold;
 }
 .signup-form-notes {
@@ -60,9 +60,13 @@
 }
 
 .fox-color {
-  color: rgb(245, 110, 26);
+  color: #f56e1a;
 }
 
 .login-policy-links {
   color: #646cff;
+
+}
+.login-policy-links:hover{
+  text-decoration: underline;
 }

@@ -1,61 +1,62 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import '../../css/Footer.css';
+  import '../../css/Footer.css';
 
 const Footer = () => (
-  <footer id="mainFooter" className="text-muted text-center text-small">
-    <ul className="list-language">
-      <li className="list-inline-item">
-        <Link to="#">English(US)</Link>
+  <footer id='mainFooter' className="text-gray-600 text-center text-sm py-6 mt-3">
+    <ul className="flex justify-center space-x-1 mb-3">
+      <li>
+        <Link to="#" className="hover:text-blue-500">English(US)</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="#">Français</Link>
+      <li>
+        <Link to="#" className="hover:text-blue-500">Français</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="#">Deutsch</Link>
+      <li>
+        <Link to="#" className="hover:text-blue-500">Deutsch</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="#">Italiano</Link>
+      <li>
+        <Link to="#" className="hover:text-blue-500">Italiano</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="#">日本語</Link>
+      <li>
+        <Link to="#" className="hover:text-blue-500">日本語</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="#">Türkçe</Link>
+      <li>
+        <Link to="#" className="hover:text-blue-500">Türkçe</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="#">Русский</Link>
+      <li>
+        <Link to="#" className="hover:text-blue-500">Русский</Link>
       </li>
     </ul>
-    <p>Rue des Dauphins, 00 1201 Genève</p>
-    <p>&copy; 2024 smartFOX® Home Systems</p>
-    <ul className="list-pts mx-1">
-      <li className="list-inline-item">
-        <Link to="/policy?tab=terms">Terms of Service</Link>
+    <p className="mb-1">Rue des Dauphins, 00 1201 Genève</p>
+    <p className="mb-3">&copy; 2024 smartFOX® Home Systems</p>
+    <ul className="flex justify-center space-x-3">
+      <li>
+        <Link to="/policy?tab=terms" className="hover:text-blue-500">Terms of Service</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/policy?tab=privacy">Privacy Policy</Link>
+      <li>
+        <Link to="/policy?tab=privacy" className="hover:text-blue-500">Privacy Policy</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/policy?tab=cookiePolicy">Cookie Policy</Link>
+      <li>
+        <Link to="/policy?tab=cookiePolicy" className="hover:text-blue-500">Cookie Policy</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/marketing">Marketing</Link>
+      <li>
+        <Link to="/marketing" className="hover:text-blue-500">Marketing</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/support">Support</Link>
+      <li>
+        <Link to="/support" className="hover:text-blue-500">Support</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/contact">Contact</Link>
+      <li>
+        <Link to="/contact" className="hover:text-blue-500">Contact</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/about-us">About Us</Link>
+      <li>
+        <Link to="/about-us" className="hover:text-blue-500">About Us</Link>
       </li>
-      <li className="list-inline-item">
-        <Link to="/settings">Settings</Link>
+      <li>
+        <Link to="/settings" className="hover:text-blue-500">Settings</Link>
       </li>
     </ul>
   </footer>
 );
 
 export default Footer;
+

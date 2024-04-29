@@ -53,6 +53,10 @@ export default {
         success: "#219653",
         danger: "#D34053",
         warning: "#FFA70B",
+        foxColor:"#f56E1A",
+        foxColorHover:"#DC6114",
+        googleBlue:"#4285F4",
+        navyBlue:'#0F0782'
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],
