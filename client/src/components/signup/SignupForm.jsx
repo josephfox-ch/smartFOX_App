@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { Link } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import { RiAppleFill } from "react-icons/ri";
 
 const validationSchema = Yup.object({
   firstName: Yup.string().required("First name is required"),
@@ -31,8 +33,8 @@ const initialValues = {
   email: "",
   password: "",
   phoneNumber: "",
-  acceptTerms: false,
-  acceptEmails: false,
+  acceptTerms: true,
+  acceptEmails: true,
 };
 
 const SignupForm = ({ onSubmit }) => {
@@ -49,19 +51,13 @@ const SignupForm = ({ onSubmit }) => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto"
+      className="bg-white shadow-lg shadow-graydark rounded-lg p-6 max-w-md mx-auto"
     >
       <h1 className="text-lg font-bold text-navyBlue mb-6 text-center">
         Sign Up
       </h1>
       <div className="flex flex-wrap -mx-2 mb-4">
         <div className="w-full md:w-1/2 px-2 mb-4 md:mb-0">
-          <label
-            htmlFor="firstName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            First Name
-          </label>
           <input
             id="firstName"
             name="firstName"
@@ -69,6 +65,7 @@ const SignupForm = ({ onSubmit }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.firstName}
+            placeholder="First Name"
             className="mt-1 block w-full p-1 border border-gray-300"
           />
           {formik.touched.firstName && formik.errors.firstName && (
@@ -78,12 +75,6 @@ const SignupForm = ({ onSubmit }) => {
           )}
         </div>
         <div className="w-full md:w-1/2 px-2">
-          <label
-            htmlFor="lastName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Last Name
-          </label>
           <input
             id="lastName"
             name="lastName"
@@ -91,6 +82,7 @@ const SignupForm = ({ onSubmit }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.lastName}
+            placeholder="Last Name"
             className="mt-1 block w-full p-1 border border-gray-300"
           />
           {formik.touched.lastName && formik.errors.lastName && (
@@ -101,12 +93,6 @@ const SignupForm = ({ onSubmit }) => {
         </div>
       </div>
       <div className="w-full  mb-4">
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Email
-        </label>
         <input
           id="email"
           name="email"
@@ -114,6 +100,7 @@ const SignupForm = ({ onSubmit }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
+          placeholder="Email"
           className="mt-1 block w-full p-1 border border-gray-300"
         />
         {formik.touched.email && formik.errors.email && (
@@ -121,12 +108,6 @@ const SignupForm = ({ onSubmit }) => {
         )}
       </div>
       <div className="w-full mb-4">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Password
-        </label>
         <input
           id="password"
           name="password"
@@ -134,6 +115,7 @@ const SignupForm = ({ onSubmit }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
+          placeholder="New Password"
           className="mt-1 block w-full p-1 border border-gray-300"
         />
         {formik.touched.password && formik.errors.password && (
@@ -143,12 +125,6 @@ const SignupForm = ({ onSubmit }) => {
         )}
       </div>
       <div className="mb-4">
-        <label
-          htmlFor="phoneNumber"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Phone Number
-        </label>
         <PhoneInput
           international
           countryCallingCodeEditable={false}
@@ -163,55 +139,48 @@ const SignupForm = ({ onSubmit }) => {
           </div>
         )}
       </div>
-      <div className="flex items-center mb-4">
-        <input
-          type="checkbox"
-          id="acceptTerms"
-          name="acceptTerms"
-          onChange={formik.handleChange}
-          checked={formik.values.acceptTerms}
-          className="mr-2"
-        />
-        <label htmlFor="acceptTerms" className="text-sm text-gray-700 ">
-          <span className=" signup-form-notes ">
-            I accept the smartFOX® Home Terms and Conditions
-          </span>
-        </label>
-      </div>
-      <div className=" flex items-center mb-4">
-        <input
-          type="checkbox"
-          id="acceptEmails"
-          name="acceptEmails"
-          onChange={formik.handleChange}
-          checked={formik.values.acceptEmails}
-          className="mr-2"
-        />
-        <label htmlFor="acceptEmails" className="text-sm text-gray-700">
-          <span className="signup-form-notes ">
-            By checking this box, I agree to receive emails from SmartFOX® Home
-            regarding products, services, and promotional offers.
-          </span>
-        </label>
-      </div>
 
       <button
         type="submit"
         className={`w-full bg-success hover:bg-darkSuccess font-bold text-white py-2 px-4 ${
-          formik.values.acceptTerms && formik.values.acceptEmails
-            ? ""
-            : "opacity-50 cursor-not-allowed"
+          formik.values ? "" : "opacity-50 cursor-not-allowed"
         }`}
       >
         Create Account
       </button>
 
+      <div className="flex flex-col mt-4 mb-6">
+        <button className="flex items-center justify-center mb-2 border border-graydark hover:bg-blue-500 hover:text-white font-bold text-black py-2 px-4">
+          <FcGoogle size="24" className="mr-2" /> Sign up with Google
+        </button>
+        <button className="flex items-center justify-center font-bold text-black border border-graydark hover:bg-black hover:text-white py-2 px-4">
+          <RiAppleFill size="24" className="mr-2" /> Sign up with Apple
+        </button>
+      </div>
+
+      <div style={{ fontSize: "11px" }} className=" text-muted text-graydark">
+        By signing up, you agree to the{" "}
+        <Link className="login-policy-links" to="/policy?tab=terms">
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link className="login-policy-links" to="/policy?tab=privacy">
+          Privacy Policy
+        </Link>
+        , including{" "}
+        <Link className="login-policy-links" to="/policy?tab=cookieUse">
+          Cookie Use
+        </Link>
+        .
+      </div>
+
       <div className="mt-4 text-center">
         <Link
           to="/login"
-          className=" text-blue-600 hover:text-blue-800 hover:underline"
+          className="font-bold text-blue-600 hover:text-blue-800 hover:underline"
         >
-          Already have an account? Sign In
+          <span className="text-sm font-normal">Already have an account?</span>{" "}
+          Sign In
         </Link>
       </div>
     </form>
