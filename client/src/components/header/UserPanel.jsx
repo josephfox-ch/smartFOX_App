@@ -26,7 +26,6 @@ const UserPanel = () => {
     }
   };
 
-
   useOutsideClick(dropdownRef, () => {
     if (dropdownOpen) setDropdownOpen(false);
   });
@@ -40,7 +39,7 @@ const UserPanel = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {state.user ? state.user.username : "User"}
+            {state.user ? `${state.user.firstName} ${state.user.lastName}` : ""}
           </span>
           <span className="block text-xs">
             {state.user ? state.user.role : "Guest"}

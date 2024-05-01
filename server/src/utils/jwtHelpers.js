@@ -3,9 +3,9 @@ import { RefreshToken } from "../api/models/index.js";
 import { Op } from "sequelize";
 
 const ACCESS_TOKEN_EXPIRATION = '15m';
-const REFRESH_TOKEN_EXPIRATION = { true: '30d', false: '7d' };
+const REFRESH_TOKEN_EXPIRATION = '30d';
 
-function generateTokens(user, rememberMe = false) {
+function generateTokens(user) {
     const accessToken = jwt.sign(
         { userId: user.id, email: user.email },
         process.env.ACCESS_TOKEN_SECRET,
@@ -15,7 +15,7 @@ function generateTokens(user, rememberMe = false) {
     const refreshToken = jwt.sign(
         { userId: user.id },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: REFRESH_TOKEN_EXPIRATION[rememberMe] }
+        { expiresIn: REFRESH_TOKEN_EXPIRATION }
     );
 
     return { accessToken, refreshToken };

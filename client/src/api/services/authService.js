@@ -1,12 +1,11 @@
 import API from "../index";
 
 const AuthService = {
-  login: async ({ identifier, password, rememberMe }) => {
+  login: async ({ email, password}) => {
     try {
       const response = await API.post("/auth/login", {
-        identifier,
+        email,
         password,
-        rememberMe,
       });
       console.log("Login response:", response.data);
       return response.data;

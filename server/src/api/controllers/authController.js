@@ -36,7 +36,7 @@ const AuthController = {
 
       const { user, accessToken, refreshToken } = result;
 
-      req.session.user = { id: user.id, username: user.username };
+      req.session.user = { id: user.id, email: user.email };
 
       setCookie(res, "smartFOXAccessToken", accessToken, {
         maxAge: 15 * 60 * 1000,
@@ -63,16 +63,14 @@ const AuthController = {
 
   async login(req, res) {
     try {
-      const { identifier, password, rememberMe } = req.body;
+      const { email, password } = req.body;
       const { user, accessToken, refreshToken } = await AuthService.login(
-        identifier,
-        password,
-        rememberMe
+        email,
+        password
       );
 
       req.session.user = {
         id: user.id,
-        username: user.username,
         email: user.email,
       };
 
@@ -80,11 +78,9 @@ const AuthController = {
         maxAge: 15 * 60 * 1000,
       });
 
-      const refreshCookieMaxAge = rememberMe
-        ? 30 * 24 * 60 * 60 * 1000
-        : 7 * 24 * 60 * 60 * 1000;
+      30 * 24 * 60 * 60 * 1000;
       setCookie(res, "smartFOXRefreshToken", refreshToken, {
-        maxAge: refreshCookieMaxAge,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
       res.status(200).json({

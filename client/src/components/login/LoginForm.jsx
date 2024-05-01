@@ -1,109 +1,88 @@
 import React from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
-import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { MdNoEncryptionGmailerrorred } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
+import { RiAppleFill } from "react-icons/ri";
 
-const LoginForm = ({ onSubmit }) => {
-  const navigate = useNavigate();
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters long")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .required("Required"),
+});
 
-  const formik = useFormik({
-    initialValues: {
-      identifier: "",
-      password: "",
-      rememberMe: false,
-    },
-    validationSchema: Yup.object({
-      identifier: Yup.string().required("Email or username is required"),
-      password: Yup.string().required("Password is required"),
-      rememberMe: Yup.boolean(),
-    }),
-    onSubmit: onSubmit,
-  });
-
+const LoginForm = ({ onLogin }) => {
   return (
-    <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ maxHeight: "100vh" }}
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={LoginSchema}
+      onSubmit={(values, actions) => {
+        onLogin(values, actions);
+        actions.setSubmitting(false);
+      }}
     >
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        <form onSubmit={formik.handleSubmit} className="p-4 shadow rounded">
-          <h6 className="form-title">Subscriber Login</h6>
-          <div className="form-group mb-3">
-            <label htmlFor="email">Email or Username</label>
-            <input
-              id="identifier"
-              name="identifier"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.identifier}
-              className={`form-control ${
-                formik.touched.identifier && formik.errors.identifier
-                  ? "is-invalid"
-                  : ""
-              }`}
-            />
-            <div className="invalid-feedback">{formik.errors.identifier}</div>
-          </div>
-          <div className="form-group mb-3">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              className={`form-control ${
-                formik.touched.password && formik.errors.password
-                  ? "is-invalid"
-                  : ""
-              }`}
-            />
-            <div className="invalid-feedback">{formik.errors.password}</div>
-          </div>
-          <div className="form-group form-check mb-3">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              name="rememberMe"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              checked={formik.values.rememberMe}
-              className="form-check-input"
-            />
-            <label htmlFor="rememberMe" className="form-check-label">
-              Remember me
+      {({ errors, touched, isSubmitting }) => (
+        <Form className="bg-white shadow-lg rounded-lg p-6">
+          <h1 className="text-lg font-bold text-navyBlue mb-4 text-center">
+            Sign In
+          </h1>
+
+          {/* Email input */}
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
             </label>
+            <Field type="email" name="email" id="email"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter your email" />
+            {touched.email && errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
           </div>
-          {formik.errors.general && (
-            <div className="  error-message" role="alert">
-             <MdNoEncryptionGmailerrorred /> {formik.errors.general}
-            </div>
-          )}
-          <button
-            type="submit"
-            className="bg-primary w-full mb-3"
-            disabled={formik.isSubmitting}
-          >
-            Log In
-          </button>
-          <div className="text-center mb-2">
-            <Link style={{ textDecoration: "none" }} to="/forgot-password">
-              forgot password?
+
+          {/* Password input */}
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <Field type="password" name="password" id="password"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="6+ Characters, 1 Capital letter" />
+            {touched.password && errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
+          </div>
+
+          {/* Forgot password link */}
+          <div className="text-center mb-4">
+            <Link className="font-bold text-blue-600 hover:text-blue-800 hover:underline" to="/forgot-password">
+              Forgot password?
             </Link>
           </div>
-          <span className="form-title">Ready to join smartFOX® systems?</span>
-          <button
-            type="button"
-            onClick={() => navigate("/signup")}
-            className="  signup-button w-full"
-          >
-            Sign Up Now
+
+          {/* Submit button */}
+          <button type="submit" className="w-full bg-foxColor hover:bg-foxColorHover font-bold text-white py-2 px-4 rounded-md" disabled={isSubmitting}>
+            Sign In
           </button>
+
+          {/* Social login buttons */}
+          <div className="flex flex-col mt-4">
+            <button className="flex items-center justify-center mb-2 border border-graydark hover:bg-blue-500 hover:text-white font-bold text-black py-2 px-4 ">
+              <FcGoogle size="24" className="mr-2" /> Sign in with Google
+            </button>
+            <button className="flex items-center justify-center font-bold text-black border border-graydark hover:bg-black hover:text-white py-2 px-4 ">
+              <RiAppleFill size="24" className="mr-2" /> Sign in with Apple
+            </button>
+          </div>
+          {/* Signup link */}
+          <div className="mt-4 text-center">
+            <p className="text-foxColor text-sm">
+              Ready to join SmartFOX® Home systems?
+            </p>
+            <Link to="/signup" className="font-bold text-blue-600 hover:text-blue-800 hover:underline">
+              Sign Up
+            </Link>
+          </div>
           <hr className="my-2" />
-          <small style={{ fontSize: "12px" }} className="text-muted ">
+          <small style={{ fontSize: "13px" }} className="text-muted ">
             By signing up, you agree to the{" "}
             <Link className="login-policy-links" to="/policy?tab=terms">
               Terms of Service
@@ -118,18 +97,12 @@ const LoginForm = ({ onSubmit }) => {
             </Link>
             .
           </small>
-          <div className="d-flex justify-content-around p-3">
-            <a href="#">
-              <img height="30px" width="90px" src="appStore.png" alt="" />
-            </a>{" "}
-            <a href="#">
-              <img height="30px" width="90px" src="googleStore.png" alt="" />
-            </a>
-          </div>
-        </form>
-      </div>
-    </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
 export default LoginForm;
+
+

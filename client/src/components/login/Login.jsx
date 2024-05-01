@@ -8,8 +8,9 @@ const Login = () => {
   const navigate = useNavigate();
   const { dispatch } = useAuth();
 
-  const handleLoginSubmit = async (values, actions) => {
+  const handleLogin = async (values, actions) => {
     try {
+      console.log('values',values)
       const data = await AuthService.login(values);
       if (data.error) {
         throw new Error(data.message || "An error occurred");
@@ -39,9 +40,10 @@ const Login = () => {
 
   return (
     <>
-      <LoginForm onSubmit={handleLoginSubmit} />
+      <LoginForm onLogin={handleLogin} />
     </>
   );
 };
 
 export default Login;
+
