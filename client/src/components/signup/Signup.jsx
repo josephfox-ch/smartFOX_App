@@ -1,7 +1,7 @@
 import React from "react";
 import AuthService from "../../api/services/authService";
 import { useNavigate } from "react-router-dom";
-import RegistrationForm from "./RegistrationForm";
+import SignupForm from "./SignupForm";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Signup = () => {
     }
   };
 
-  return <RegistrationForm onSubmit={handleSignup} />;
+  return <SignupForm  onSubmit={handleSignup} />;
 };
 
 export default Signup;
