@@ -44,7 +44,7 @@ const ForgotPasswordPage = () => {
           <button
             type="submit"
             disabled={!email}
-            className="w-full p-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50"
+            className="w-full p-2 text-white bg-foxColor rounded hover:bg-foxColorHover disabled:opacity-50"
           >
             Send Reset Link
           </button>
@@ -60,7 +60,10 @@ const ForgotPasswordPage = () => {
           )}
         </form>
         <p className="mt-3 text-sm text-center text-gray-600">
-          Remember your password? <Link to="/login" className="text-blue-600  hover:underline">Login here.</Link>
+          Remember your password?{" "}
+          <Link to="/login" className="text-blue-600  hover:underline">
+            Login here.
+          </Link>
         </p>
       </div>
     </div>
@@ -68,4 +71,3 @@ const ForgotPasswordPage = () => {
 };
 
 export default ForgotPasswordPage;
-

@@ -85,7 +85,10 @@ const ResetPasswordPage = () => {
           )}
         </form>
         <p className="mt-3 text-sm text-center text-gray-600">
-          Remember your password? <Link to="/login" className="text-blue-500 hover:underline">Login here.</Link>
+          Remember your password?
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login here.
+          </Link>
         </p>
       </div>
     </div>
@@ -93,4 +96,3 @@ const ResetPasswordPage = () => {
 };
 
 export default ResetPasswordPage;
-
