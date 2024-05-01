@@ -18,31 +18,18 @@ import sequelize from "../../../database/config.js";
 
 const AuthService = {
   async register(userData) {
+    console.log("userdata", userData);
     const transaction = await sequelize.transaction();
-
     try {
       const hashedPassword = await bcrypt.hash(userData.password, 12);
+
       const user = await User.create(
         {
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
-          username: userData.username,
           phoneNumber: userData.phoneNumber,
           password: hashedPassword,
-        },
-        { transaction }
-      );
-
-      const home = await Home.create(
-        {
-          userId: user.id,
-          name: userData.houseName,
-          address: userData.streetAddress,
-          postalCode: userData.postalCode,
-          city: userData.city,
-          country: userData.country,
-          timeZone: userData.timeZone,
         },
         { transaction }
       );
@@ -59,12 +46,13 @@ const AuthService = {
       );
 
       const otp = generateOTP();
-      // await sendSMS(userData.phoneNumber, `Your OTP: ${otp}`); //todo: SMS service
+      // await sendSMS(userData.phoneNumber, `Your OTP: ${otp}`); //todo: send
       await sendOTPMail(userData.email, otp);
       await saveOTPForUser(user.id, otp, transaction);
+
       await transaction.commit();
 
-      return { user, home, preferences, otp };
+      return { user, preferences, otp };
     } catch (error) {
       await transaction.rollback();
       throw error;
@@ -83,16 +71,12 @@ const AuthService = {
 
       const { accessToken, refreshToken } = generateTokens(user);
 
+      let userWithoutPassword = user.get({ plain: true });
+      delete userWithoutPassword.password;
+
       return {
         success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          username: user.username,
-          firstName: user.firstName,
-          lastname: user.lastName,
-          isVerified: user.isVerified,
-        },
+        user: userWithoutPassword,
         accessToken: accessToken,
         refreshToken: refreshToken,
       };
@@ -119,31 +103,22 @@ const AuthService = {
 
     await sendOTPMail(user.email, newOTP);
   },
-  async login(identifier, password, rememberMe) {
-    const condition = identifier.includes("@")
-      ? { email: identifier }
-      : { username: identifier };
-    const user = await User.findOne({ where: condition });
+  async login(email, pwd) {
+    const user = await User.findOne({ where: { email } });
     if (!user) throw new Error("Incorrect authentication credentials.");
     if (!user.isVerified) throw new Error("User is not yet verified.");
-    if (!(await bcrypt.compare(password, user.password)))
+    if (!(await bcrypt.compare(pwd, user.password)))
       throw new Error("Incorrect authentication credentials.");
 
-    const { accessToken, refreshToken } = generateTokens(user, rememberMe);
-    await RefreshTokenService.saveRefreshToken(
-      user.id,
-      refreshToken,
-      rememberMe
-    );
+    const { accessToken, refreshToken } = generateTokens(user);
+    await RefreshTokenService.saveRefreshToken(user.id, refreshToken);
 
+    let userData = user.get({ plain: true });
+    delete userData.password;
+
+    console.log("withoutpassword", userData);
     return {
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
+      user: userData,
       accessToken,
       refreshToken,
     };

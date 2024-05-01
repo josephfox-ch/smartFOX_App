@@ -9,6 +9,7 @@ import PolicyPage from "./pages/PolicyPage";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AccountSettings from './pages/AccountSettings';
+import Signup from './components/signup/Signup'
 
 const AppRoutes = () => {
   return (
@@ -16,7 +17,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<AuthLayout />} />
         <Route path="/login" element={<AuthLayout />} />
-        <Route path="/signup" element={<AuthLayout />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         <Route path="/reset-password/:token" element={<ResetPasswordForm />} />

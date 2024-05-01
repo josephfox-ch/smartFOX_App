@@ -2,9 +2,9 @@ import { RefreshToken } from "../models/index.js";
 import { verifyRefreshToken } from "../../utils/jwtHelpers.js";
 
 const RefreshTokenService = {
-  async saveRefreshToken(userId, refreshToken, rememberMe) {
+  async saveRefreshToken(userId, refreshToken) {
     const expiryDate = new Date();
-    expiryDate.setDate(expiryDate.getDate() + (rememberMe ? 30 : 7));
+    expiryDate.setDate(expiryDate.getDate() + ( 30 ));
 
     await RefreshToken.create({
       token: refreshToken,
