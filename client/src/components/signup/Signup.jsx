@@ -11,7 +11,7 @@ const Signup = () => {
       console.log("Final Form Values:", values);
       const response = await AuthService.register(values);
       console.log("Form Submission Success:", response);
-      navigate(`/verify-otp?userId=${response.userId}`);
+      navigate(`/auth/verify-otp?userId=${response.userId}`);
     } catch (error) {
       console.error("Form Submission Error:", error);
       formikHelpers.setFieldError(

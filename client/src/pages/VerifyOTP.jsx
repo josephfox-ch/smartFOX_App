@@ -49,8 +49,8 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="bg-stroke flex flex-col min-h-screen items-center justify-center">
-      <div className="w-full max-w-md text-center">
+    <div className="bg-whiter flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
         <div className="mb-4">
           <img src="SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
         </div>
@@ -87,7 +87,8 @@ const VerifyOTP = () => {
             <div className="grid gap-2 mt-3">
               <button
                 type="submit"
-                className="p-2 bg-foxColor text-white rounded hover:bg-foxColorHover"
+                disabled={!otp}
+                className="p-2 bg-foxColor text-white rounded hover:bg-foxColorHover disabled:opacity-50"
               >
                 Verify
               </button>

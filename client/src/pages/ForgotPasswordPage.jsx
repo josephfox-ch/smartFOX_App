@@ -24,8 +24,8 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-6 bg-white rounded shadow-md">
+    <div className="bg-whiter flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
         <div className="mb-4 text-center">
           <img src="/SFX.png" alt="Logo" className="w-64 mx-auto" />
           <h1 className="text-lg font-semibold mt-3">Forgot Password</h1>
