@@ -39,8 +39,8 @@ const ResetPasswordPage = () => {
   }, [message, navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-6 bg-white rounded shadow-md">
+    <div className="bg-whiter flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
         <div className="mb-4 text-center">
           <img src="/SFX.png" alt="Logo" className="w-64 mx-auto" />
           <h1 className="text-lg font-semibold mt-3">Reset Your Password</h1>
@@ -69,7 +69,7 @@ const ResetPasswordPage = () => {
           <button
             type="submit"
             disabled={!password || !confirmPassword}
-            className="w-full p-2 text-white bg-blue-500 rounded hover:bg-blue-600 disabled:opacity-50"
+            className="w-full p-2 text-white bg-foxColor rounded hover:bg-foxColorHover disabled:opacity-50"
           >
             Reset Password
           </button>

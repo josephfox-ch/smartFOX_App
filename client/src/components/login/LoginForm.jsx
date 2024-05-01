@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
+import { TbFaceIdError } from "react-icons/tb";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -13,7 +14,7 @@ const validationSchema = Yup.object({
     .required("Required"),
 });
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = ({ loginError, onSubmit }) => {
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -33,6 +34,12 @@ const LoginForm = ({ onSubmit }) => {
       <h1 className="text-lg font-bold text-navyBlue mb-4 text-center">
         Sign In
       </h1>
+
+      {loginError && (
+        <div className=" flex items-center p-2 bg-red-100 text-red-600 text-sm mb-4 text-center rounded-md">
+          <TbFaceIdError size="20" className="mr-3" /> {loginError}
+        </div>
+      )}
 
       <div className="mb-4">
         <label
@@ -80,8 +87,8 @@ const LoginForm = ({ onSubmit }) => {
 
       <div className="text-center mb-4">
         <Link
-          className="font-bold text-blue-600 hover:text-blue-800 hover:underline"
-          to="/forgot-password"
+          className="font-bold text-sm text-blue-600 hover:text-blue-800 hover:underline"
+          to="/auth/forgot-password"
         >
           Forgot password?
         </Link>
@@ -109,7 +116,7 @@ const LoginForm = ({ onSubmit }) => {
         </p>
         <Link
           to="/signup"
-          className="font-bold text-blue-600 hover:text-blue-800 hover:underline"
+          className="font-bold text-sm text-blue-600 hover:text-blue-800 hover:underline"
         >
           Sign Up
         </Link>

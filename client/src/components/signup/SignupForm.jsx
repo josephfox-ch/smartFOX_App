@@ -177,9 +177,9 @@ const SignupForm = ({ onSubmit }) => {
       <div className="mt-4 text-center">
         <Link
           to="/login"
-          className="font-bold text-blue-600 hover:text-blue-800 hover:underline"
+          className="font-bold text-sm text-blue-600 hover:text-blue-800 hover:underline"
         >
-          <span className="text-sm font-normal">Already have an account?</span>{" "}
+          <span className=" font-normal">Already have an account?</span>{" "}
           Sign In
         </Link>
       </div>

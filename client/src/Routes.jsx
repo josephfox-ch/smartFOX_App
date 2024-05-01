@@ -17,9 +17,9 @@ const AppRoutes = () => {
         <Route path="/" element={<AuthLayout />} />
         <Route path="/login" element={<AuthLayout />} />
         <Route path="/signup" element={<AuthLayout />} />
-        <Route path="/verify-otp" element={<VerifyOTP />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        <Route path="/auth/verify-otp" element={<VerifyOTP />} />
+        <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/auth/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/policy" element={<PolicyPage />} />
 
         <Route
