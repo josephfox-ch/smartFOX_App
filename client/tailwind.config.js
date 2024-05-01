@@ -26,6 +26,7 @@ export default {
         bodydark: "#AEB7C0",
         bodydark1: "#DEE4EE",
         bodydark2: "#8A99AF",
+        bodydark3:'#7C8A9E',
         primary: "#3C50E0",
         linkColor:'#646cff',
         secondary: "#80CAEE",
