@@ -13,26 +13,32 @@ const validationSchema = Yup.object({
     .required("Required"),
 });
 
-const LoginForm = ({onSubmit }) => {
+const LoginForm = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: ""
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      onSubmit(values); 
-    }
+      onSubmit(values);
+    },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="bg-white shadow-lg rounded-lg p-6">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="bg-white shadow-lg shadow-graydark rounded-lg p-6"
+    >
       <h1 className="text-lg font-bold text-navyBlue mb-4 text-center">
         Sign In
       </h1>
 
       <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700"
+        >
           Email
         </label>
         <input
@@ -51,7 +57,10 @@ const LoginForm = ({onSubmit }) => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700"
+        >
           Password
         </label>
         <input
@@ -94,36 +103,19 @@ const LoginForm = ({onSubmit }) => {
           <RiAppleFill size="24" className="mr-2" /> Sign in with Apple
         </button>
       </div>
-
       <div className="mt-4 text-center">
-        <p className="text-foxColor text-sm">
+        <p className="text-foxColor font-bold text-sm">
           Ready to join SmartFOX® Home systems?
         </p>
-        <Link to="/signup" className="font-bold text-blue-600 hover:text-blue-800 hover:underline">
+        <Link
+          to="/signup"
+          className="font-bold text-blue-600 hover:text-blue-800 hover:underline"
+        >
           Sign Up
         </Link>
       </div>
-
-      <hr className="my-2" />
-
-      <small style={{ fontSize: "13px" }} className="text-muted">
-        By signing up, you agree to the{" "}
-        <Link className="login-policy-links" to="/policy?tab=terms">
-          Terms of Service
-        </Link>{" "}
-        and{" "}
-        <Link className="login-policy-links" to="/policy?tab=privacy">
-          Privacy Policy
-        </Link>, including{" "}
-        <Link className="login-policy-links" to="/policy?tab=cookieUse">
-          Cookie Use
-        </Link>.
-      </small>
     </form>
   );
 };
 
 export default LoginForm;
-
-
-

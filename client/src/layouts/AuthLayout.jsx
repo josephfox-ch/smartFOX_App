@@ -23,7 +23,7 @@ const AuthLayout = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="bg-gray-2 min-h-screen flex flex-col">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex-1 flex flex-col md:flex-row items-center justify-center space-x-0 md:space-x-12">
         <div className="w-full md:w-1/3 mb-8 md:mb-0 text-center md:text-left flex flex-col items-center md:items-center">
           <Link to="/" className="mb-4">
