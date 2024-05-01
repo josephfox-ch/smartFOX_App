@@ -137,7 +137,7 @@ const AccountSettings = () => {
 
                 <div className="flex justify-end gap-4.5">
                   <button
-                    className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 hover:bg-graydark dark:border-strokedark dark:text-white"
+                    className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white"
                     type="submit"
                   >
                     Cancel
@@ -230,7 +230,7 @@ const AccountSettings = () => {
 
                 <div className="flex justify-end gap-4.5">
                   <button
-                    className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 hover:bg-graydark dark:border-strokedark dark:text-white"
+                    className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white"
                     type="submit"
                   >
                     Cancel

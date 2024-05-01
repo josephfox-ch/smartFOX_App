@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
-import VerifyOTP from "./components/VerifyOTP";
+import VerifyOTP from "./pages/VerifyOTP";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPasswordForm from "./components/password/ForgotPasswordForm";
 import ResetPasswordForm from "./components/password/ResetPasswordForm";
