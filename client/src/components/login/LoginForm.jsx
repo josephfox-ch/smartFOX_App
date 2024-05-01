@@ -46,7 +46,7 @@ const LoginForm = ({onSubmit }) => {
           placeholder="Enter your email"
         />
         {formik.touched.email && formik.errors.email && (
-          <div className="text-red-500 text-sm">{formik.errors.email}</div>
+          <div className="text-danger text-sm">{formik.errors.email}</div>
         )}
       </div>
 
@@ -65,7 +65,7 @@ const LoginForm = ({onSubmit }) => {
           placeholder="6+ Characters, 1 Capital letter"
         />
         {formik.touched.password && formik.errors.password && (
-          <div className="text-red-500 text-sm">{formik.errors.password}</div>
+          <div className="text-danger text-sm">{formik.errors.password}</div>
         )}
       </div>
 

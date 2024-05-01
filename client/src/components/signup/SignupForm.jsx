@@ -41,6 +41,10 @@ const SignupForm = ({ onSubmit }) => {
     validationSchema,
     onSubmit,
   });
+  console.log(
+    "Disabled:",
+    !(formik.values.acceptTerms && formik.values.acceptEmails)
+  );
 
   return (
     <form
@@ -68,7 +72,7 @@ const SignupForm = ({ onSubmit }) => {
             className="mt-1 block w-full p-1 border border-gray-300"
           />
           {formik.touched.firstName && formik.errors.firstName && (
-            <div className="text-red-500 text-xs mt-1">
+            <div className="text-danger text-xs mt-1">
               {formik.errors.firstName}
             </div>
           )}
@@ -90,7 +94,7 @@ const SignupForm = ({ onSubmit }) => {
             className="mt-1 block w-full p-1 border border-gray-300"
           />
           {formik.touched.lastName && formik.errors.lastName && (
-            <div className="text-red-500 text-xs mt-1">
+            <div className="text-danger text-xs mt-1">
               {formik.errors.lastName}
             </div>
           )}
@@ -113,7 +117,7 @@ const SignupForm = ({ onSubmit }) => {
           className="mt-1 block w-full p-1 border border-gray-300"
         />
         {formik.touched.email && formik.errors.email && (
-          <div className="text-red-500 text-xs mt-1">{formik.errors.email}</div>
+          <div className="text-danger text-xs mt-1">{formik.errors.email}</div>
         )}
       </div>
       <div className="w-full mb-4">
@@ -133,7 +137,7 @@ const SignupForm = ({ onSubmit }) => {
           className="mt-1 block w-full p-1 border border-gray-300"
         />
         {formik.touched.password && formik.errors.password && (
-          <div className="text-red-500 text-xs mt-1">
+          <div className="text-danger text-xs mt-1">
             {formik.errors.password}
           </div>
         )}
@@ -148,13 +152,13 @@ const SignupForm = ({ onSubmit }) => {
         <PhoneInput
           international
           countryCallingCodeEditable={false}
-          defaultCountry="US"
+          defaultCountry="CH"
           value={formik.values.phoneNumber}
           onChange={(value) => formik.setFieldValue("phoneNumber", value)}
           className="flex mt-1 block w-full px-3 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
         {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-          <div className="text-red-500 text-xs mt-1">
+          <div className="text-danger text-xs mt-1">
             {formik.errors.phoneNumber}
           </div>
         )}
@@ -168,14 +172,13 @@ const SignupForm = ({ onSubmit }) => {
           checked={formik.values.acceptTerms}
           className="mr-2"
         />
-        <label
-          htmlFor="acceptTerms"
-          className="text-sm font-medium text-gray-700"
-        >
-          I accept the terms and conditions
+        <label htmlFor="acceptTerms" className="text-sm text-gray-700 ">
+          <span className=" signup-form-notes ">
+            I accept the smartFOX® Home Terms and Conditions
+          </span>
         </label>
       </div>
-      <div className="flex items-center mb-4">
+      <div className=" flex items-center mb-4">
         <input
           type="checkbox"
           id="acceptEmails"
@@ -184,24 +187,29 @@ const SignupForm = ({ onSubmit }) => {
           checked={formik.values.acceptEmails}
           className="mr-2"
         />
-        <label
-          htmlFor="acceptEmails"
-          className="text-sm font-medium text-gray-700"
-        >
-          I want to receive promotional emails
+        <label htmlFor="acceptEmails" className="text-sm text-gray-700">
+          <span className="signup-form-notes ">
+            By checking this box, I agree to receive emails from SmartFOX® Home
+            regarding products, services, and promotional offers.
+          </span>
         </label>
       </div>
+
       <button
         type="submit"
-        className="w-full bg-foxColor hover:bg-foxColorHover font-bold text-white py-2 px-4"
-        disabled={formik.isSubmitting}
+        className={`w-full bg-success hover:bg-darkSuccess font-bold text-white py-2 px-4 ${
+          formik.values.acceptTerms && formik.values.acceptEmails
+            ? ""
+            : "opacity-50 cursor-not-allowed"
+        }`}
       >
         Create Account
       </button>
+
       <div className="mt-4 text-center">
         <Link
           to="/login"
-          className="font-bold text-blue-600 hover:text-blue-800 hover:underline"
+          className=" text-blue-600 hover:text-blue-800 hover:underline"
         >
           Already have an account? Sign In
         </Link>

@@ -57,7 +57,8 @@ export default {
         foxColor:"#f56E1A",
         foxColorHover:"#DC6114",
         googleBlue:"#4285F4",
-        navyBlue:'#0F0782'
+        navyBlue:'#0F0782',
+        darkSuccess:'#177B42',
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],
