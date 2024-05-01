@@ -20,7 +20,6 @@ export default {
         transparent: "transparent",
         white: "#FFFFFF",
         black: "#1C2434",
-        red: "#FB5454",
         "black-2": "#010101",
         body: "#64748B",
         bodydark: "#AEB7C0",

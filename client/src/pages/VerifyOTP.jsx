@@ -53,14 +53,25 @@ const VerifyOTP = () => {
       <div className="w-full max-w-md text-center">
         <div className="mb-4">
           <img src="SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
-        
         </div>
         <div>
-          <h3 className="py-2 text-lg font-semibold bg-gray-200 rounded">Verify Account</h3>
-          {error && <p className="mt-2 mb-2 p-2 text-danger ">{error}</p>}
-          {message && <p className="mt-2 mb-2 text-success ">{message}</p>}
+          <h3 className="py-2 text-lg font-semibold bg-gray-200 rounded">
+            Verify Account
+          </h3>
+          {error && (
+            <div className="p-2 mt-3 text-sm text-red-700 bg-red-100 rounded">
+              {error}
+            </div>
+          )}
+          {message && (
+            <div className="p-2 mt-3 text-sm text-green-700 bg-green-100 rounded">
+              {message}
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="otp" className="block text-left">OTP Code</label>
+            <label htmlFor="otp" className="block text-left">
+              OTP Code
+            </label>
             <input
               type="text"
               id="otp"
@@ -70,10 +81,23 @@ const VerifyOTP = () => {
               onChange={(e) => setOtp(e.target.value)}
               required
             />
-            <p className="text-xs text-graydark">Please enter the Authentication Code sent to your email.</p>
+            <p className="text-xs text-graydark">
+              Please enter the Authentication Code sent to your email.
+            </p>
             <div className="grid gap-2 mt-3">
-              <button type="submit" className="p-2 bg-foxColor text-white rounded hover:bg-foxColorHover">Verify</button>
-              <button type="button" onClick={handleResendOTP} className="p-2 bg-bodydark2 text-white rounded hover:bg-bodydark3">Resend OTP</button>
+              <button
+                type="submit"
+                className="p-2 bg-foxColor text-white rounded hover:bg-foxColorHover"
+              >
+                Verify
+              </button>
+              <button
+                type="button"
+                onClick={handleResendOTP}
+                className="p-2 bg-bodydark2 text-white rounded hover:bg-bodydark3"
+              >
+                Resend OTP
+              </button>
             </div>
           </form>
         </div>
@@ -83,4 +107,3 @@ const VerifyOTP = () => {
 };
 
 export default VerifyOTP;
-
