@@ -8,42 +8,32 @@ const Login = () => {
   const navigate = useNavigate();
   const { dispatch } = useAuth();
 
-  const handleLogin = async (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     try {
-      console.log('values',values)
       const data = await AuthService.login(values);
       if (data.error) {
-        throw new Error(data.message || "An error occurred");
+        throw new Error(data.message || "An error occurred during login.");
       }
       dispatch({
         type: "LOGIN",
-        payload: {
-          user: data.user,
-        },
+        payload: { user: data.user },
       });
       navigate("/dashboard");
     } catch (error) {
-      const errorMsg = error.message || "An unexpected error occurred";
-      if (errorMsg.includes("User is not yet verified")) {
-        actions.setFieldError(
-          "general",
-          <>
-            {errorMsg} <Link to="/verify-otp">Verify your account.</Link>
-          </>
-        );
-      } else {
-        actions.setFieldError("general", errorMsg);
-      }
+      const errorMsg = error.message || "An unexpected error occurred during login.";
+      actions.setFieldError("general", errorMsg);
       actions.setSubmitting(false);
     }
   };
 
   return (
     <>
-      <LoginForm onLogin={handleLogin} />
+      <LoginForm onSubmit={handleSubmit} /> 
     </>
   );
 };
 
 export default Login;
+
+
 
