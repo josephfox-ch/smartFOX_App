@@ -48,17 +48,17 @@ const Footer = () => (
     <p className="mb-3">&copy; 2024 smartFOX® Home Systems</p>
     <ul className="flex justify-center space-x-3">
       <li>
-        <Link to="/policy?tab=terms" className="hover:text-blue-500">
+        <Link to="/policy/terms" className="hover:text-blue-500">
           Terms of Service
         </Link>
       </li>
       <li>
-        <Link to="/policy?tab=privacy" className="hover:text-blue-500">
+        <Link to="/policy/privacy" className="hover:text-blue-500">
           Privacy Policy
         </Link>
       </li>
       <li>
-        <Link to="/policy?tab=cookiePolicy" className="hover:text-blue-500">
+        <Link to="/policy/cookie-policy" className="hover:text-blue-500">
           Cookie Policy
         </Link>
       </li>

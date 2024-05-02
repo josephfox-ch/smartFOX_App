@@ -60,6 +60,8 @@ export default {
         navyBlue:'#0F0782',
         darkSuccess:'#177B42',
         usgreen:'#0C5460',
+        uslightblue:'#9acfea',
+        usdarkblue:'#265a88',
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],

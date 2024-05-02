@@ -9,6 +9,10 @@ import PolicyPage from "./pages/PolicyPage";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AccountSettings from "./pages/AccountSettings";
+import TermsOfService from "./components/policy/TermsOfService";
+import PrivacyPolicy from "./components/policy/PrivacyPolicy";
+import CookiePolicy from "./components/policy/CookiePolicy";
+import CookieUse from "./components/policy/CookieUse";
 
 const AppRoutes = () => {
   return (
@@ -19,8 +23,16 @@ const AppRoutes = () => {
         <Route path="/signup" element={<AuthLayout />} />
         <Route path="/auth/verify-otp" element={<VerifyOTP />} />
         <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/auth/reset-password/:token" element={<ResetPasswordPage />} />
-        <Route path="/policy" element={<PolicyPage />} />
+        <Route
+          path="/auth/reset-password/:token"
+          element={<ResetPasswordPage />}
+        />
+        <Route path="/policy" element={<PolicyPage />}>
+          <Route path="terms" element={<TermsOfService />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
+          <Route path="cookie-policy" element={<CookiePolicy />} />
+          <Route path="cookie-use" element={<CookieUse />} />
+        </Route>
 
         <Route
           path="/dashboard"

@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 
 const PolicyFooter = () => {
   return (
-    <div className=" border-t  text-black text-center py-4 mt-auto">
+    <div className="bg-gray-100  border-t  border-red-600 text-black text-center py-4 mt-auto">
       <div className="flex justify-center space-x-4">
-        <Link to="/" className="hover:text-gray-300 transition-colors">
+        <Link
+          to="/"
+          className="hover:text-red-600 hover:underline transition-colors"
+        >
           Home
         </Link>
-        <Link to="/contact" className="hover:text-gray-300 transition-colors">
+        <Link
+          to="/contact"
+          className="hover:text-red-600 hover:underline transition-colors"
+        >
           Contact
         </Link>
       </div>
@@ -20,4 +26,3 @@ const PolicyFooter = () => {
 };
 
 export default PolicyFooter;
-
