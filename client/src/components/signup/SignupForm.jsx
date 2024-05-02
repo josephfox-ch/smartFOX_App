@@ -66,7 +66,7 @@ const SignupForm = ({ onSubmit }) => {
             onBlur={formik.handleBlur}
             value={formik.values.firstName}
             placeholder="First Name"
-            className="mt-1 block w-full p-1 border border-gray-300"
+            className="mt-1 block w-full p-1 border border-gray-300 rounded"
           />
           {formik.touched.firstName && formik.errors.firstName && (
             <div className="text-danger text-xs mt-1">
@@ -83,7 +83,7 @@ const SignupForm = ({ onSubmit }) => {
             onBlur={formik.handleBlur}
             value={formik.values.lastName}
             placeholder="Last Name"
-            className="mt-1 block w-full p-1 border border-gray-300"
+            className="mt-1 block w-full p-1 border border-gray-300 rounded"
           />
           {formik.touched.lastName && formik.errors.lastName && (
             <div className="text-danger text-xs mt-1">
@@ -101,7 +101,7 @@ const SignupForm = ({ onSubmit }) => {
           onBlur={formik.handleBlur}
           value={formik.values.email}
           placeholder="Email"
-          className="mt-1 block w-full p-1 border border-gray-300"
+          className="mt-1 block w-full p-1 border border-gray-300 rounded"
         />
         {formik.touched.email && formik.errors.email && (
           <div className="text-danger text-xs mt-1">{formik.errors.email}</div>
@@ -116,7 +116,7 @@ const SignupForm = ({ onSubmit }) => {
           onBlur={formik.handleBlur}
           value={formik.values.password}
           placeholder="New Password"
-          className="mt-1 block w-full p-1 border border-gray-300"
+          className="mt-1 block w-full p-1 border border-gray-300 rounded"
         />
         {formik.touched.password && formik.errors.password && (
           <div className="text-danger text-xs mt-1">
@@ -131,7 +131,7 @@ const SignupForm = ({ onSubmit }) => {
           defaultCountry="CH"
           value={formik.values.phoneNumber}
           onChange={(value) => formik.setFieldValue("phoneNumber", value)}
-          className="flex mt-1 block w-full px-3 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          className="flex mt-1 block w-full px-3 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded"
         />
         {formik.touched.phoneNumber && formik.errors.phoneNumber && (
           <div className="text-danger text-xs mt-1">
@@ -160,15 +160,15 @@ const SignupForm = ({ onSubmit }) => {
 
       <div style={{ fontSize: "11px" }} className=" text-muted text-graydark">
         By signing up, you agree to the{" "}
-        <Link className="login-policy-links" to="/policy?tab=terms">
+        <Link className="login-policy-links" to="/policy/terms">
           Terms of Service
         </Link>{" "}
         and{" "}
-        <Link className="login-policy-links" to="/policy?tab=privacy">
+        <Link className="login-policy-links" to="/policy/privacy">
           Privacy Policy
         </Link>
         , including{" "}
-        <Link className="login-policy-links" to="/policy?tab=cookieUse">
+        <Link className="login-policy-links" to="/policy/cookie-use">
           Cookie Use
         </Link>
         .
