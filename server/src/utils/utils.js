@@ -28,7 +28,6 @@ export const checkOTPForUser = async (userId, inputOtp) => {
 
   if (!otpRecord) {
     throw new Error("OTP expired or not found.");
-    
   }
 
   if (otpRecord.otp !== inputOtp) {
@@ -42,15 +41,36 @@ export const checkOTPForUser = async (userId, inputOtp) => {
 
 export function setCookie(res, name, value, options) {
   const defaults = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV, 
-      sameSite: 'Strict',
-      path: '/', 
-      //todo:  domain: 'example.com', 
+    httpOnly: true,
+    secure: process.env.NODE_ENV,
+    sameSite: "Strict",
+    path: "/",
+    //todo:  domain: 'example.com',
   };
- 
+
   const finalOptions = { ...defaults, ...options };
 
   res.cookie(name, value, finalOptions);
 }
 
+export async function cleanExpiredOtps() {
+  try {
+    const expiredOTP = await OTP.findAll({
+      where: {
+        expiresAt: {
+          [Op.lt]: new Date(),
+        },
+      },
+    });
+
+    await OTP.destroy({
+      where: {
+        id: expiredOTP.map((otp) => otp.id),
+      },
+    });
+
+    console.log("Expired OTPs deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting expired OTPs:", error);
+  }
+}
