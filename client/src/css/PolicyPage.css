@@ -1,0 +1,47 @@
+.policy-header {
+  background-color: #9acfea;
+  color: #0c5460;
+  padding: 20px;
+  height: 100px;
+  border-bottom: 1px solid #265a88;
+}
+
+.policy-tabs .nav-link {
+  background-color: #9acfea;
+  color: #0c5460;
+  margin: 5px 0;
+  border-radius: 5px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.policy-tabs .nav-link.active {
+  /* background-color: #337ab7; */
+  background-color: #265a88;
+}
+
+.policy-content {
+  padding: 20px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.policy-footer {
+  background-color: #9acfea;
+  padding: 20px 0;
+}
+
+.policy-footer-nav a {
+  color: #0c5460;
+  text-decoration: none;
+}
+
+.policy-footer-nav a:hover {
+  text-decoration: underline;
+}
+
+.policy-footer p {
+  color: #0c5460;
+  text-decoration: none;
+}
