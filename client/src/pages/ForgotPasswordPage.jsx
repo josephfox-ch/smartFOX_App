@@ -35,7 +35,7 @@ const ForgotPasswordPage = () => {
             <input
               type="email"
               placeholder="Enter email"
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border-2 border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

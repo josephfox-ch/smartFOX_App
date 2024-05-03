@@ -75,7 +75,7 @@ const VerifyOTP = () => {
             <input
               type="text"
               id="otp"
-              className="w-full mt-1 mb-2 p-2 border-2 border-gray-300 rounded"
+              className="w-full mt-1 mb-2 p-2 border-2 border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded"
               placeholder="Enter Code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
