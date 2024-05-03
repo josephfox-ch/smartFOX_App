@@ -163,7 +163,7 @@ const AuthService = {
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+      const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password/${token}`;
 
       await sendResetPasswordLinkMail(user.email, resetLink);
 

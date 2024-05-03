@@ -118,7 +118,7 @@ const LoginForm = ({ loginError, onSubmit }) => {
           to="/signup"
           className="font-bold text-sm text-blue-600 hover:text-blue-800 hover:underline"
         >
-          Sign Up
+          <span className=" font-normal">Don't have an account?</span> Sign Up
         </Link>
       </div>
     </form>
