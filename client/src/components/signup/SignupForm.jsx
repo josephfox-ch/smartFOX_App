@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
     .required("Password is required"),
   phoneNumber: Yup.string()
     .matches(/^\+?[0-9]{10,14}$/, "Invalid phone number")
-    .required("Primary phone number is required"),
+    .notRequired(),
   acceptTerms: Yup.bool().oneOf(
     [true],
     "You must accept the terms and conditions"
