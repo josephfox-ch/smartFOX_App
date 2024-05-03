@@ -204,7 +204,7 @@ After cloning the repository and installing dependencies, navigate to the server
 
 Similarly, after cloning the repository and installing dependencies, navigate to the client directory and configure the `.env` file specific to the client environment.
 
-1. Configure `.env` file based on `env.example.json` provided.
+**Configure `.env` files based on `env.example.json` provided. You need three `.env` files**
 
 ## Running Locally
 
@@ -291,7 +291,7 @@ npm run dev
 
 ```
 
-To buil application locally :
+To build application locally :
 
 ```bash
 npm run build
