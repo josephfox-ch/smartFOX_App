@@ -5,7 +5,7 @@ import "../../css/Footer.css";
 const Footer = () => (
   <footer
     id="mainFooter"
-    className="bg-white text-gray-600 text-center text-sm py-6 mt-3"
+    className=" bg-white border-t border-stroke text-gray-600 text-center text-sm py-6 mt-3"
   >
     <ul className="flex justify-center space-x-1 mb-3">
       <li>
