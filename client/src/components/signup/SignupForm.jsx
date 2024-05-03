@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
@@ -66,7 +66,7 @@ const SignupForm = ({ onSubmit }) => {
             onBlur={formik.handleBlur}
             value={formik.values.firstName}
             placeholder="First Name"
-            className="mt-1 block w-full p-1 border border-gray-300 rounded"
+            className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
           {formik.touched.firstName && formik.errors.firstName && (
             <div className="text-danger text-xs mt-1">
@@ -83,7 +83,7 @@ const SignupForm = ({ onSubmit }) => {
             onBlur={formik.handleBlur}
             value={formik.values.lastName}
             placeholder="Last Name"
-            className="mt-1 block w-full p-1 border border-gray-300 rounded"
+            className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
           {formik.touched.lastName && formik.errors.lastName && (
             <div className="text-danger text-xs mt-1">
@@ -101,7 +101,7 @@ const SignupForm = ({ onSubmit }) => {
           onBlur={formik.handleBlur}
           value={formik.values.email}
           placeholder="Email"
-          className="mt-1 block w-full p-1 border border-gray-300 rounded"
+          className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
         {formik.touched.email && formik.errors.email && (
           <div className="text-danger text-xs mt-1">{formik.errors.email}</div>
@@ -116,7 +116,7 @@ const SignupForm = ({ onSubmit }) => {
           onBlur={formik.handleBlur}
           value={formik.values.password}
           placeholder="New Password"
-          className="mt-1 block w-full p-1 border border-gray-300 rounded"
+          className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
         {formik.touched.password && formik.errors.password && (
           <div className="text-danger text-xs mt-1">
@@ -128,10 +128,11 @@ const SignupForm = ({ onSubmit }) => {
         <PhoneInput
           international
           countryCallingCodeEditable={false}
-          defaultCountry="CH"
+          inputStyle={{ width: "100%", border: "1px solid #AEB7C0" }}
+          country={"ch"}
           value={formik.values.phoneNumber}
           onChange={(value) => formik.setFieldValue("phoneNumber", value)}
-          className="flex mt-1 block w-full px-3 py-1 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded"
+          className="flex mt-1 block w-full shadow-sm rounded  border-bodydark "
         />
         {formik.touched.phoneNumber && formik.errors.phoneNumber && (
           <div className="text-danger text-xs mt-1">
@@ -179,8 +180,7 @@ const SignupForm = ({ onSubmit }) => {
           to="/login"
           className="font-bold text-sm text-blue-600 hover:text-blue-800 hover:underline"
         >
-          <span className=" font-normal">Already have an account?</span>{" "}
-          Sign In
+          <span className=" font-normal">Already have an account?</span> Sign In
         </Link>
       </div>
     </form>

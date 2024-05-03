@@ -62,6 +62,8 @@ export default {
         usgreen:'#0C5460',
         uslightblue:'#9acfea',
         usdarkblue:'#265a88',
+        "gray-4":'#808080',
+        lightgray:'#cbcbcb',
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],
