@@ -1,0 +1,45 @@
+# Log files
+*.log
+
+# Dependency directories
+**/node_modules/
+**/bower_components/
+
+# Compilation and build outputs
+/dist
+/tmp
+/out
+/build
+
+# Git directory and logs
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env
+.env.local
+.env.example
+.dockerenv
+
+# Configuration files
+**/Dockerfile*
+**/docker-compose*.yml
+
+# Other hidden files and directories
+.*
+!/.dockerignore
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# IDE/Editor directories and files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Operating system generated files
+.DS_Store
+Thumbs.db
