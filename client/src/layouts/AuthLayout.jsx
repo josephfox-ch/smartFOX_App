@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Footer from "../components/footer/Footer";
+import Footer from "../components/footers/Footer";
 import Login from "../components/login/Login";
 import Signup from "../components/signup/Signup";
 

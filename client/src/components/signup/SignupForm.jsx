@@ -65,7 +65,7 @@ const SignupForm = ({ onSubmit }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.firstName}
-            placeholder="First Name"
+            placeholder="First Name*"
             className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
           {formik.touched.firstName && formik.errors.firstName && (
@@ -82,7 +82,7 @@ const SignupForm = ({ onSubmit }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.lastName}
-            placeholder="Last Name"
+            placeholder="Last Name*"
             className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
           {formik.touched.lastName && formik.errors.lastName && (
@@ -100,7 +100,7 @@ const SignupForm = ({ onSubmit }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
-          placeholder="Email"
+          placeholder="Email*"
           className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
         {formik.touched.email && formik.errors.email && (
@@ -115,7 +115,7 @@ const SignupForm = ({ onSubmit }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
-          placeholder="New Password"
+          placeholder="New Password*"
           className="mt-1 block w-full p-1 border border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
         />
         {formik.touched.password && formik.errors.password && (
