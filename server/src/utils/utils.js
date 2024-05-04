@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import OTP from "../api/models/otp.js";
 
-export const generateOTP = () => {
+export const generateOTP = async() => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 

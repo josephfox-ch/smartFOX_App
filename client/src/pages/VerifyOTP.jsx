@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import AuthService from "../api/services/authService";
+import { TbFaceId, TbFaceIdError } from "react-icons/tb";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
@@ -25,7 +26,10 @@ const VerifyOTP = () => {
           },
         });
         console.log("verify-response", response);
-        navigate("/dashboard");
+        setMessage(response.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
       } else {
         throw new Error(response.message || "Verification failed");
       }
@@ -52,20 +56,26 @@ const VerifyOTP = () => {
     <div className="bg-whiter flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
         <div className="mb-4">
-          <img src="SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
+          <img src="./SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
         </div>
         <div>
-          <h3 className="py-2 text-lg font-semibold bg-gray-200 rounded">
+          <h3 className="text-center py-2 text-lg font-semibold bg-gray-200 rounded">
             Verify Account
           </h3>
           {error && (
-            <div className="p-2 mt-3 text-sm text-red-700 bg-red-100 rounded">
-              {error}
+            <div className="flex flex-col items-center bg-red-100  text-red-600 text-sm mb-4 text-center shadow-lg">
+              <div className="flex items-center p-1">
+                <TbFaceIdError size="20" className="mr-3" />
+                <span>{error}</span>
+              </div>
             </div>
           )}
           {message && (
-            <div className="p-2 mt-3 text-sm text-green-700 bg-green-100 rounded">
-              {message}
+            <div className="flex flex-col items-center bg-green-100 text-green-600 text-sm mb-4 text-center shadow-lg ">
+              <div className="flex items-center p-1">
+                <TbFaceId size="20" className="mr-3" />
+                <span>{message}</span>
+              </div>
             </div>
           )}
           <form onSubmit={handleSubmit}>

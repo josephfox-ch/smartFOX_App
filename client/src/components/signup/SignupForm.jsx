@@ -43,10 +43,6 @@ const SignupForm = ({ onSubmit }) => {
     validationSchema,
     onSubmit,
   });
-  console.log(
-    "Disabled:",
-    !(formik.values.acceptTerms && formik.values.acceptEmails)
-  );
 
   return (
     <form

@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
-import { TbFaceIdError } from "react-icons/tb";
+import { TbFaceId,TbFaceIdError } from "react-icons/tb";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
     .required("Required"),
 });
 
-const LoginForm = ({ loginError, onSubmit }) => {
+const LoginForm = ({ loginError, onSubmit, verifyAccount, successMessage }) => {
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -36,8 +36,33 @@ const LoginForm = ({ loginError, onSubmit }) => {
       </h1>
 
       {loginError && (
-        <div className=" flex items-center p-2 bg-red-100 text-red-600 text-sm mb-4 text-center rounded-md">
-          <TbFaceIdError size="20" className="mr-3" /> {loginError}
+        <div className="flex flex-col items-center bg-red-100 text-red-600 text-sm mb-4 text-center shadow-lg">
+          <div className="flex items-center p-1">
+            <TbFaceIdError size="20" className="mr-3" />
+            <span>{loginError}</span>
+
+            {loginError === "User is not yet verified." && (
+              <div className="px-2">
+                <Link
+                  onClick={() =>
+                    verifyAccount(formik.values.email, formik.values.password)
+                  }
+                  className="text-blue-600 hover:underline"
+                >
+                  Verify Now
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="flex flex-col items-center bg-green-100 text-green-600 text-sm mb-4 text-center shadow-lg">
+          <div className="flex items-center p-1">
+            <TbFaceId size="20" className="mr-3" />
+            <span>{successMessage}</span>
+          </div>
         </div>
       )}
 

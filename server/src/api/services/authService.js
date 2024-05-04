@@ -45,7 +45,7 @@ const AuthService = {
         { transaction }
       );
 
-      const otp = generateOTP();
+      const otp = await generateOTP();
       // await sendSMS(userData.phoneNumber, `Your OTP: ${otp}`); //todo: send
       await sendOTPMail(userData.email, otp);
       await saveOTPForUser(user.id, otp, transaction);
@@ -84,6 +84,50 @@ const AuthService = {
       console.log("Service error:", error.message);
       return { success: false, message: error.message };
     }
+  },
+  async verifyAccount(email) {
+    try {
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        throw new Error("Incorrect authentication credentials.");
+      }
+
+      if (!user.isVerified) {
+        // E-posta adresine OTP gönderme veya başka bir doğrulama yöntemi uygulama
+        // Burada OTP gönderme işlemi veya başka bir doğrulama işlemi gerçekleştirilebilir.
+        // Örnek:
+        const otp = await generateOTP();
+        // await sendSMS(userData.phoneNumber, `Your OTP: ${otp}`); //todo: send
+        await sendOTPMail(user.email, otp);
+        await saveOTPForUser(user.id, otp);
+        await sendOTPMail(user.email, otp);
+        return {
+          success: true,
+          message: "Otp sent to email address successfully.",
+        };
+      } else {
+        return {
+          success: false,
+          message: "User is already verified.",
+        };
+      }
+    } catch (error) {
+      console.log("Service error:", error.message);
+      return { success: false, message: error.message };
+    }
+  },
+
+  async sendOTP(email) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      throw new Error("Incorrect authentication credentials.");
+    }
+    const otp = await generateOTP();
+    await saveOTPForUser(user.id, otp);
+    return {
+      success: true,
+      message: "OTP sent to email address successfully.",
+    };
   },
   async resendOTP(userId) {
     await OTP.destroy({

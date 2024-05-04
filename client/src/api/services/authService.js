@@ -1,7 +1,7 @@
 import API from "../index";
 
 const AuthService = {
-  login: async ({ email, password}) => {
+  login: async ({ email, password }) => {
     try {
       const response = await API.post("/auth/login", {
         email,
@@ -37,6 +37,17 @@ const AuthService = {
     return response.data;
   },
 
+  verifyAccount: async (email) => {
+    try {
+      const response = await API.post("/auth/verify-account", { email });
+      console.log("Verify response:", response.data);
+      return response.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "An unexpected error occurred.";
+      throw new Error(errorMessage);
+    }
+  },
   verifyOTP: async (userId, otp) => {
     try {
       const response = await API.post("/auth/verify-otp", {
@@ -53,6 +64,14 @@ const AuthService = {
   resendOTP: async (userId) => {
     const response = await API.post("/auth/resend-otp", { userId });
     return response.data;
+  },
+  sendOTP: async (email) => {
+    try {
+      const response = await API.post("/auth/send-otp", { email });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.error || "Unable to send OTP.";
+    }
   },
   forgotPassword: async (email) => {
     try {
