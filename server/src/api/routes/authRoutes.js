@@ -9,6 +9,10 @@ router.post("/verify-otp", AuthController.verifyRegistration);
 
 router.post('/resend-otp',AuthController.resendOTP)
 
+router.post('/send-otp',AuthController.sendOTP)
+
+router.post("/verify-account", AuthController.verifyAccount);
+
 router.post("/login",AuthController.login);
 
 router.post("/login/verify-otp", AuthController.verifyLogin); //todo: 2FA authentication

@@ -48,7 +48,7 @@ const AuthController = {
 
       res.status(200).json({
         success: true,
-        message: "Registration Successful. User verified.",
+        message: "Registration successful. User verified.",
         user,
       });
     } catch (error) {
@@ -115,6 +115,23 @@ const AuthController = {
       });
     }
   },
+
+  async verifyAccount(req, res) {
+    try {
+      const { email } = req.body;
+
+      const verificationResult = await AuthService.verifyAccount(email);
+
+      if (verificationResult.success) {
+        res.status(200).json({ message: "User is verified." });
+      } else {
+        res.status(401).json({ message: verificationResult.message });
+      }
+    } catch (error) {
+      console.error("Error verifying user:", error);
+      res.status(500).json({ message: "Internal server error." });
+    }
+  },
   async refreshToken(req, res) {
     const { refreshToken } = req.body;
     if (!refreshToken) {
@@ -142,6 +159,25 @@ const AuthController = {
       res.status(401).json({ message: error.message });
     }
   },
+  async sendOTP(req, res) {
+    try {
+      const { email } = req.body;
+      await AuthService.sendOTP(email);
+      const user = await User.findOne({ where: { email } });
+      res.status(200).json({
+        success: true,
+        message: "Authentication code has been sent to your email.",
+        userId: user.id,
+      });
+    } catch (error) {
+      console.error("Send OTP Error: ", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to send OTP",
+        error: error.message,
+      });
+    }
+  },
   async resendOTP(req, res) {
     try {
       const { userId } = req.body;
@@ -149,7 +185,7 @@ const AuthController = {
 
       res.status(200).json({
         success: true,
-        message: "A new Authentication Code has been sent to your email.",
+        message: "A new authentication code has been sent to your email.",
       });
     } catch (error) {
       console.error("Resend OTP Error: ", error);
