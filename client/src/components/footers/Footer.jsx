@@ -45,7 +45,7 @@ const Footer = () => (
       </li>
     </ul>
     <p className="mb-1">Rue des Dauphins, 00 1201 Genève</p>
-    <p className="mb-3">&copy; 2024 smartFOX® Home Systems</p>
+    <p className="mb-3">SmartFOX® Home Systems &copy; 2024 </p>
     <ul className="flex justify-center space-x-3">
       <li>
         <Link to="/policy/terms" className="hover:text-blue-500">
@@ -63,27 +63,27 @@ const Footer = () => (
         </Link>
       </li>
       <li>
-        <Link to="/marketing" className="hover:text-blue-500">
+        <Link to="/add-pages/marketing" className="hover:text-blue-500">
           Marketing
         </Link>
       </li>
       <li>
-        <Link to="/support" className="hover:text-blue-500">
+        <Link to="/add-pages/support" className="hover:text-blue-500">
           Support
         </Link>
       </li>
       <li>
-        <Link to="/contact" className="hover:text-blue-500">
+        <Link to="/add-pages/contact" className="hover:text-blue-500">
           Contact
         </Link>
       </li>
       <li>
-        <Link to="/about-us" className="hover:text-blue-500">
+        <Link to="/add-pages/about-us" className="hover:text-blue-500">
           About Us
         </Link>
       </li>
       <li>
-        <Link to="/settings" className="hover:text-blue-500">
+        <Link to="/add-pages/settings" className="hover:text-blue-500">
           Settings
         </Link>
       </li>
