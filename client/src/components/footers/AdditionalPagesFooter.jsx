@@ -5,7 +5,7 @@ const PolicyFooter = () => {
   const activeClassName = "text-red-600 font-bold ";
 
   return (
-    <div className="bg-gray-2  border-t  border-red-600 text-black text-center py-4 mt-auto">
+    <div className="bg-gray-2  border-t  border-stroke text-black text-center py-4 mt-auto">
       <div className="flex justify-center space-x-4">
         <NavLink
           to="/"
