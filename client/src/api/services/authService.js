@@ -38,10 +38,9 @@ const AuthService = {
       return response.data;
     } catch (error) {
       console.error("Register error:", error);
-      throw new Error("Registration failed. Please try again."); 
+      throw new Error("Registration failed. Please try again.");
     }
-  }
-  ,
+  },
   verifyOTP: async (userId, otp) => {
     try {
       const response = await API.post("/auth/verify-otp", {
@@ -70,9 +69,10 @@ const AuthService = {
   forgotPassword: async (email) => {
     try {
       const response = await API.post("/auth/forgot-password", { email });
+      console.log("forgot", response);
       return response.data;
     } catch (error) {
-      throw error.response.data.error || "Unable to send reset link.";
+      throw error || "Unable to send reset link.";
     }
   },
   resetPassword: async (token, password) => {

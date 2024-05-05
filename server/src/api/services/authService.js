@@ -144,12 +144,12 @@ const AuthService = {
     const { accessToken, refreshToken } = generateTokens(user);
     await RefreshTokenService.saveRefreshToken(user.id, refreshToken);
 
-    let userData = user.get({ plain: true });
-    delete userData.password;
+    let userWithoutPassword = user.get({ plain: true });
+    delete userWithoutPassword.password;
 
-    console.log("withoutpassword", userData);
+    console.log("withoutpassword", userWithoutPassword.password);
     return {
-      user: userData,
+      user: userWithoutPassword,
       accessToken,
       refreshToken,
     };
@@ -185,7 +185,7 @@ const AuthService = {
     try {
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        throw new Error("Incorrect email address.");
+        throw new Error("Incorrect authentication credentials.");
       }
       if (!user.isVerified) {
         throw new Error("User account is not yet verified.");

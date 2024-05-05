@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../api/services/authService";
 import { TbFaceId, TbFaceIdError } from "react-icons/tb";
@@ -20,13 +20,13 @@ const ForgotPasswordPage = () => {
       );
     } catch (err) {
       console.error("Forgot Password Error:", err);
-      setError("Failed to send reset link. Please try again.");
+      setError(err.response.data.message);
     }
   };
 
   useEffect(() => {
     setError("");
-  },[email]);
+  }, [email]);
 
   return (
     <div className="bg-gray-2 flex items-center justify-center min-h-screen">
