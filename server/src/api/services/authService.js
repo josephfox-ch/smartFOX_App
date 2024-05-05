@@ -14,7 +14,8 @@ import {
   saveOTPForUser,
   checkOTPForUser,
 } from "../../utils/utils.js";
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
+import logger from "../../config/logger.js";
 
 const AuthService = {
   async register({
@@ -27,6 +28,7 @@ const AuthService = {
     acceptEmails,
     acceptCookies,
   }) {
+    logger.info(`Registering user... in service ${email}`);
     console.log("userdata", {
       firstName,
       lastName,
@@ -53,6 +55,7 @@ const AuthService = {
         },
         { transaction }
       );
+      logger.info(`User is created ${email}`);
 
       await UserPreferences.create(
         {
@@ -67,12 +70,14 @@ const AuthService = {
       const otp = await generateOTP();
       // await sendSMS(phoneNumber, `Your OTP: ${otp}`); //todo: send
       await sendOTPMail(email, otp);
+      logger.info(`User is registered and OTP Code  send to ${email}`);
       await saveOTPForUser(user.id, otp, transaction);
 
       await transaction.commit();
 
       return { user, otp };
     } catch (error) {
+      logger.error(`Error creating user... ${error.message}`);
       await transaction.rollback();
       throw error;
     }

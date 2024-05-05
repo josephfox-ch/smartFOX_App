@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 
 const AccessControl = sequelize.define("AccessControl", {
   accessId: {
