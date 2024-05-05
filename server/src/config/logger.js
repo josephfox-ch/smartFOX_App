@@ -47,7 +47,7 @@ const logger = winston.createLogger({
   ],
   exceptionHandlers: [
     new winston.transports.File({
-      filename: process.env.LOG_EXCEPTION_FILE_PATH || 'logs/exceptions.log'
+      filename: process.env.LOG_EXCEPTION_FILE_PATH || 'logs/exception.log'
     })
   ]
 });

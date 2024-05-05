@@ -29,16 +29,6 @@ const AuthService = {
     acceptCookies,
   }) {
     logger.info(`Registering user... in service ${email}`);
-    console.log("userdata", {
-      firstName,
-      lastName,
-      email,
-      password,
-      phoneNumber,
-      acceptTerms,
-      acceptEmails,
-      acceptCookies,
-    });
 
     const transaction = await sequelize.transaction();
 
@@ -77,7 +67,7 @@ const AuthService = {
 
       return { user, otp };
     } catch (error) {
-      logger.error(`Error creating user... ${error.message}`);
+      logger.error(`Error creating user ${email}: ${error.message}`, { stack: error.stack });
       await transaction.rollback();
       throw error;
     }
@@ -105,7 +95,7 @@ const AuthService = {
         refreshToken: refreshToken,
       };
     } catch (error) {
-      console.log("Service error:", error.message);
+      logger.error("Service error:", error.message);
       return { success: false, message: error.message };
     }
   },
