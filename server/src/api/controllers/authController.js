@@ -208,8 +208,7 @@ const AuthController = {
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "Failed to reset password. Please try again later.",
-        error: error.message,
+        message: error.message,
       });
     }
   },
