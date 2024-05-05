@@ -1,7 +1,7 @@
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
-const RefreshToken = sequelize.define('RefreshToken', {
+const RefreshToken = sequelize.define("RefreshToken", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,

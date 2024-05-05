@@ -20,9 +20,9 @@ const sendOTPMail = async (email, otp) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('OTP mail sent successfully');
+    logger.info(`OTP mail sent successfully to ${email}`);
   } catch (error) {
-    console.error('Error sending OTP mail:', error);
+    logger.error(`Error sending OTP mail: ${error.message}`, { stack: error.stack });
     throw error; 
   }
 };
@@ -40,9 +40,10 @@ const sendResetPasswordLinkMail = async (email, resetLink) => {
   };
   try {
     await transporter.sendMail(mailOptions);
+    logger.info(`Reset link sent to ${email}`);
     return 'Reset link sent to your email if it exists in our system.';
   } catch (error) {
-    console.error('Failed to send email:', error);
+    logger.error(`Failed to send email: ${error.message}`, { stack: error.stack });
     throw new Error('Failed to send reset link.'); 
   }
 };

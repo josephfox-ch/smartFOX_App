@@ -1,4 +1,4 @@
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Event = sequelize.define("Event", {
