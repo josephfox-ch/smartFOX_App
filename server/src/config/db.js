@@ -22,8 +22,8 @@ export const connectDB = async () => {
     await sequelize.authenticate();
     logger.info("Database connection has been established successfully.");
     await sequelize.sync({
-      force: process.env.SEQUELIZE_FORCE,
-      alter: process.env.SEQUELIZE_ALTER,
+      force: false,
+      alter: true,
     });
     logger.info("Database has been synced.");
   } catch (error) {

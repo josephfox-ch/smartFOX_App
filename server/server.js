@@ -1,6 +1,4 @@
-import "dotenv/config";
-import "./src/api/models/index.js";
-import "./src/config/passport.js";
+import "./loadEnv.js";
 import { connectDB } from "./src/config/db.js";
 import logger from "./src/config/logger.js";
 import app from "./src/app.js";
@@ -17,3 +15,5 @@ connectDB()
     logger.error("Database Connection Error " + error.message);
     process.exit(1);
   });
+
+  
