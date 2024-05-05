@@ -32,22 +32,16 @@ const AuthService = {
   },
 
   register: async (userData) => {
-    const response = await API.post("/auth/register", userData);
-    console.log("Register response:", response.data);
-    return response.data;
-  },
-
-  verifyAccount: async (email) => {
     try {
-      const response = await API.post("/auth/verify-account", { email });
-      console.log("Verify response:", response.data);
+      const response = await API.post("/auth/register", userData);
+      console.log("Register response:", response.data);
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "An unexpected error occurred.";
-      throw new Error(errorMessage);
+      console.error("Register error:", error);
+      throw new Error("Registration failed. Please try again."); 
     }
-  },
+  }
+  ,
   verifyOTP: async (userId, otp) => {
     try {
       const response = await API.post("/auth/verify-otp", {

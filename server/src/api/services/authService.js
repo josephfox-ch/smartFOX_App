@@ -17,42 +17,61 @@ import {
 import sequelize from "../../../database/config.js";
 
 const AuthService = {
-  async register(userData) {
-    console.log("userdata", userData);
+  async register({
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    password,
+    acceptTerms,
+    acceptEmails,
+    acceptCookies,
+  }) {
+    console.log("userdata", {
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNumber,
+      acceptTerms,
+      acceptEmails,
+      acceptCookies,
+    });
+
     const transaction = await sequelize.transaction();
+
     try {
-      const hashedPassword = await bcrypt.hash(userData.password, 12);
+      const hashedPassword = await bcrypt.hash(password, 12);
 
       const user = await User.create(
         {
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          email: userData.email,
-          phoneNumber: userData.phoneNumber,
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
           password: hashedPassword,
         },
         { transaction }
       );
 
-      const preferences = await UserPreferences.create(
+      await UserPreferences.create(
         {
           userId: user.id,
-          acceptTerms: userData.acceptTerms,
-          securityQuestion: userData.securityQuestion,
-          securityAnswer: userData.securityAnswer,
-          acceptEmails: userData.acceptEmails,
+          acceptTerms,
+          acceptEmails,
+          acceptCookies,
         },
         { transaction }
       );
 
       const otp = await generateOTP();
-      // await sendSMS(userData.phoneNumber, `Your OTP: ${otp}`); //todo: send
-      await sendOTPMail(userData.email, otp);
+      // await sendSMS(phoneNumber, `Your OTP: ${otp}`); //todo: send
+      await sendOTPMail(email, otp);
       await saveOTPForUser(user.id, otp, transaction);
 
       await transaction.commit();
 
-      return { user, preferences, otp };
+      return { user, otp };
     } catch (error) {
       await transaction.rollback();
       throw error;
@@ -85,38 +104,6 @@ const AuthService = {
       return { success: false, message: error.message };
     }
   },
-  async verifyAccount(email) {
-    try {
-      const user = await User.findOne({ where: { email } });
-      if (!user) {
-        throw new Error("Incorrect authentication credentials.");
-      }
-
-      if (!user.isVerified) {
-        // E-posta adresine OTP gönderme veya başka bir doğrulama yöntemi uygulama
-        // Burada OTP gönderme işlemi veya başka bir doğrulama işlemi gerçekleştirilebilir.
-        // Örnek:
-        const otp = await generateOTP();
-        // await sendSMS(userData.phoneNumber, `Your OTP: ${otp}`); //todo: send
-        await sendOTPMail(user.email, otp);
-        await saveOTPForUser(user.id, otp);
-        await sendOTPMail(user.email, otp);
-        return {
-          success: true,
-          message: "Otp sent to email address successfully.",
-        };
-      } else {
-        return {
-          success: false,
-          message: "User is already verified.",
-        };
-      }
-    } catch (error) {
-      console.log("Service error:", error.message);
-      return { success: false, message: error.message };
-    }
-  },
-
   async sendOTP(email) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
@@ -136,7 +123,7 @@ const AuthService = {
       },
     });
 
-    const newOTP = generateOTP();
+    const newOTP = await generateOTP();
 
     const user = await User.findByPk(userId);
     if (!user) {

@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import AuthService from "../../api/services/authService";
 import LoginForm from "./LoginForm";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Login = () => {
   const navigate = useNavigate();
   const { dispatch } = useAuth();
-  const [loginError, setLoginError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters long")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .required("Required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values, actions) => {
+      handleSubmit(values, actions);
+    },
+  });
 
   const handleSubmit = async (values, actions) => {
     try {
@@ -22,14 +42,14 @@ const Login = () => {
         payload: { user: data.user },
       });
 
-      setSuccessMessage(data.message);
+      setMessage(data.message);
       setTimeout(() => {
         navigate("/dashboard");
       }, 2000);
     } catch (error) {
       const errorMsg =
         error.message || "An unexpected error occurred during login.";
-      setLoginError(errorMsg);
+      setError(errorMsg);
       actions && actions.setSubmitting(false);
     }
   };
@@ -42,27 +62,33 @@ const Login = () => {
           data.message || "An error occurred during OTP sending."
         );
       }
-      setSuccessMessage(data.message);
+      setMessage(data.message);
 
       setTimeout(() => {
         navigate(`/auth/verify-otp?userId=${data.userId}`);
       }, 2000);
 
       console.log("sendOTP-data", data);
-      setLoginError("");
+      setError("");
     } catch (error) {
       const errorMsg =
         error.message || "An unexpected error occurred during OTP sending.";
-      setLoginError(errorMsg);
+      setError(errorMsg);
     }
   };
+
+  useEffect(() => {
+    setError("");
+    setMessage("");
+  }, [formik.values]);
+
   return (
     <>
       <LoginForm
         verifyAccount={handleVerifyAccount}
-        onSubmit={handleSubmit}
-        loginError={loginError}
-        successMessage={successMessage}
+        error={error}
+        message={message}
+        formik={formik}
       />
     </>
   );

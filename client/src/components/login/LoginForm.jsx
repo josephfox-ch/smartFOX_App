@@ -1,31 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
-import { TbFaceId,TbFaceIdError } from "react-icons/tb";
+import { TbFaceId, TbFaceIdError } from "react-icons/tb";
 
-const validationSchema = Yup.object({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters long")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .required("Required"),
-});
-
-const LoginForm = ({ loginError, onSubmit, verifyAccount, successMessage }) => {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      onSubmit(values);
-    },
-  });
-
+const LoginForm = ({ error, verifyAccount, message, formik }) => {
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -35,13 +14,13 @@ const LoginForm = ({ loginError, onSubmit, verifyAccount, successMessage }) => {
         Sign In
       </h1>
 
-      {loginError && (
-        <div className="flex flex-col items-center bg-red-100 text-red-600 text-sm mb-4 text-center shadow-lg">
+      {error && (
+        <div className="flex flex-col items-center bg-red-100 text-red-600 text-sm mb-4 text-center shadow-lg border">
           <div className="flex items-center p-1">
             <TbFaceIdError size="20" className="mr-3" />
-            <span>{loginError}</span>
+            <span>{error}</span>
 
-            {loginError === "User is not yet verified." && (
+            {error === "User is not yet verified." && (
               <div className="px-2">
                 <Link
                   onClick={() =>
@@ -57,11 +36,11 @@ const LoginForm = ({ loginError, onSubmit, verifyAccount, successMessage }) => {
         </div>
       )}
 
-      {successMessage && (
-        <div className="flex flex-col items-center bg-green-100 text-green-600 text-sm mb-4 text-center shadow-lg">
+      {message && (
+        <div className="flex flex-col items-center bg-green-100 text-green-700 text-sm mb-4 text-center shadow-lg border">
           <div className="flex items-center p-1">
             <TbFaceId size="20" className="mr-3" />
-            <span>{successMessage}</span>
+            <span>{message}</span>
           </div>
         </div>
       )}
@@ -124,7 +103,7 @@ const LoginForm = ({ loginError, onSubmit, verifyAccount, successMessage }) => {
         className="w-full bg-foxColor hover:bg-foxColorHover font-bold text-white py-2 px-4 "
         disabled={formik.isSubmitting}
       >
-        Sign In
+        {formik.isSubmitting ? "Signing In..." : "Sign In"}
       </button>
 
       <div className="flex flex-col mt-4">

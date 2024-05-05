@@ -1,49 +1,12 @@
 import React from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { RiAppleFill } from "react-icons/ri";
+import { TbFaceId, TbFaceIdError } from "react-icons/tb";
 
-const validationSchema = Yup.object({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters long")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .required("Password is required"),
-  phoneNumber: Yup.string()
-    .matches(/^\+?[0-9]{10,14}$/, "Invalid phone number")
-    .notRequired(),
-  acceptTerms: Yup.bool().oneOf(
-    [true],
-    "You must accept the terms and conditions"
-  ),
-  acceptEmails: Yup.bool(),
-});
-
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  phoneNumber: "",
-  acceptTerms: true,
-  acceptEmails: true,
-};
-
-const SignupForm = ({ onSubmit }) => {
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
-
+const SignupForm = ({ error, message, formik }) => {
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -52,6 +15,22 @@ const SignupForm = ({ onSubmit }) => {
       <h1 className="text-lg font-bold text-navyBlue mb-6 text-center">
         Sign Up
       </h1>
+      {error && (
+        <div className="flex flex-col items-center bg-red-100  text-red-600 text-sm mb-4 text-center shadow-lg border">
+          <div className="flex items-center p-1">
+            <TbFaceIdError size="20" className="mr-3" />
+            <span>{error}</span>
+          </div>
+        </div>
+      )}
+      {message && (
+        <div className="flex flex-col items-center bg-green-100 text-green-700 text-sm mb-4 text-center shadow-lg border">
+          <div className="flex items-center p-1">
+            <TbFaceId size="20" className="mr-3" />
+            <span>{message}</span>
+          </div>
+        </div>
+      )}
       <div className="flex flex-wrap -mx-2 mb-4">
         <div className="w-full md:w-1/2 px-2 mb-4 md:mb-0">
           <input
@@ -135,6 +114,22 @@ const SignupForm = ({ onSubmit }) => {
             {formik.errors.phoneNumber}
           </div>
         )}
+      </div>
+
+      <div className="mb-4">
+        <label className=" bg-foxColor flex items-center text-gray-4 text-sm  mb-2 shadow shadow-graydark p-1 rounded">
+          <input
+            type="checkbox"
+            id="acceptEmails"
+            name="acceptEmails"
+            checked={formik.values.acceptEmails}
+            onChange={formik.handleChange}
+            className="mr-2 leading-tight"
+          />
+          <span className="text-white text-xs">
+            I accept emails about SmartFOX® Home products.
+          </span>
+        </label>
       </div>
 
       <button

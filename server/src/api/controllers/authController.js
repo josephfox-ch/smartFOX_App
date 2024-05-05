@@ -9,7 +9,7 @@ const AuthController = {
       const { user, otp } = await AuthService.register(req.body);
       res.status(201).json({
         success: true,
-        message: "Registration started. OTP sent.",
+        message: "Registration started.Please check your email.",
         userId: user.id,
         otpSent: !!otp,
       });
@@ -113,23 +113,6 @@ const AuthController = {
         message: "OTP Verification failed",
         error: error.message,
       });
-    }
-  },
-
-  async verifyAccount(req, res) {
-    try {
-      const { email } = req.body;
-
-      const verificationResult = await AuthService.verifyAccount(email);
-
-      if (verificationResult.success) {
-        res.status(200).json({ message: "User is verified." });
-      } else {
-        res.status(401).json({ message: verificationResult.message });
-      }
-    } catch (error) {
-      console.error("Error verifying user:", error);
-      res.status(500).json({ message: "Internal server error." });
     }
   },
   async refreshToken(req, res) {
