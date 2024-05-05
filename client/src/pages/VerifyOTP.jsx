@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import AuthService from "../api/services/authService";
@@ -15,6 +15,7 @@ const VerifyOTP = () => {
     e.preventDefault();
     setError("");
     setMessage("");
+    setOtp("");
     try {
       const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.verifyOTP(userId, otp);
@@ -44,7 +45,7 @@ const VerifyOTP = () => {
     try {
       const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.resendOTP(userId);
-      setMessage("A new Authentication Code has been sent to your email.");
+      setMessage(response.message);
       console.log("OTP has been resent");
       console.log("otp response", response);
     } catch (error) {
@@ -52,18 +53,22 @@ const VerifyOTP = () => {
     }
   };
 
+  useEffect(() => {
+    setError("");
+  }, [otp]);
+
   return (
-    <div className="bg-whiter flex items-center justify-center min-h-screen">
+    <div className="bg-gray-2 flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
         <div className="mb-4">
-          <img src="./SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
+          <img src="/SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
         </div>
         <div>
-          <h3 className="text-center py-2 text-lg font-semibold bg-gray-200 rounded">
+          <h1 className="text-lg font-semibold mt-3 text-center mb-1">
             Verify Account
-          </h3>
+          </h1>
           {error && (
-            <div className="flex flex-col items-center bg-red-100  text-red-600 text-sm mb-4 text-center shadow-lg">
+            <div className="flex flex-col items-center bg-red-100  text-red-600 text-sm mb-4 text-center shadow-lg border">
               <div className="flex items-center p-1">
                 <TbFaceIdError size="20" className="mr-3" />
                 <span>{error}</span>
@@ -71,7 +76,7 @@ const VerifyOTP = () => {
             </div>
           )}
           {message && (
-            <div className="flex flex-col items-center bg-green-100 text-green-600 text-sm mb-4 text-center shadow-lg ">
+            <div className="flex flex-col items-center bg-green-100 text-green-700 text-sm mb-4 text-center shadow-lg border">
               <div className="flex items-center p-1">
                 <TbFaceId size="20" className="mr-3" />
                 <span>{message}</span>
@@ -79,9 +84,6 @@ const VerifyOTP = () => {
             </div>
           )}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="otp" className="block text-left">
-              OTP Code
-            </label>
             <input
               type="text"
               id="otp"
