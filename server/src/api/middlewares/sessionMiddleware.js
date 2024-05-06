@@ -9,7 +9,3 @@ export const sessionMiddleware = cookieSession({
   sameSite: 'lax',
   signed: true
 });
-
-
-
-
