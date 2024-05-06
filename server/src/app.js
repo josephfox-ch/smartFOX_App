@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-// import * as authMiddleware  from "./api/middlewares/authMiddleware.js";
+import {authenticateUser} from "./api/middlewares/authMiddleware.js";
 import { sessionMiddleware } from "./api/middlewares/sessionMiddleware.js";
 import { useRoutes } from "./api/routes/routes.js";
 import logger from "./config/logger.js";
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(sessionMiddleware);
-// app.use(authMiddleware);
+app.use(authenticateUser);
 useRoutes(app);
 
 app.use(

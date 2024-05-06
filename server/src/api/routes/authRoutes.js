@@ -13,10 +13,6 @@ router.post('/send-otp',AuthController.sendOTP)
 
 router.post("/login",AuthController.login);
 
-router.post("/login/verify-otp", AuthController.verifyLogin); //todo: 2FA authentication
-
-router.post('/refresh-token', AuthController.refreshToken); //todo: implement later
-
 router.post('/forgot-password', AuthController.forgotPassword);
 
 router.post('/reset-password', AuthController.resetPassword);
