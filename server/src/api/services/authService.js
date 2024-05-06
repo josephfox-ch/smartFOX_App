@@ -4,7 +4,6 @@ import { Op } from "sequelize";
 import { User, Home, UserPreferences, OTP } from "../models/index.js";
 import { generateTokens } from "../../utils/jwtHelpers.js";
 import RefreshTokenService from "./refreshTokenService.js";
-import sendSMS from "../../notifications/smsService.js";
 import {
   sendOTPMail,
   sendResetPasswordLinkMail,
