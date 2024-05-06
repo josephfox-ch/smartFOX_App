@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { sessionMiddleware } from "./middlewares/sessionMiddleware.js";
+import { authMiddleware } from "./api/middlewares/authMiddleware.js";
+import { sessionMiddleware } from "./api/middlewares/sessionMiddleware.js";
 import { useRoutes } from "./api/routes/routes.js";
 import logger from "./config/logger.js";
 import expressWinston from "express-winston";
@@ -13,10 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(sessionMiddleware);
-
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan(process.env.ACCESS_LOG_FORMAT));
-}
+app.use(authMiddleware);
+useRoutes(app);
 
 app.use(
   cors({
@@ -26,20 +25,22 @@ app.use(
   })
 );
 
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan(process.env.ACCESS_LOG_FORMAT));
+}
 
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    expressWinston.logger({
+      winstonInstance: logger,
+      msg: "HTTP {{req.method}} {{req.url}}",
+      expressFormat: true,
+      colorize: true,
+      ignoreRoute: () => false,
+    })
+  );
+}
 
-
-app.use(
-  expressWinston.logger({
-    winstonInstance: logger,
-    msg: "HTTP {{req.method}} {{req.url}}",
-    expressFormat: true,
-    colorize: true,
-    ignoreRoute: () => false,
-  })
-);
-
-useRoutes(app);
 
 process.on("uncaughtException", (err) => {
   logger.error(`Uncaught Exception ${err.message}`);
