@@ -1,13 +1,18 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import { sessionMiddleware } from "./config/session-config.js";
 import { useRoutes } from "./api/routes/routes.js";
-import passport from "./config/passport.js";
 import logger from "./config/logger.js";
 import expressWinston from "express-winston";
 import errorHandler from "./api/middlewares/errorHandler.js";
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(sessionMiddleware);
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan(process.env.ACCESS_LOG_FORMAT));
@@ -21,11 +26,8 @@ app.use(
   })
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
-app.use(passport.initialize());
+
 
 app.use(
   expressWinston.logger({

@@ -67,7 +67,9 @@ const AuthService = {
 
       return { user, otp };
     } catch (error) {
-      logger.error(`Error creating user ${email}: ${error.message}`, { stack: error.stack });
+      logger.error(`Error creating user ${email}: ${error.message}`, {
+        stack: error.stack,
+      });
       await transaction.rollback();
       throw error;
     }
@@ -82,7 +84,7 @@ const AuthService = {
       if (!user) {
         throw new Error("User Not Found.");
       }
-
+      logger.info("User Verified: " + user.email);
       const { accessToken, refreshToken } = generateTokens(user);
 
       let userWithoutPassword = user.get({ plain: true });
