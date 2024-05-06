@@ -2,7 +2,6 @@ import "./loadEnv.js";
 import "./src/api/models/index.js";
 import "./src/config/logger.js";
 import "./src/config/db.js";
-import './src/config/session-config.js'
 import { connectDB } from "./src/config/db.js";
 import logger from "./src/config/logger.js";
 import app from "./src/app.js";
