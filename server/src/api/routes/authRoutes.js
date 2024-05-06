@@ -24,14 +24,3 @@ router.post('/reset-password', AuthController.resetPassword);
 router.post('/logout', AuthController.logout);
 
 export default router;
-
-
-// router.post('/revoke-token', async (req, res) => {
-//   const { refreshToken } = req.body;
-//   try {
-//       await refreshTokenService.removeRefreshToken(refreshToken);
-//       res.status(200).json({ message: "Token revoked successfully." });
-//   } catch (error) {
-//       res.status(500).json({ message: "Failed to revoke token." });
-//   }
-// });
