@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { sessionMiddleware } from "./config/session-config.js";
+import { sessionMiddleware } from "./middlewares/sessionMiddleware.js";
 import { useRoutes } from "./api/routes/routes.js";
 import logger from "./config/logger.js";
 import expressWinston from "express-winston";
