@@ -87,14 +87,14 @@ const VerifyOTP = () => {
             <input
               type="text"
               id="otp"
-              className="w-full mt-1 mb-2 p-2 border-2 border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded"
+              className="w-full mt-1 mb-2 p-2 border-2 border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded text-sm"
               placeholder="Enter Code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               required
             />
             <p className="text-xs text-graydark">
-              Please enter the Authentication Code sent to your email.
+              *Please enter the Authentication Code sent to your email.
             </p>
             <div className="grid gap-2 mt-3">
               <button
