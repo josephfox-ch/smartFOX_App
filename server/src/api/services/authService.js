@@ -1,7 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User, UserPreferences, OTP } from "../models/index.js";
-import { generateToken } from "../../helpers/jwtHelper.js";
+import {
+  generateSessionToken,
+  generateAccessToken,
+  verifyToken,
+} from "../../helpers/jwtHelper.js";
 import {
   sendOTPMail,
   sendResetPasswordLinkMail,
@@ -35,20 +39,26 @@ const register = async ({
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password: hashedPassword,
-    }, { transaction });
+    const user = await User.create(
+      {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password: hashedPassword,
+      },
+      { transaction }
+    );
 
-    await UserPreferences.create({
-      userId: user.id,
-      acceptTerms,
-      acceptEmails,
-      acceptCookies,
-    }, { transaction });
+    await UserPreferences.create(
+      {
+        userId: user.id,
+        acceptTerms,
+        acceptEmails,
+        acceptCookies,
+      },
+      { transaction }
+    );
 
     const otp = await generateOTP();
     await sendOTPMail(email, otp);
@@ -76,7 +86,7 @@ const verifyRegistration = async (userId, otp) => {
 
     await User.update({ isVerified: true }, { where: { id: userId } });
 
-    const token = generateToken(user);
+    const token = generateSessionToken(user);
     logger.info(`User ${user.email} verified successfully`);
     return {
       success: true,
@@ -114,7 +124,7 @@ const resendOTP = async (userId) => {
     }
 
     await OTP.destroy({
-      where: { userId }
+      where: { userId },
     });
 
     const newOTP = await generateOTP();
@@ -131,7 +141,9 @@ const forgotPassword = async (email) => {
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      logger.error(`Forgot password failed: Email ${email} not associated with any user`);
+      logger.error(
+        `Forgot password failed: Email ${email} not associated with any user`
+      );
       throw new Error("Incorrect authentication credentials.");
     }
     if (!user.isVerified) {
@@ -139,14 +151,14 @@ const forgotPassword = async (email) => {
       throw new Error("User account is not yet verified.");
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = generateAccessToken(user);
     const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password/${token}`;
     await sendResetPasswordLinkMail(user.email, resetLink);
 
     logger.info(`Reset password link sent to ${email}`);
     return {
       success: true,
-      message: "Reset password link sent successfully."
+      message: "Reset password link sent successfully.",
     };
   } catch (error) {
     logger.error(`Forgot password error for ${email}: ${error.message}`);
@@ -156,7 +168,7 @@ const forgotPassword = async (email) => {
 
 const resetPassword = async (token, password) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verifyToken(token);
     const user = await User.findByPk(decoded.id);
     if (!user) {
       logger.error("Reset password failed: User not found.");
@@ -173,7 +185,7 @@ const resetPassword = async (token, password) => {
     logger.info(`Password reset successfully for user ${user.email}`);
     return {
       success: true,
-      message: "Password changed successfully."
+      message: "Password changed successfully.",
     };
   } catch (error) {
     logger.error(`Reset password error: ${error.message}`);
@@ -199,7 +211,7 @@ const login = async ({ email, password }) => {
       throw new Error("Incorrect authentication credentials.");
     }
 
-    const token = generateToken(user);
+    const token = generateSessionToken(user);
     let userWithoutPassword = user.get({ plain: true });
     delete userWithoutPassword.password;
 
@@ -212,10 +224,8 @@ const login = async ({ email, password }) => {
 };
 
 const logout = async (req) => {
-  if (req.session) {
-    req.session = null;
-    logger.info("User logged out successfully");
-  }
+  req.session = null;
+  logger.info("User logged out successfully");
 };
 
 export {

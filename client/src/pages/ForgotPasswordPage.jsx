@@ -20,7 +20,7 @@ const ForgotPasswordPage = () => {
       );
     } catch (err) {
       console.error("Forgot Password Error:", err);
-      setError(err.response.data.message);
+      setError(err.message);
     }
   };
 

@@ -14,9 +14,9 @@ const register = async (req, res) => {
       acceptEmails,
       acceptCookies,
     } = req.body;
-    
+
     logger.info(`Attempting to register user: ${email}`);
-    
+
     const { user, otp } = await AuthService.register({
       firstName,
       lastName,
@@ -27,12 +27,13 @@ const register = async (req, res) => {
       acceptEmails,
       acceptCookies,
     });
-    
+
     logger.info(`Registration successful for user: ${email}`);
-    
+
     res.status(201).json({
       success: true,
-      message: "Registration successful. Please check your email for the one-time-password.",
+      message:
+        "Registration successful. Please check your email for the one-time-password.",
       userId: user.id,
       otpSent: !!otp,
     });
@@ -48,11 +49,12 @@ const register = async (req, res) => {
 
 const verifyRegistration = async (req, res) => {
   const { userId, otp } = req.body;
-  
+
   logger.info(`Verifying registration for user ID ${userId}`);
-  
+
   try {
-    const { success, user, token, message } = await AuthService.verifyRegistration(userId, otp);
+    const { success, user, token, message } =
+      await AuthService.verifyRegistration(userId, otp);
 
     if (!success) {
       return res.status(400).json({ success: false, message });
@@ -61,14 +63,16 @@ const verifyRegistration = async (req, res) => {
     logger.info(`User verified successfully: ${user.email}`);
 
     req.session.token = token;
-    
+
     res.status(200).json({
       success: true,
       message: "Registration successful. User verified.",
       user,
     });
   } catch (error) {
-    logger.error(`OTP Verification failed for user ID ${userId}: ${error.message}`);
+    logger.error(
+      `OTP Verification failed for user ID ${userId}: ${error.message}`
+    );
     res.status(500).json({
       success: false,
       message: "OTP Verification failed",
@@ -79,9 +83,9 @@ const verifyRegistration = async (req, res) => {
 
 const sendOTP = async (req, res) => {
   const { email } = req.body;
-  
+
   logger.info(`Sending OTP to ${email}`);
-  
+
   try {
     await AuthService.sendOTP(email);
     const user = await User.findOne({ where: { email } });
@@ -102,9 +106,9 @@ const sendOTP = async (req, res) => {
 
 const resendOTP = async (req, res) => {
   const { userId } = req.body;
-  
+
   logger.info(`Resending OTP to user ID ${userId}`);
-  
+
   try {
     await AuthService.resendOTP(userId);
     res.status(200).json({
@@ -112,7 +116,9 @@ const resendOTP = async (req, res) => {
       message: "A new authentication code has been sent to your email.",
     });
   } catch (error) {
-    logger.error(`Failed to resend OTP for user ID ${userId}: ${error.message}`);
+    logger.error(
+      `Failed to resend OTP for user ID ${userId}: ${error.message}`
+    );
     res.status(500).json({
       success: false,
       message: "Failed to resend OTP",
@@ -123,17 +129,20 @@ const resendOTP = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  
+
   logger.info(`Processing forgot password for ${email}`);
-  
+
   try {
     await AuthService.forgotPassword(email);
     res.status(200).json({
       success: true,
-      message: "An email has been sent to reset your password. Please check your inbox.",
+      message:
+        "An email has been sent to reset your password. Please check your inbox.",
     });
   } catch (error) {
-    logger.error(`Failed to process forgot password for ${email}: ${error.message}`);
+    logger.error(
+      `Failed to process forgot password for ${email}: ${error.message}`
+    );
     res.status(500).json({
       success: false,
       message: "Failed to process forgot password",
@@ -144,9 +153,9 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { token, password } = req.body;
-  
+
   logger.info(`Resetting password for token: ${token}`);
-  
+
   try {
     await AuthService.resetPassword(token, password);
     res.status(200).json({
@@ -165,9 +174,9 @@ const resetPassword = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  
+
   logger.info(`Attempting login for ${email}`);
-  
+
   try {
     const { success, user, token } = await AuthService.login({
       email,
@@ -176,13 +185,15 @@ const login = async (req, res) => {
 
     if (!success) {
       logger.warn(`Invalid credentials for ${email}`);
-      return res.status(401).json({ success: false, message: "Invalid credentials." });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials." });
     }
 
     req.session.token = token;
 
     logger.info(`Login successful for ${email}`);
-    
+
     res.status(200).json({
       success: true,
       message: "Login successful. User authenticated.",
@@ -192,8 +203,7 @@ const login = async (req, res) => {
     logger.error(`Login failed for ${email}: ${error.message}`);
     res.status(500).json({
       success: false,
-      message: "Login failed",
-      error: error.message,
+      message: error.message,
     });
   }
 };
