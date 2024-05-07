@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import logger from "../config/logger.js";
 
-export const generateToken = (user) => {
+export const generateSessionToken = (user) => {
   const payload = {
     id: user.id,
     email: user.email,
@@ -10,13 +10,34 @@ export const generateToken = (user) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
       algorithm: "HS256",
       allowInsecureKeySizes: true,
-      expiresIn: process.env.JWT_EXPIRATION,
+      expiresIn: process.env.JWT_SESSION_EXPIRATION,
     });
     logger.info(`Token generated for user ${user.id}`);
     return token;
   } catch (error) {
     logger.error(
       `Error generating token for user ${user.id}: ${error.message}`
+    );
+    throw new Error("Token generation failed.");
+  }
+};
+
+export const generateAccessToken = (user) => {
+  const payload = {
+    id: user.id,
+    email: user.email,
+  };
+  try {
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      algorithm: "HS256",
+      allowInsecureKeySizes: true,
+      expiresIn: process.env.JWT_ACCESS_EXPIRATION,
+    });
+    logger.info(`Access token generated for user ${user.id}`);
+    return token;
+  } catch (error) {
+    logger.error(
+      `Error generating access token for user ${user.id}: ${error.message}`
     );
     throw new Error("Token generation failed.");
   }

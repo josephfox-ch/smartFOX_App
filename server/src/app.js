@@ -9,12 +9,6 @@ import errorHandler from "./api/middlewares/errorHandler.js";
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(sessionMiddleware);
-useRoutes(app);
-
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
@@ -22,6 +16,12 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(sessionMiddleware);
+useRoutes(app);
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan(process.env.ACCESS_LOG_FORMAT));
@@ -38,7 +38,6 @@ if (process.env.NODE_ENV === "production") {
     })
   );
 }
-
 
 process.on("uncaughtException", (err) => {
   logger.error(`Uncaught Exception ${err.message}`);
