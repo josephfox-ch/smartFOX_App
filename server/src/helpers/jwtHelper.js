@@ -7,7 +7,9 @@ export const generateToken = (user) => {
     email: user.email,
   };
   try {
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      algorithm: "HS256",
+      allowInsecureKeySizes: true,
       expiresIn: process.env.JWT_EXPIRATION,
     });
     logger.info(`Token generated for user ${user.id}`);
@@ -22,7 +24,7 @@ export const generateToken = (user) => {
 
 export const verifyToken = (token) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     logger.info("Token verified successfully.");
     return decoded;
   } catch (error) {

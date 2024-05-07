@@ -47,7 +47,6 @@ const Signup = () => {
     try {
       console.log("Final Form Values:", values);
       const response = await AuthService.register(values);
-      console.log("Register response:", response);
       setMessage(response.message);
 
       setTimeout(() => {
