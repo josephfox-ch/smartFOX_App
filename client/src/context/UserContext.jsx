@@ -11,7 +11,8 @@ export const UserProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await AuthService.getUser();
-      setUser(response.data.user);
+      console.log('user-context',response)
+      setUser(response.user);
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch user details:", error);

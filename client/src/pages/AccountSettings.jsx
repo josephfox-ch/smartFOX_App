@@ -1,5 +1,5 @@
 import Breadcrumb from "../components/Breadcrumb";
-import { useAuth } from "../context/AuthContext";
+import { useUser } from "../context/UserContext";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
@@ -8,9 +8,7 @@ import { LuUpload } from "react-icons/lu";
 import userOne from "../images/user/user-01.png";
 
 const AccountSettings = () => {
-  const {
-    state: { user },
-  } = useAuth();
+  const {user} = useUser();
   return (
     <div className="mx-auto max-w-270">
       <Breadcrumb pageName="Account Settings" />

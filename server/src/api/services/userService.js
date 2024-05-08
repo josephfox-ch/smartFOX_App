@@ -1,15 +1,15 @@
 import sequelize from "../../config/db.js";
 import { User } from "../models/index.js";
 import bcrypt from "bcryptjs";
-import logger from "../../config/logger.js"; 
+import logger from "../../config/logger.js";
 
 const getUserById = async (userId) => {
   try {
     const user = await User.findByPk(userId, {
-      attributes: { exclude: ['password'] }
+      attributes: { exclude: ["password"] },
     });
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
     return user;
   } catch (error) {
@@ -38,17 +38,18 @@ const updateUser = async (userId, userData) => {
 };
 
 const deleteUser = async (id) => {
-  return sequelize.transaction(async (transaction) => {
-    const deleted = await User.destroy({ where: { id }, transaction });
-    if (!deleted) {
-      return { success: false, message: "User not found" };
-    }
-    return { success: true, id };
-  }).catch(error => {
-    logger.error(`Error deleting user ID ${id}: ${error}`);
-    throw error;
-  });
+  return sequelize
+    .transaction(async (transaction) => {
+      const deleted = await User.destroy({ where: { id }, transaction });
+      if (!deleted) {
+        return { success: false, message: "User not found" };
+      }
+      return { success: true, id };
+    })
+    .catch((error) => {
+      logger.error(`Error deleting user ID ${id}: ${error}`);
+      throw error;
+    });
 };
 
 export { getUserById, updateUser, deleteUser };
-
