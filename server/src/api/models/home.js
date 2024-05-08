@@ -1,4 +1,4 @@
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Home = sequelize.define("Home", {
@@ -66,10 +66,5 @@ const Home = sequelize.define("Home", {
 //     type: DataTypes.TEXT,
 //     allowNull: false,
 //   },
-
-
-
-
-
 
 export default Home;

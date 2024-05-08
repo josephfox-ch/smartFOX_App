@@ -1,4 +1,4 @@
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const User = sequelize.define("User", {
@@ -27,7 +27,6 @@ const User = sequelize.define("User", {
   phoneNumber: {
     type: DataTypes.STRING,
     allowNull: true,
-    unique: true,
   },
   role: {
     type: DataTypes.ENUM,
@@ -37,8 +36,8 @@ const User = sequelize.define("User", {
   },
   isVerified: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false, 
-  }
+    defaultValue: false,
+  },
 });
 
 export default User;

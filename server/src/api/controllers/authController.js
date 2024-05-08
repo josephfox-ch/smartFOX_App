@@ -1,221 +1,259 @@
-import AuthService from "../services/authService.js";
-import { setCookie } from "../../utils/utils.js";
+import * as AuthService from "../services/authService.js";
 import { User } from "../models/index.js";
-import RefreshTokenService from "../services/refreshTokenService.js";
+import logger from "../../config/logger.js";
 
-const AuthController = {
-  async register(req, res) {
-    try {
-      const { user, otp } = await AuthService.register(req.body);
-      res.status(201).json({
-        success: true,
-        message: "Registration started. OTP sent.",
-        userId: user.id,
-        otpSent: !!otp,
-      });
-    } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: "Registration failed",
-        error: error.message,
-      });
-    }
-  },
+const register = async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      acceptTerms,
+      acceptEmails,
+      acceptCookies,
+    } = req.body;
 
-  async verifyRegistration(req, res) {
-    try {
-      const { userId, otp } = req.body;
-      const result = await AuthService.verifyRegistration(userId, otp);
+    logger.info(`Attempting to register user: ${email}`);
 
-      if (!result.success) {
-        return res.status(400).json({
-          success: false,
-          message: result.message,
-        });
-      }
+    const { user, otp } = await AuthService.register({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      acceptTerms,
+      acceptEmails,
+      acceptCookies,
+    });
 
-      const { user, accessToken, refreshToken } = result;
+    logger.info(`Registration successful for user: ${email}`);
 
-      req.session.user = { id: user.id, email: user.email };
-
-      setCookie(res, "smartFOXAccessToken", accessToken, {
-        maxAge: 15 * 60 * 1000,
-      });
-      const refreshCookieMaxAge = 7 * 24 * 60 * 60 * 1000;
-      setCookie(res, "smartFOXRefreshToken", refreshToken, {
-        maxAge: refreshCookieMaxAge,
-      });
-
-      res.status(200).json({
-        success: true,
-        message: "Registration Successful. User verified.",
-        user,
-      });
-    } catch (error) {
-      console.error("Controller error:", error);
-      res.status(500).json({
-        success: false,
-        message: "OTP Verification failed",
-        error: error.message || error.toString(),
-      });
-    }
-  },
-
-  async login(req, res) {
-    try {
-      const { email, password } = req.body;
-      const { user, accessToken, refreshToken } = await AuthService.login(
-        email,
-        password
-      );
-
-      req.session.user = {
-        id: user.id,
-        email: user.email,
-      };
-
-      setCookie(res, "smartFOXAccessToken", accessToken, {
-        maxAge: 15 * 60 * 1000,
-      });
-
-      30 * 24 * 60 * 60 * 1000;
-      setCookie(res, "smartFOXRefreshToken", refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-      });
-
-      res.status(200).json({
-        success: true,
-        message: "Login Successful.",
-        user,
-      });
-    } catch (error) {
-      res.status(401).json({
-        success: false,
-        message: "Login failed",
-        error: error.message,
-      });
-    }
-  },
-
-  async verifyLogin(req, res) {
-    try {
-      const { userId, otp } = req.body;
-      const { token, user } = await AuthService.verifyOTP(userId, otp);
-      res.status(200).json({
-        success: true,
-        message: "Login Successful. User verified.",
-        token: token,
-        user: user,
-      });
-    } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: "OTP Verification failed",
-        error: error.message,
-      });
-    }
-  },
-  async refreshToken(req, res) {
-    const { refreshToken } = req.body;
-    if (!refreshToken) {
-      return res.status(400).json({ message: "Refresh token is required" });
-    }
-
-    try {
-      const userId = await RefreshTokenService.validateRefreshToken(
-        refreshToken
-      );
-      if (!userId) {
-        return res.status(401).json({ message: "Invalid refresh token" });
-      }
-      const user = User.findById(userId);
-      const { accessToken, newRefreshToken } = jwtHelpers.generateTokens(
-        user,
-        true
-      );
-
-      res.json({
-        accessToken,
-        refreshToken: newRefreshToken,
-      });
-    } catch (error) {
-      res.status(401).json({ message: error.message });
-    }
-  },
-  async resendOTP(req, res) {
-    try {
-      const { userId } = req.body;
-      await AuthService.resendOTP(userId);
-
-      res.status(200).json({
-        success: true,
-        message: "A new Authentication Code has been sent to your email.",
-      });
-    } catch (error) {
-      console.error("Resend OTP Error: ", error);
-      res.status(500).json({
-        success: false,
-        message: "Failed to resend OTP",
-        error: error.message,
-      });
-    }
-  },
-  async logout(req, res) {
-    try {
-      const { cookies, session } = req;
-      const result = await AuthService.logout(cookies, session);
-
-      result.clearCookies.forEach((cookie) => {
-        res.clearCookie(cookie.name, { path: cookie.path });
-      });
-      res.status(200).json({ message: result.message });
-    } catch (error) {
-      console.error("Logout Error:", error);
-      res
-        .status(500)
-        .json({ message: "Failed to logout, internal server error." });
-    }
-  },
-
-  forgotPassword: async (req, res) => {
-    try {
-      const { email } = req.body;
-      await AuthService.forgotPassword(email);
-      res.status(200).json({
-        success: true,
-        message:
-          "An email has been sent to reset your password. Please check your inbox.",
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Failed to reset password. Please try again later.",
-        error: error.message,
-      });
-    }
-  },
-
-  resetPassword: async (req, res) => {
-    try {
-      const { token, password } = req.body;
-      await AuthService.resetPassword(token, password);
-      res.status(200).json({
-        success: true,
-        message: "Your password has been reset successfully.",
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Failed to reset password. Please try again later.",
-        error: error.message,
-      });
-    }
-  },
+    res.status(201).json({
+      success: true,
+      message:
+        "Registration successful. Please check your email for the one-time-password.",
+      userId: user.id,
+      otpSent: !!otp,
+    });
+  } catch (error) {
+    logger.error(`Registration failed for ${email}: ${error.message}`);
+    res.status(400).json({
+      success: false,
+      message: "Registration failed",
+      error: error.message,
+    });
+  }
 };
 
-export default AuthController;
+const verifyRegistration = async (req, res) => {
+  const { userId, otp } = req.body;
 
-//todo: defining maxAge is best practise when cleaning up.
-// res.cookie('smartFOXAccessToken', '', { maxAge: 0, httpOnly: true, secure: true, sameSite: 'Strict', path: '/' });
-// res.cookie('smartFOXRefreshToken', '', { maxAge: 0, httpOnly: true, secure: true, sameSite: 'Strict', path: '/' });
-// res.clearCookie('smartFOX-session', { path: '/' });
+  logger.info(`Verifying registration for user ID ${userId}`);
+
+  try {
+    const { success, user, token, message } =
+      await AuthService.verifyRegistration(userId, otp);
+
+    if (!success) {
+      return res.status(400).json({ success: false, message });
+    }
+
+    logger.info(`User verified successfully: ${user.email}`);
+
+    req.session.token = token;
+
+    res.status(200).json({
+      success: true,
+      message: "Registration successful. User verified.",
+      user,
+    });
+  } catch (error) {
+    logger.error(
+      `OTP Verification failed for user ID ${userId}: ${error.message}`
+    );
+    res.status(500).json({
+      success: false,
+      message: "OTP Verification failed",
+      error: error.message,
+    });
+  }
+};
+
+const sendOTP = async (req, res) => {
+  const { email } = req.body;
+
+  logger.info(`Sending OTP to ${email}`);
+
+  try {
+    await AuthService.sendOTP(email);
+    const user = await User.findOne({ where: { email } });
+    res.status(200).json({
+      success: true,
+      message: "Authentication code has been sent to your email.",
+      userId: user.id,
+    });
+  } catch (error) {
+    logger.error(`Failed to send OTP to ${email}: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to send OTP",
+      error: error.message,
+    });
+  }
+};
+
+const resendOTP = async (req, res) => {
+  const { userId } = req.body;
+
+  logger.info(`Resending OTP to user ID ${userId}`);
+
+  try {
+    await AuthService.resendOTP(userId);
+    res.status(200).json({
+      success: true,
+      message: "A new authentication code has been sent to your email.",
+    });
+  } catch (error) {
+    logger.error(
+      `Failed to resend OTP for user ID ${userId}: ${error.message}`
+    );
+    res.status(500).json({
+      success: false,
+      message: "Failed to resend OTP",
+      error: error.message,
+    });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  logger.info(`Processing forgot password for ${email}`);
+
+  try {
+    await AuthService.forgotPassword(email);
+    res.status(200).json({
+      success: true,
+      message:
+        "An email has been sent to reset your password. Please check your inbox.",
+    });
+  } catch (error) {
+    logger.error(
+      `Failed to process forgot password for ${email}: ${error.message}`
+    );
+    res.status(500).json({
+      success: false,
+      message: "Failed to process forgot password",
+      error: error.message,
+    });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  logger.info(`Resetting password for token: ${token}`);
+
+  try {
+    await AuthService.resetPassword(token, password);
+    res.status(200).json({
+      success: true,
+      message: "Your password has been reset successfully.",
+    });
+  } catch (error) {
+    logger.error(`Failed to reset password: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to reset password. Please try again later.",
+      error: error.message,
+    });
+  }
+};
+
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  logger.info(`Attempting login for ${email}`);
+
+  try {
+    const { success, user, token } = await AuthService.login({
+      email,
+      password,
+    });
+
+    if (!success) {
+      logger.warn(`Invalid credentials for ${email}`);
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials." });
+    }
+
+    req.session.token = token;
+
+    logger.info(`Login successful for ${email}`);
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful. User authenticated.",
+      user,
+    });
+  } catch (error) {
+    logger.error(`Login failed for ${email}: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const validateSession = async (req, res) => {
+  const token = req.session.token;
+  try {
+    const user = await AuthService.validateSession(token);
+    res.status(200).json({
+      success: true,
+      message: "Session has validated successfully.",
+      user,
+    });
+  } catch (error) {
+    logger.error(`Failed to validate session: ${error.message}`);
+    res.status(401).json({
+      success: false,
+      message:
+        "For your security, Your session has expired. Please log in again.",
+      error: error.message,
+    });
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    await AuthService.logout(req);
+    logger.info("User logged out successfully.");
+    res.status(200).json({
+      success: true,
+      message: "You have been successfully logged out.",
+    });
+  } catch (error) {
+    logger.error("Failed to logout: " + error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to logout",
+      error: error.message,
+    });
+  }
+};
+
+export {
+  register,
+  verifyRegistration,
+  sendOTP,
+  login,
+  resendOTP,
+  forgotPassword,
+  resetPassword,
+  validateSession,
+  logout,
+};

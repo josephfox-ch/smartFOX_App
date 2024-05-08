@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
 import OTP from "../api/models/otp.js";
+import logger from "../config/logger.js";
 
-export const generateOTP = () => {
+export const generateOTP = async () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
@@ -39,20 +40,6 @@ export const checkOTPForUser = async (userId, inputOtp) => {
   return true;
 };
 
-export function setCookie(res, name, value, options) {
-  const defaults = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV,
-    sameSite: "Strict",
-    path: "/",
-    //todo:  domain: 'example.com',
-  };
-
-  const finalOptions = { ...defaults, ...options };
-
-  res.cookie(name, value, finalOptions);
-}
-
 export async function cleanExpiredOtps() {
   try {
     const expiredOTP = await OTP.findAll({
@@ -69,8 +56,10 @@ export async function cleanExpiredOtps() {
       },
     });
 
-    console.log("Expired OTPs deleted successfully.");
+    logger.info("Expired OTPs deleted successfully.");
   } catch (error) {
-    console.error("Error deleting expired OTPs:", error);
+    logger.error(`Error deleting expired OTPs: ${error.message}`, {
+      stack: error.stack,
+    });
   }
 }

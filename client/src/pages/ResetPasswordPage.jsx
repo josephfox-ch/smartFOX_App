@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import AuthService from "../api/services/authService";
+import { TbFaceId, TbFaceIdError } from "react-icons/tb";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
@@ -33,20 +34,42 @@ const ResetPasswordPage = () => {
       const timer = setTimeout(() => {
         setMessage("");
         navigate("/login");
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [message, navigate]);
 
+  useEffect(() => {
+    setError("");
+  }, [password, confirmPassword]);
+
   return (
-    <div className="bg-whiter flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
+    <div className="bg-gray-2 flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 bg-white  rounded shadow-lg shadow-graydark">
         <div className="mb-4 text-center">
           <img src="/SFX.png" alt="Logo" className="w-64 mx-auto" />
-          <h1 className="text-lg font-semibold mt-3">Reset Your Password</h1>
+          <h1 className="text-lg font-semibold mt-3 mb-1">
+            Reset Your Password
+          </h1>
+          {error && (
+            <div className="flex flex-col items-center bg-red-100  text-red-600 text-sm mb-4 text-center shadow-lg border">
+              <div className="flex items-center p-1">
+                <TbFaceIdError size="20" className="mr-3" />
+                <span>{error}</span>
+              </div>
+            </div>
+          )}
+          {message && (
+            <div className="flex flex-col items-center bg-green-100 text-green-700 text-sm mb-4 text-center shadow-lg border">
+              <div className="flex items-center p-1">
+                <TbFaceId size="20" className="mr-3" />
+                <span>{message}</span>
+              </div>
+            </div>
+          )}
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-4 ">
             <input
               type="password"
               placeholder="Enter new password"
@@ -56,7 +79,7 @@ const ResetPasswordPage = () => {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 ">
             <input
               type="password"
               placeholder="Confirm new password"
@@ -73,16 +96,6 @@ const ResetPasswordPage = () => {
           >
             Reset Password
           </button>
-          {message && (
-            <div className="p-3 mt-3 text-sm text-green-700 bg-green-100 rounded">
-              {message}
-            </div>
-          )}
-          {error && (
-            <div className="p-3 mt-3 text-sm text-red-700 bg-red-100 rounded">
-              {error}
-            </div>
-          )}
         </form>
         <p className="mt-3 text-sm text-center text-gray-600">
           Remember your password?

@@ -1,4 +1,4 @@
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Device = sequelize.define("Device", {
@@ -25,7 +25,7 @@ const Device = sequelize.define("Device", {
   status: {
     type: DataTypes.ENUM("on", "off", "idle"),
     allowNull: false,
-  }
+  },
 });
 
 export default Device;

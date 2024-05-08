@@ -1,31 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import AuthService from "../api/services/authService";
+import { TbFaceId, TbFaceIdError } from "react-icons/tb";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setMessage("");
+    setOtp("");
     try {
       const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.verifyOTP(userId, otp);
       if (response.success) {
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            user: response.user,
-          },
-        });
         console.log("verify-response", response);
-        navigate("/dashboard");
+        setMessage(response.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
       } else {
         throw new Error(response.message || "Verification failed");
       }
@@ -40,7 +37,7 @@ const VerifyOTP = () => {
     try {
       const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.resendOTP(userId);
-      setMessage("A new Authentication Code has been sent to your email.");
+      setMessage(response.message);
       console.log("OTP has been resent");
       console.log("otp response", response);
     } catch (error) {
@@ -48,41 +45,49 @@ const VerifyOTP = () => {
     }
   };
 
+  useEffect(() => {
+    setError("");
+    setMessage("");
+  }, [otp]);
+
   return (
-    <div className="bg-whiter flex items-center justify-center min-h-screen">
+    <div className="bg-gray-2 flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-6 bg-white rounded shadow-lg shadow-graydark">
         <div className="mb-4">
-          <img src="SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
+          <img src="/SFX.png" alt="Logo" className="mx-auto w-56 mb-4" />
         </div>
         <div>
-          <h3 className="py-2 text-lg font-semibold bg-gray-200 rounded">
+          <h1 className="text-lg font-semibold mt-3 text-center mb-1">
             Verify Account
-          </h3>
+          </h1>
           {error && (
-            <div className="p-2 mt-3 text-sm text-red-700 bg-red-100 rounded">
-              {error}
+            <div className="flex flex-col items-center bg-red-100  text-red-600 text-sm mb-4 text-center shadow-lg border">
+              <div className="flex items-center p-1">
+                <TbFaceIdError size="20" className="mr-3" />
+                <span>{error}</span>
+              </div>
             </div>
           )}
           {message && (
-            <div className="p-2 mt-3 text-sm text-green-700 bg-green-100 rounded">
-              {message}
+            <div className="flex flex-col items-center bg-green-100 text-green-700 text-sm mb-4 text-center shadow-lg border">
+              <div className="flex items-center p-1">
+                <TbFaceId size="20" className="mr-3" />
+                <span>{message}</span>
+              </div>
             </div>
           )}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="otp" className="block text-left">
-              OTP Code
-            </label>
             <input
               type="text"
               id="otp"
-              className="w-full mt-1 mb-2 p-2 border-2 border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded"
+              className="w-full mt-1 mb-2 p-2 border-2 border-bodydark rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded text-sm"
               placeholder="Enter Code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               required
             />
             <p className="text-xs text-graydark">
-              Please enter the Authentication Code sent to your email.
+              *Please enter the Authentication Code sent to your email.
             </p>
             <div className="grid gap-2 mt-3">
               <button
