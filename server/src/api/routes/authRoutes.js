@@ -17,7 +17,7 @@ router.post('/forgot-password', AuthController.forgotPassword);
 
 router.post('/reset-password', AuthController.resetPassword);
 
-router.post('/validate-authentication', AuthController.validateAuthentication);
+router.post('/validate-session', AuthController.validateSession);
 
 router.post('/logout', AuthController.logout);
 

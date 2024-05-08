@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./layouts/AuthLayout";
 import VerifyOTP from "./pages/VerifyOTP";
@@ -21,41 +16,39 @@ const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={isAuthenticated ? <DashboardLayout /> : <AuthLayout />}
-        />
-        <Route
-          path="/login"
-          element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
-          }
-        />
-        <Route path="/auth/verify-otp" element={<VerifyOTP />} />
-        <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
-        <Route
-          path="/auth/reset-password/:token"
-          element={<ResetPasswordPage />}
-        />
-        {PolicyPageRoutes()}
-        {AdditionalPageRoutes()}
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route path="account-settings" element={<AccountSettings />} />
-            {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
-          </Route>
+    <Routes>
+      <Route
+        path="/"
+        element={isAuthenticated ? <DashboardLayout /> : <AuthLayout />}
+      />
+      <Route
+        path="/login"
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
+        }
+      />
+      <Route path="/auth/verify-otp" element={<VerifyOTP />} />
+      <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+      <Route
+        path="/auth/reset-password/:token"
+        element={<ResetPasswordPage />}
+      />
+      {PolicyPageRoutes()}
+      {AdditionalPageRoutes()}
+      <Route element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path="account-settings" element={<AccountSettings />} />
+          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 

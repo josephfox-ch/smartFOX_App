@@ -208,17 +208,17 @@ const login = async (req, res) => {
   }
 };
 
-const validateAuthentication = async (req, res) => {
+const validateSession = async (req, res) => {
   const token = req.session.token;
   try {
-    const user = await AuthService.validateAuthentication(token);
+    const user = await AuthService.validateSession(token);
     res.status(200).json({
       success: true,
-      message: "User authenticated successfully.",
+      message: "Session has validated successfully.",
       user,
     });
   } catch (error) {
-    logger.error(`Failed to validate authentication: ${error.message}`);
+    logger.error(`Failed to validate session: ${error.message}`);
     res.status(401).json({
       success: false,
       message:
@@ -254,6 +254,6 @@ export {
   resendOTP,
   forgotPassword,
   resetPassword,
-  validateAuthentication,
+  validateSession,
   logout,
 };

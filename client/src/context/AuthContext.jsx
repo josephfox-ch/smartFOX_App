@@ -39,22 +39,7 @@ const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const validateAuthentication = async () => {
-      dispatch({ type: "SET_LOADING", payload: true });
-      try {
-        const data = await AuthService.validateAuthentication();
-        if (data.user) {
-          dispatch({ type: "LOGIN_SUCCESS", payload: { user: data.user } });
-        } else {
-          dispatch({ type: "LOGOUT" });
-        }
-      } catch (error) {
-        console.error("Authentication verification failed:", error);
-        dispatch({ type: "LOGOUT" });
-      }
-    };
-
-    validateAuthentication();
+    validateSession();
   }, []);
 
   const login = async (credentials) => {
@@ -69,6 +54,8 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
@@ -86,8 +73,25 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const validateSession = async () => {
+    dispatch({ type: "SET_LOADING", payload: true });
+    try {
+      const data = await AuthService.validateSession();
+      if (data.user) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: { user: data.user } });
+      } else {
+        dispatch({ type: "LOGOUT" });
+      }
+    } catch (error) {
+      console.error("Authentication verification failed:", error);
+      dispatch({ type: "LOGOUT" });
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ ...state, login, logout }}>
+    <AuthContext.Provider value={{ ...state, login, logout, validateSession }}>
       {children}
     </AuthContext.Provider>
   );
