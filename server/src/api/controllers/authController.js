@@ -208,6 +208,26 @@ const login = async (req, res) => {
   }
 };
 
+const validateAuthentication = async (req, res) => {
+  const token = req.session.token;
+  try {
+    const user = await AuthService.validateAuthentication(token);
+    res.status(200).json({
+      success: true,
+      message: "User authenticated successfully.",
+      user,
+    });
+  } catch (error) {
+    logger.error(`Failed to validate authentication: ${error.message}`);
+    res.status(401).json({
+      success: false,
+      message:
+        "For your security, Your session has expired. Please log in again.",
+      error: error.message,
+    });
+  }
+};
+
 const logout = async (req, res) => {
   try {
     await AuthService.logout(req);
@@ -234,5 +254,6 @@ export {
   resendOTP,
   forgotPassword,
   resetPassword,
+  validateAuthentication,
   logout,
 };

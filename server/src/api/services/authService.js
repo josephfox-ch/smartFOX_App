@@ -86,7 +86,7 @@ const verifyRegistration = async (userId, otp) => {
 
     await User.update({ isVerified: true }, { where: { id: userId } });
 
-    const token = generateSessionToken(user);
+    const token = await generateSessionToken(user);
     logger.info(`User ${user.email} verified successfully`);
     return {
       success: true,
@@ -151,7 +151,7 @@ const forgotPassword = async (email) => {
       throw new Error("User account is not yet verified.");
     }
 
-    const token = generateAccessToken(user);
+    const token = await generateAccessToken(user);
     const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password/${token}`;
     await sendResetPasswordLinkMail(user.email, resetLink);
 
@@ -168,7 +168,7 @@ const forgotPassword = async (email) => {
 
 const resetPassword = async (token, password) => {
   try {
-    const decoded = verifyToken(token);
+    const decoded = await verifyToken(token);
     const user = await User.findByPk(decoded.id);
     if (!user) {
       logger.error("Reset password failed: User not found.");
@@ -211,7 +211,7 @@ const login = async ({ email, password }) => {
       throw new Error("Incorrect authentication credentials.");
     }
 
-    const token = generateSessionToken(user);
+    const token = await generateSessionToken(user);
     let userWithoutPassword = user.get({ plain: true });
     delete userWithoutPassword.password;
 
@@ -220,6 +220,21 @@ const login = async ({ email, password }) => {
   } catch (error) {
     logger.error(`Login error for ${email}: ${error.message}`);
     throw error;
+  }
+};
+
+const validateAuthentication = async (token) => {
+  if (!token) {
+    throw new Error("No token provided.");
+  }
+  try {
+    const decoded = await verifyToken(token);
+    if (!decoded) {
+      throw new Error("Invalid token.");
+    }
+    return decoded;
+  } catch (error) {
+    throw new Error(`Authentication validation failed: ${error.message}`);
   }
 };
 
@@ -236,5 +251,6 @@ export {
   resendOTP,
   forgotPassword,
   resetPassword,
+  validateAuthentication,
   logout,
 };
