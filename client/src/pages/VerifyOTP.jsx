@@ -9,7 +9,7 @@ const VerifyOTP = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
+  const { login} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,13 +20,8 @@ const VerifyOTP = () => {
       const userId = new URLSearchParams(window.location.search).get("userId");
       const response = await AuthService.verifyOTP(userId, otp);
       if (response.success) {
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            user: response.user,
-          },
-        });
         console.log("verify-response", response);
+        await login({user:response.user});
         setMessage(response.message);
         setTimeout(() => {
           navigate("/dashboard");

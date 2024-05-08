@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import logger from "../config/logger.js";
 
-export const generateSessionToken = (user) => {
+export const generateSessionToken = async (user) => {
   const payload = {
     id: user.id,
     email: user.email,
@@ -22,7 +22,7 @@ export const generateSessionToken = (user) => {
   }
 };
 
-export const generateAccessToken = (user) => {
+export const generateAccessToken = async (user) => {
   const payload = {
     id: user.id,
     email: user.email,
@@ -43,7 +43,7 @@ export const generateAccessToken = (user) => {
   }
 };
 
-export const verifyToken = (token) => {
+export const verifyToken = async (token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     logger.info("Token verified successfully.");

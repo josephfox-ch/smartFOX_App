@@ -84,6 +84,19 @@ const AuthService = {
       throw new Error("Unable to reset password");
     }
   },
+
+  validateAuthentication: async () => {
+    try {
+      const response = await API.post("/auth/validate-authentication");
+      console.log('api-client-validate',response.data);
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message ||
+          "For your security, Your session has expired. Please log in again."
+      );
+    }
+  }
 };
 
 export default AuthService;

@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
+  const { login } = useAuth();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -33,24 +33,15 @@ const Login = () => {
 
   const handleSubmit = async (values, actions) => {
     try {
-      const data = await AuthService.login(values);
-      if (data.error) {
-        throw new Error(data.message || "An error occurred during login.");
-      }
-      dispatch({
-        type: "LOGIN",
-        payload: { user: data.user },
-      });
-
-      setMessage(data.message);
+      await login(values);
+      setMessage("Login successful");
       setTimeout(() => {
         navigate("/dashboard");
       }, 2000);
     } catch (error) {
-      const errorMsg =
-        error.message || "An unexpected error occurred during login.";
-      setError(errorMsg);
-      actions && actions.setSubmitting(false);
+      setError(error.message);
+      console.error(error)
+      actions.setSubmitting(false);
     }
   };
 
