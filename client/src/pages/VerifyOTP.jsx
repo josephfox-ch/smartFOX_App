@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import AuthService from "../api/services/authService";
 import { TbFaceId, TbFaceIdError } from "react-icons/tb";
 
@@ -9,7 +8,6 @@ const VerifyOTP = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { login} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +19,6 @@ const VerifyOTP = () => {
       const response = await AuthService.verifyOTP(userId, otp);
       if (response.success) {
         console.log("verify-response", response);
-        await login({user:response.user});
         setMessage(response.message);
         setTimeout(() => {
           navigate("/dashboard");
