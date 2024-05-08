@@ -8,8 +8,6 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      console.log("action:" + JSON.stringify(action));
-      console.log("payload", action.payload);
       return {
         ...state,
         isAuthenticated: true,

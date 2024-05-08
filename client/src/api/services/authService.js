@@ -1,4 +1,4 @@
-import API from "../index";
+import API from "../API";
 
 const AuthService = {
   login: async ({ email, password }) => {
