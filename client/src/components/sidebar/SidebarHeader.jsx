@@ -21,7 +21,7 @@ const SidebarHeader = () => {
         aria-expanded={sidebarOpen}
         className="block lg:hidden"
       >
-        <FaArrowLeft size="20" />
+        <FaArrowLeft className="text-meta-9" size="20" />
       </button>
     </div>
   );

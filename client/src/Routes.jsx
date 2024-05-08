@@ -48,24 +48,14 @@ const AppRoutes = () => {
           <Route path="settings" element={<SettingsPages />} />
         </Route>
 
-        <Route
-          path="/dashboard"
-          element={
-            //  <PrivateRoute>
-            <DashboardLayout />
-            //  </PrivateRoute>
-          }
-        />
-        <Route
-          path="/dashboard/account-settings"
-          element={
-            // <PrivateRoute>
-            <DashboardLayout>
-              <AccountSettings />
-            </DashboardLayout>
-            // </PrivateRoute>
-          }
-        />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<DashboardLayout />} />
+          <Route
+            path="/dashboard/account-settings"
+            element={<AccountSettings />}
+          />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

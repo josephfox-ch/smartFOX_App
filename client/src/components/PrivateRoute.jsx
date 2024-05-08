@@ -1,18 +1,17 @@
 import React from "react";
-import { Route, Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; 
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = () => {
   const {
     state: { isAuthenticated },
   } = useAuth();
-  const location = useLocation();
 
-  return isAuthenticated ? (
-    children
-  ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
-  );
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;
