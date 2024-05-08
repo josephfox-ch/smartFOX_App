@@ -232,6 +232,7 @@ const validateSession = async (token) => {
     if (!decoded) {
       throw new Error("Invalid token.");
     }
+    logger.info(`Session has validated for user: ${token}`);
     return decoded;
   } catch (error) {
     throw new Error(`Session validation failed: ${error.message}`);
