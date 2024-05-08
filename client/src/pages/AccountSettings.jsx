@@ -1,17 +1,19 @@
 import Breadcrumb from "../components/Breadcrumb";
 import { useUser } from "../context/UserContext";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { PiNotePencilBold } from "react-icons/pi";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { LuUpload } from "react-icons/lu";
 import userOne from "../images/user/user-01.png";
 
 const AccountSettings = () => {
-  const {user} = useUser();
+  const { user } = useUser();
   return (
     <div className="mx-auto max-w-270">
-      <Breadcrumb pageName="Account Settings" />
+      <Breadcrumb className="text-foxColor" pageName="Account Settings" />
 
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
@@ -27,23 +29,65 @@ const AccountSettings = () => {
                   <div className="w-full sm:w-1/2">
                     <label
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="fullName"
+                      htmlFor="firstName"
                     >
-                      Full Name
+                      First Name
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4.5 top-4">
+                      <span className="absolute left-4.5 top-3">
                         <FaRegUser size="20" />
                       </span>
                       <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                        className="w-full  border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white "
                         type="text"
-                        name="fullName"
-                        id="fullName"
-                        placeholder="Your Full Name"
-                        defaultValue={
-                          user ? `${user.firstName} ${user.lastName}` : ""
-                        }
+                        name="firstName"
+                        id="firstName"
+                        placeholder="Your First Name"
+                        defaultValue={user ? `${user.firstName}` : ""}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full sm:w-1/2">
+                    <label
+                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      htmlFor="lastName"
+                    >
+                      Last Name
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-4.5 top-3">
+                        <FaRegUser size="20" />
+                      </span>
+                      <input
+                        className="w-full  border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white"
+                        type="text"
+                        name="lastName"
+                        id="lastName"
+                        placeholder="Your Last Name"
+                        defaultValue={user ? `${user.lastName}` : ""}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+                  <div className="w-full sm:w-1/2">
+                    <label
+                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      htmlFor="emailAddress"
+                    >
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-4.5 top-3">
+                        <MdOutlineMail size="20" />
+                      </span>
+                      <input
+                        className="w-full  border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white "
+                        type="email"
+                        name="emailAddress"
+                        id="emailAddress"
+                        placeholder="email@example.com"
+                        defaultValue={user ? `${user.email} ` : ""}
                       />
                     </div>
                   </div>
@@ -53,100 +97,57 @@ const AccountSettings = () => {
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
                       htmlFor="phoneNumber"
                     >
-                      Phone Number
+                      Password
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4.5 top-4">
-                        <BsFillTelephoneFill />
+                      <span className="absolute left-4.5 top-3">
+                        <RiLockPasswordFill size="20" />
                       </span>
 
                       <input
-                        className="w-full rounded border border-stroke bg-gray py-3  pl-11.5 pr-4.5  text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                        className="w-full  border border-stroke bg-gray py-2  pl-11.5 pr-4.5  text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white"
                         type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="+41 00 000 00 00"
-                        defaultValue={`+${user?.phoneNumber}`}
+                        name="password"
+                        id="password"
+                        placeholder="************"
+                        defaultValue=""
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="emailAddress"
-                  >
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4.5 top-4">
-                      <MdOutlineMail size="20" />
-                    </span>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="email"
-                      name="emailAddress"
-                      id="emailAddress"
-                      placeholder="email@example.com"
-                      defaultValue={user && user.email}
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="Username"
-                  >
-                    Username
-                  </label>
-                  <input
-                    className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                    type="text"
-                    name="Username"
-                    id="Username"
-                    placeholder="Username"
-                    defaultValue={user && user.username}
+                  <PhoneInput
+                    international
+                    countryCallingCodeEditable={false}
+                    inputStyle={{ width: "100%", border: "1px solid #AEB7C0" }}
+                    country={"ch"}
+                    value={user ? `${user.phoneNumber} ` : ""}
+                    onChange={() => {}}
+                    className="flex mt-1 block w-full  rounded  border-bodydark "
                   />
                 </div>
-
-                <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
-                    htmlFor="Username"
+                <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4.5">
+                  <button
+                    className="w-full sm:w-auto sm:flex-3 justify-center border border-stroke py-2 px-4 text-sm text-white bg-red-500 hover:shadow-1 hover:bg-red-600 dark:border-strokedark dark:text-white"
+                    type="button"
                   >
-                    BIO
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4.5 top-4">
-                      <PiNotePencilBold size="20" />
-                    </span>
-
-                    <textarea
-                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      name="bio"
-                      id="bio"
-                      rows={6}
-                      placeholder="Write your bio here"
-                      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
-                    ></textarea>
+                    Delete Account
+                  </button>
+                  <div className="flex justify-between gap-4.5">
+                    <button
+                      className="  justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white"
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="  justify-center bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700"
+                      type="submit"
+                    >
+                      Save
+                    </button>
                   </div>
-                </div>
-
-                <div className="flex justify-end gap-4.5">
-                  <button
-                    className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white"
-                    type="submit"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
-                    type="submit"
-                  >
-                    Save
-                  </button>
                 </div>
               </form>
             </div>
@@ -204,15 +205,15 @@ const AccountSettings = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-4.5">
+                <div className="flex justify-end  gap-4.5">
                   <button
-                    className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white"
+                    className="flex justify-center  border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white"
                     type="submit"
                   >
                     Cancel
                   </button>
                   <button
-                    className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
+                    className="flex justify-center  bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700"
                     type="submit"
                   >
                     Save

@@ -27,6 +27,7 @@ export default {
         bodydark2: "#8A99AF",
         bodydark3:'#7C8A9E',
         primary: "#3C50E0",
+        primaryHover:'#2C3FD1',
         linkColor:'#646cff',
         secondary: "#80CAEE",
         stroke: "#E2E8F0",
