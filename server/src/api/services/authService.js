@@ -223,7 +223,7 @@ const login = async ({ email, password }) => {
   }
 };
 
-const validateAuthentication = async (token) => {
+const validateSession = async (token) => {
   if (!token) {
     throw new Error("No token provided.");
   }
@@ -234,7 +234,7 @@ const validateAuthentication = async (token) => {
     }
     return decoded;
   } catch (error) {
-    throw new Error(`Authentication validation failed: ${error.message}`);
+    throw new Error(`Session validation failed: ${error.message}`);
   }
 };
 
@@ -251,6 +251,6 @@ export {
   resendOTP,
   forgotPassword,
   resetPassword,
-  validateAuthentication,
+  validateSession,
   logout,
 };
