@@ -18,7 +18,6 @@ const UserPanel = () => {
   const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
-    console.log('user-panel',user)
     try {
       await logout();
       navigate("/login");
