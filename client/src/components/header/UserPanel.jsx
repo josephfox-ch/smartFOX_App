@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useUser } from "../../context/UserContext";
-import AuthService from "../../api/services/authService";
 import { Link } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -19,6 +18,7 @@ const UserPanel = () => {
   const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
+    console.log('user-panel',user)
     try {
       await logout();
       navigate("/login");
@@ -59,7 +59,7 @@ const UserPanel = () => {
         {/* Dropdown Content */}
         <div className="px-5.5 py-2 border-b border-stroke dark:border-strokedark">
           <h5 className="text-sm font-medium text-bodydark2">
-            {state.user ? state.user.email : "user@user.com"}
+            {user ? user.email : "user@user.com"}
           </h5>
         </div>
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">

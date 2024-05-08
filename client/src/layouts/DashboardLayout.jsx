@@ -1,9 +1,10 @@
-import React from 'react';
-import Header from '../components/header/Header';
-import Sidebar from '../components/sidebar/Sidebar';
-import { SidebarProvider } from '../context/SidebarContext';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "../components/header/Header";
+import Sidebar from "../components/sidebar/Sidebar";
+import { SidebarProvider } from "../context/SidebarContext";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   return (
     <SidebarProvider>
       <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -13,7 +14,7 @@ const DashboardLayout = ({ children }) => {
             <Header />
             <main>
               <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                {children}
+                <Outlet />
               </div>
             </main>
           </div>
@@ -24,4 +25,3 @@ const DashboardLayout = ({ children }) => {
 };
 
 export default DashboardLayout;
-

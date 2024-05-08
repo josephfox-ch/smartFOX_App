@@ -18,4 +18,3 @@ export const authenticateUser = async (req, res, next) => {
     res.status(401).send({ message: "Unauthorized: Invalid token" });
   }
 };
-

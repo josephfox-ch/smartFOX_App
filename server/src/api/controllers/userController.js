@@ -20,7 +20,7 @@ const UserController = {
   },
 
   updateUser: async (req, res) => {
-    const  id  = req.user.id;
+    const id = req.user.id;
     try {
       const updatedUser = await UserService.updateUser(id, req.body);
       res.status(200).json({
@@ -37,7 +37,7 @@ const UserController = {
   },
 
   deleteUser: async (req, res) => {
-    const  id  = req.user.id;
+    const id = req.user.id;
     try {
       const result = await UserService.deleteUser(id);
       if (!result.success) {
