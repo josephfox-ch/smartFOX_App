@@ -1,61 +1,49 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import session from "express-session";
-import RedisStore from "connect-redis";
-import { createClient } from "redis";
-import cookieParser from 'cookie-parser';
-import passport from "./config/passport.js";
-import userRoutes from "./api/routes/userRoutes.js";
-// import homeRoutes from './api/routes/homeRoutes.js';
-import authRoutes from "./api/routes/authRoutes.js";
+import { sessionMiddleware } from "./api/middlewares/sessionMiddleware.js";
+import { useRoutes } from "./api/routes/routes.js";
+import logger from "./config/logger.js";
+import expressWinston from "express-winston";
+import errorHandler from "./api/middlewares/errorHandler.js";
 
 const app = express();
 
-const redisClient = createClient();
-redisClient.connect().catch(console.error);
-
-const redisStore = new RedisStore({
-  client: redisClient,
-  prefix: "smartFOX:",
-});
-
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
-redisClient.on('connect', () => console.log('Connected to Redis'));
-
-
-//todo: app.use(cors()); !!!
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-app.use(morgan("dev"));
+
 app.use(express.json());
-app.use(cookieParser());
-app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(sessionMiddleware);
+useRoutes(app);
 
-app.use(
-  session({
-    store: redisStore,
-    name: "smartFOX-session",
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false, //todo: change secure to 'true' for production
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan(process.env.ACCESS_LOG_FORMAT));
+}
 
-app.use("/api/v1/users", userRoutes);
-// app.use('/api/v1/homes', homeRoutes);
-app.use("/api/v1/auth", authRoutes);
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    expressWinston.logger({
+      winstonInstance: logger,
+      msg: "HTTP {{req.method}} {{req.url}}",
+      expressFormat: true,
+      colorize: true,
+      ignoreRoute: () => false,
+    })
+  );
+}
+
+process.on("uncaughtException", (err) => {
+  logger.error(`Uncaught Exception ${err.message}`);
+  process.exit(0);
+});
+
+app.use(errorHandler);
 
 export default app;

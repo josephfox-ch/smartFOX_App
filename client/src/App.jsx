@@ -1,17 +1,16 @@
 import React from "react";
-  // import "bootstrap/dist/css/bootstrap.min.css";
-import { AuthProvider } from "./context/AuthContext";
-import AppRoutes from "./Routes";
-import './App.css';
 
+import { UserProvider } from "./context/UserContext";
+import AppRoutes from "./Routes";
+import "./App.css";
 
 function App() {
   return (
-    <AuthProvider>
+    <UserProvider>
       <div className="App">
         <AppRoutes />
       </div>
-    </AuthProvider>
+    </UserProvider>
   );
 }
 

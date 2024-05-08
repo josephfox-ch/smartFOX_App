@@ -1,4 +1,4 @@
-import sequelize from "../../../database/config.js";
+import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const UserPreferences = sequelize.define("UserPreferences", {
@@ -22,20 +22,12 @@ const UserPreferences = sequelize.define("UserPreferences", {
   acceptTerms: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
-    allowNull: true,
+    allowNull: false,
   },
   acceptCookies: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
-    allowNull: true,
-  },
-  securityQuestion: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  securityAnswer: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
 });
 

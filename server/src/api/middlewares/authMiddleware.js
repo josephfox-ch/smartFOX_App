@@ -1,41 +1,20 @@
-import passport from "../../config/passport.js";
-import { auth } from "express-oauth2-jwt-bearer";
+import { verifyToken } from "../../helpers/jwtHelper.js";
+import logger from "../../config/logger.js";
 
-const auth0Check = auth({
-  audience: "https://smartfoxhome.com/api",
-  issuerBaseURL: "https://dev-q6sl7tm1jcbjck1h.eu.auth0.com/",
-  tokenSigningAlg: "RS256",
-});
+export const authenticateUser = async (req, res, next) => {
+  const token = req.session.token;
+  if (!token) {
+    logger.warn("No token provided in session.");
+    return res.status(401).send({ message: "Unauthorized: No token provided" });
+  }
 
-export const flexibleAuth = (req, res, next) => {
-  auth0Check(req, res, (nextError) => {
-    if (!nextError) return next();
-
-    passport.authenticate("jwt", { session: false }, (error, user, info) => {
-      if (error) return next(error);
-      if (user) {
-        req.user = user;
-        return next();
-      }
-
-      return res.status(401).json({ message: "Unauthorized" });
-    })(req, res, next);
-  });
+  try {
+    const decoded = await verifyToken(token);
+    req.user = decoded;
+    logger.info(`Token verified for user: ${decoded.id}`);
+    next();
+  } catch (error) {
+    logger.error("Invalid token provided.");
+    res.status(401).send({ message: "Unauthorized: Invalid token" });
+  }
 };
-
-
-//todo: implement
-// import { verifyAccessToken } from './utils/jwtHelper';
-
-// function authenticateToken(req, res, next) {
-//     const authHeader = req.headers['authorization'];
-//     const token = authHeader && authHeader.split(' ')[1];
-//     if (token == null) return res.sendStatus(401);
-
-//     const { isValid, payload, error } = verifyAccessToken(token);
-//     if (!isValid) return res.sendStatus(403);
-
-//     req.user = payload;
-//     next();
-// }
-
