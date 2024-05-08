@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useUser } from "../../context/UserContext";
 import AuthService from "../../api/services/authService";
 import { Link } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
@@ -11,15 +12,15 @@ import UserOne from "../../images/user/user-01.png";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const UserPanel = () => {
-  const { state, dispatch } = useAuth();
   const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { user, loading } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
     try {
-      await AuthService.logout();
-      dispatch({ type: "LOGOUT" });
+      await logout();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -39,11 +40,9 @@ const UserPanel = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {state.user ? `${state.user.firstName} ${state.user.lastName}` : ""}
+            {user ? `${user.firstName} ${user.lastName}` : ""}
           </span>
-          <span className="block text-xs">
-            {state.user ? state.user.role : "Guest"}
-          </span>
+          <span className="block text-xs">{user ? user.role : "Guest"}</span>
         </span>
         <span className="h-12 w-12 rounded-full">
           <img src={UserOne} alt="User" />
@@ -57,7 +56,7 @@ const UserPanel = () => {
           dropdownOpen ? "block" : "hidden"
         }`}
       >
-        {/* Dropdown içeriği */}
+        {/* Dropdown Content */}
         <div className="px-5.5 py-2 border-b border-stroke dark:border-strokedark">
           <h5 className="text-sm font-medium text-bodydark2">
             {state.user ? state.user.email : "user@user.com"}
