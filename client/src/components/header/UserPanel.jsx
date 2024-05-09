@@ -7,7 +7,7 @@ import { FaRegUser } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
-import UserOne from "../../images/user/user-01.png";
+import UserAvatar from '../UserAvatar';
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const UserPanel = () => {
@@ -43,9 +43,11 @@ const UserPanel = () => {
           </span>
           <span className="block text-xs">{user ? user.role : "Guest"}</span>
         </span>
-        <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
-        </span>
+        <UserAvatar />
+        {/* <span className="h-12 w-12 rounded-full">
+        <img src={(user && user.avatarUrl) ? user.avatarUrl : userOne} alt="User" />
+
+        </span> */}
         <IoIosArrowDown />
       </Link>
 

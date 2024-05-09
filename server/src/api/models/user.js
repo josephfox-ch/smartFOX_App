@@ -28,6 +28,11 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  avatarUrl:{
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: "https://smartfoxhome.s3.eu-north-1.amazonaws.com/avatars/user-01.png",
+  },
   role: {
     type: DataTypes.ENUM,
     values: ["homeowner", "resident", "guest"],

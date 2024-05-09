@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import AvatarEditor from "react-avatar-editor";
 import { useUser } from "../../context/UserContext";
-import userOne from "../../images/user/user-01.png";
+import UserAvatar from "../UserAvatar";
 
 Modal.setAppElement("#root");
 
@@ -42,7 +42,8 @@ const AvatarEditForm = () => {
         <form action="#">
           <div className="mb-4 flex items-center gap-3">
             <div className="h-14 w-14 rounded-full">
-              <img src={userOne} alt="User" />
+           <UserAvatar/>
+
             </div>
             <div>
               <span className="mb-1.5 text-black dark:text-white">
