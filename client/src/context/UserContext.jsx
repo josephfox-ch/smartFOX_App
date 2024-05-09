@@ -18,10 +18,15 @@ export const UserProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await AuthService.getUser();
-      console.log("user-context", response);
-      setUser(response.user);
+      if (response.user) {
+        setUser(response.user);
+        console.log('user-fetched', response.user)
+      } else {
+        throw new Error('No user data found');
+      }
     } catch (error) {
       console.error("Failed to fetch user details:", error);
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -39,3 +44,4 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
+
