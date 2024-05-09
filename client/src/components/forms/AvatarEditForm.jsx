@@ -3,6 +3,8 @@ import Modal from "react-modal";
 import AvatarEditor from "react-avatar-editor";
 import { useUser } from "../../context/UserContext";
 import UserAvatar from "../UserAvatar";
+import { getPresignedUrl } from "../../api/services/fileService";
+import { uploadToS3, canvasToBlob } from "../../utils/fileUtils";
 
 Modal.setAppElement("#root");
 
@@ -11,22 +13,35 @@ const AvatarEditForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [editor, setEditor] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleUpdateClick = () => {
     setIsModalOpen(true);
   };
 
   const handleDeleteClick = () => {
-
     console.log("Delete clicked");
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (editor) {
-      const canvas = editor.getImageScaledToCanvas().toDataURL();
-      console.log(canvas); 
+      try {
+        setUploading(true);
+        const canvas = editor.getImageScaledToCanvas();
+        const blob = await canvasToBlob(canvas);
+        const fileName = `${user.id}.png`;
+        const { url, fields } = await getPresignedUrl(fileName, blob.type);
+
+        await uploadToS3(url, fields, blob);
+        console.log('Upload successful');
+        //todo: Optionally update the user context or state with the new avatar URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      } finally {
+        setUploading(false);
+        setIsModalOpen(false);
+      }
     }
-    setIsModalOpen(false);
   };
 
   const handleFileChange = (event) => {
@@ -42,8 +57,7 @@ const AvatarEditForm = () => {
         <form action="#">
           <div className="mb-4 flex items-center gap-3">
             <div className="h-14 w-14 rounded-full">
-           <UserAvatar/>
-
+              <UserAvatar />
             </div>
             <div>
               <span className="mb-1.5 text-black dark:text-white">
@@ -70,14 +84,14 @@ const AvatarEditForm = () => {
         </form>
       </div>
       <Modal
-        className="fixed inset-0 flex items-center justify-center z-50 "
+        className="fixed inset-0 flex items-center justify-center z-50"
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Edit Photo"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
       >
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md ">
-          <h2 className="text-center text-lg font-semibold  mb-4 p-2 rounded">
+        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+          <h2 className="text-center text-lg font-semibold mb-4 p-2 rounded">
             Edit Your Photo
           </h2>
           <div className="flex flex-col items-center mb-4">
@@ -99,7 +113,6 @@ const AvatarEditForm = () => {
               />
             )}
           </div>
-
           <div className="flex justify-end gap-4 mt-4">
             <button
               className="border border-stroke py-2 px-6 text-sm text-black hover:shadow-lg hover:bg-gray-100 transition duration-200"
@@ -108,10 +121,11 @@ const AvatarEditForm = () => {
               Cancel
             </button>
             <button
-              className="bg-blue-600 py-2 px-6 text-sm text-white  hover:bg-blue-700 transition duration-200"
+              className="bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 transition duration-200"
               onClick={handleSaveClick}
+              disabled={uploading}
             >
-              Save
+              {uploading ? 'Saving...' : 'Save'}
             </button>
           </div>
         </div>
@@ -121,3 +135,5 @@ const AvatarEditForm = () => {
 };
 
 export default AvatarEditForm;
+
+
