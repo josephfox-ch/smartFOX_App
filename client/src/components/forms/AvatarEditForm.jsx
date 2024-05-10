@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AvatarEditor from "react-avatar-editor";
-import * as FileService from "../../api/services/fileService";
-import { uploadToS3, canvasToBlob } from "../../utils/fileUtils";
+import * as s3Service from "../../api/services/s3Service";
+import { uploadToS3, canvasToBlob } from "../../utils/s3Utils";
 import { useUser } from "../../context/UserContext";
 import UserAvatar from "../UserAvatar";
 import ModalWrapper from "../modals/ModalWrapper";
@@ -22,7 +22,7 @@ const AvatarEditForm = () => {
 
   const handleDeleteAvatar = async () => {
     try {
-      await FileService.deleteAvatarFromS3(user.id);
+      await s3Service.deleteAvatarFromS3(user.id);
       console.log("Avatar deleted successfully");
       updateUser({ avatarUrl: "" });
     } catch (error) {
@@ -37,7 +37,7 @@ const AvatarEditForm = () => {
         const canvas = editor.getImageScaledToCanvas();
         const blob = await canvasToBlob(canvas);
         const fileName = `${user.id}.png`;
-        const { url, fields } = await FileService.getPresignedUrl(
+        const { url, fields } = await s3Service.getPresignedUrl(
           fileName,
           blob.type
         );
