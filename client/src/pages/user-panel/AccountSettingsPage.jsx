@@ -1,7 +1,7 @@
 import React from "react";
-import Breadcrumb from "../components/Breadcrumb";
-import PersonalInformationForm from "../components/forms/PersonalInformationForm";
-import AvatarEditForm from "../components/forms/AvatarEditForm";
+import Breadcrumb from "../../components/Breadcrumb";
+import PersonalInformationForm from "../../components/forms/PersonalInformationForm";
+import AvatarEditForm from "../../components/forms/AvatarEditForm";
 
 const AccountSettingsPage = () => {
   return (
