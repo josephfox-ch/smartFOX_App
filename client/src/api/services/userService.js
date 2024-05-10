@@ -12,4 +12,14 @@ export const updateUser = async (userData) => {
   }
 };
 
+export const deleteUser = async () => {
+  try {
+    const response = await API.delete('/user');
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting user:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
+
 

@@ -7,6 +7,8 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useUser } from "../../context/UserContext";
+import * as UserService from "../../api/services/userService";
+import { useAuth } from "../../context/AuthContext";
 
 const validationSchema = Yup.object({
   firstName: Yup.string().required("First name is required"),
@@ -25,6 +27,7 @@ const validationSchema = Yup.object({
 
 const PersonalInformationForm = () => {
   const { user, updateUser } = useUser();
+  const { logout } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -45,6 +48,20 @@ const PersonalInformationForm = () => {
       }
     },
   });
+
+  const deleteAccount = async () => {
+    try {
+      const result = await UserService.deleteUser();
+      if (result.success) {
+        alert("User deleted successfully");
+        logout();
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      alert("Failed to delete user. Please try again later.");
+    }
+  };
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -189,7 +206,7 @@ const PersonalInformationForm = () => {
             <button
               className="w-full sm:w-auto sm:flex-3 justify-center border border-stroke py-2 px-4 text-sm text-white bg-red-500 hover:shadow-1 hover:bg-red-600 dark:border-strokedark dark:text-white hover:shadow-lg"
               type="button"
-              onClick={formik.resetForm}
+              onClick={deleteAccount}
             >
               Delete Account
             </button>
