@@ -1,6 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
+import * as Yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegUser } from "react-icons/fa";
@@ -8,12 +8,19 @@ import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useUser } from "../../context/UserContext";
 
-const validationSchema = yup.object({
-  firstName: yup.string().required("First Name is required"),
-  lastName: yup.string().required("Last Name is required"),
-  email: yup.string().email("Invalid email format").required("Email is required"),
-  phoneNumber: yup.string().required("Phone Number is required"),
-  password: yup.string().required("Password is required").min(8, "Password must be at least 8 characters"),
+const validationSchema = Yup.object({
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters long")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .required("Password is required"),
+  phoneNumber: Yup.string()
+    .matches(/^\+?[0-9]{10,14}$/, "Invalid phone number")
+    .notRequired(),
 });
 
 const PersonalInformationForm = () => {
@@ -28,7 +35,7 @@ const PersonalInformationForm = () => {
       password: "",
     },
     validationSchema,
-    enableReinitialize: true, 
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         await updateUser(values);
