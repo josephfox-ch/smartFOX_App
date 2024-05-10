@@ -8,7 +8,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import DashboardLayout from "./layouts/DashboardLayout";
-import AccountSettingsPage from "./pages/AccountSettingsPage";
+import AccountSettingsPage from "./pages/user-panel/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
 

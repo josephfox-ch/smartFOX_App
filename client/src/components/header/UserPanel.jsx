@@ -44,10 +44,6 @@ const UserPanel = () => {
           <span className="block text-xs">{user ? user.role : "Guest"}</span>
         </span>
         <UserAvatar />
-        {/* <span className="h-12 w-12 rounded-full">
-        <img src={(user && user.avatarUrl) ? user.avatarUrl : userOne} alt="User" />
-
-        </span> */}
         <IoIosArrowDown />
       </Link>
 
