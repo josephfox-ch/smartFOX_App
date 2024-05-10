@@ -1,17 +1,43 @@
 import React from "react";
-import { useUser } from "../../context/UserContext";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { useUser } from "../../context/UserContext";
+
+const validationSchema = yup.object({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  email: yup.string().email("Invalid email format").required("Email is required"),
+  phoneNumber: yup.string().required("Phone Number is required"),
+  password: yup.string().required("Password is required").min(8, "Password must be at least 8 characters"),
+});
 
 const PersonalInformationForm = () => {
-  const { user, updateUser, deleteUser } = useUser();
+  const { user, updateUser } = useUser();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
+  const formik = useFormik({
+    initialValues: {
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      phoneNumber: user?.phoneNumber || "",
+      password: "",
+    },
+    validationSchema,
+    enableReinitialize: true, 
+    onSubmit: async (values) => {
+      try {
+        await updateUser(values);
+        console.log("User updated successfully");
+      } catch (error) {
+        console.error("Error updating user:", error);
+      }
+    },
+  });
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -21,7 +47,7 @@ const PersonalInformationForm = () => {
         </h3>
       </div>
       <div className="p-7">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <div className="w-full sm:w-1/2">
               <label
@@ -38,8 +64,16 @@ const PersonalInformationForm = () => {
                   className="w-full border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white"
                   type="text"
                   id="firstName"
-                  defaultValue={user ? user.firstName : ""}
+                  name="firstName"
+                  value={formik.values.firstName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
+                {formik.touched.firstName && formik.errors.firstName ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.firstName}
+                  </div>
+                ) : null}
               </div>
             </div>
             <div className="w-full sm:w-1/2">
@@ -57,8 +91,16 @@ const PersonalInformationForm = () => {
                   className="w-full border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white"
                   type="text"
                   id="lastName"
-                  defaultValue={user ? user.lastName : ""}
+                  name="lastName"
+                  value={formik.values.lastName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
+                {formik.touched.lastName && formik.errors.lastName ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.lastName}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -66,7 +108,7 @@ const PersonalInformationForm = () => {
             <div className="w-full sm:w-1/2">
               <label
                 className="mb-3 block text-sm font-medium text-black dark:text-white"
-                htmlFor="emailAddress"
+                htmlFor="email"
               >
                 Email Address
               </label>
@@ -77,9 +119,17 @@ const PersonalInformationForm = () => {
                 <input
                   className="w-full border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white"
                   type="email"
-                  id="emailAddress"
-                  defaultValue={user ? user.email : ""}
+                  id="email"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
+                {formik.touched.email && formik.errors.email ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.email}
+                  </div>
+                ) : null}
               </div>
             </div>
             <div className="w-full sm:w-1/2">
@@ -97,8 +147,17 @@ const PersonalInformationForm = () => {
                   className="w-full border border-stroke bg-gray py-2 pl-11.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-strokedark dark:bg-meta-4 dark:text-white"
                   type="password"
                   id="password"
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   placeholder="************"
                 />
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.password}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -108,16 +167,22 @@ const PersonalInformationForm = () => {
               countryCallingCodeEditable={false}
               inputStyle={{ width: "100%", border: "1px solid #AEB7C0" }}
               country={"ch"}
-              value={user ? user.phoneNumber : ""}
-              onChange={() => {}}
+              value={formik.values.phoneNumber}
+              onChange={(phone) => formik.setFieldValue("phoneNumber", phone)}
+              onBlur={formik.handleBlur}
               className="flex mt-1 block w-full rounded border-bodydark"
             />
+            {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+              <div className="text-red-500 text-sm">
+                {formik.errors.phoneNumber}
+              </div>
+            ) : null}
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4.5">
             <button
               className="w-full sm:w-auto sm:flex-3 justify-center border border-stroke py-2 px-4 text-sm text-white bg-red-500 hover:shadow-1 hover:bg-red-600 dark:border-strokedark dark:text-white hover:shadow-lg"
               type="button"
-              onClick={deleteUser}
+              onClick={formik.resetForm}
             >
               Delete Account
             </button>
@@ -125,6 +190,7 @@ const PersonalInformationForm = () => {
               <button
                 className="justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
                 type="button"
+                onClick={() => formik.resetForm()}
               >
                 Cancel
               </button>

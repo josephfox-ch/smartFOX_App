@@ -44,7 +44,9 @@ const AvatarEditForm = () => {
 
         await uploadToS3(url, fields, blob);
         console.log("Upload successful");
-        updateUser({ avatarUrl: avatarBaseUrl + fileName });
+
+        const newAvatarUrl = `${avatarBaseUrl}${fileName}?t=${Date.now()}`;
+        await updateUser({ avatarUrl: newAvatarUrl });
       } catch (error) {
         console.error("Error uploading file:", error);
       } finally {
