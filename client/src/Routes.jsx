@@ -6,7 +6,7 @@ import VerifyAccountPage from "./pages/VerifyAccountPage";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import NotFound from "./pages/NotFound";
+import NotFoundPage from "./pages/NotFoundPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AccountSettingsPage from "./pages/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
@@ -47,7 +47,7 @@ const AppRoutes = () => {
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
       </Route>
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
