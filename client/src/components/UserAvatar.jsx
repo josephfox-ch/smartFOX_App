@@ -13,8 +13,6 @@ const UserAvatar = () => {
     );
   }
 
-  
-
   return (
     <span className="h-12 w-12 rounded-full overflow-hidden bg-gray-200">
       <img
