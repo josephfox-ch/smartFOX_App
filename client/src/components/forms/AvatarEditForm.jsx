@@ -1,16 +1,16 @@
+// src/components/AvatarEditForm/AvatarEditForm.jsx
 import React, { useState } from "react";
-import Modal from "react-modal";
 import AvatarEditor from "react-avatar-editor";
-import { useUser } from "../../context/UserContext";
-import UserAvatar from "../UserAvatar";
 import * as FileService from "../../api/services/fileService";
 import { uploadToS3, canvasToBlob } from "../../utils/fileUtils";
-
-Modal.setAppElement("#root");
+import { useUser } from "../../context/UserContext";
+import UserAvatar from "../UserAvatar";
+import ModalWrapper from "../modals/ModalWrapper";
+import { useModal } from "../../context/ModalContext";
 
 const AvatarEditForm = () => {
   const { user, updateUser } = useUser();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openModal, closeModal, isModalOpen } = useModal();
   const [selectedFile, setSelectedFile] = useState(null);
   const [editor, setEditor] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -18,7 +18,7 @@ const AvatarEditForm = () => {
   const avatarBaseUrl = import.meta.env.VITE_AVATAR_BASE_URL;
 
   const handleUpdateClick = () => {
-    setIsModalOpen(true);
+    openModal();
   };
 
   const handleDeleteClick = async () => {
@@ -26,7 +26,6 @@ const AvatarEditForm = () => {
       await FileService.deleteAvatar(user.id);
       console.log("Avatar deleted successfully");
       updateUser({ avatarUrl: "" });
-      //todo: Optionally update the user context or state to reflect the deletion
     } catch (error) {
       console.error("Error deleting avatar:", error);
     }
@@ -46,13 +45,12 @@ const AvatarEditForm = () => {
 
         await uploadToS3(url, fields, blob);
         console.log("Upload successful");
-        updateUser({ avatarUrl: avatarBaseUrl+fileName });
-        //todo: Optionally update the user context or state with the new avatar URL
+        updateUser({ avatarUrl: avatarBaseUrl + fileName });
       } catch (error) {
         console.error("Error uploading file:", error);
       } finally {
         setUploading(false);
-        setIsModalOpen(false);
+        closeModal();
       }
     }
   };
@@ -96,12 +94,10 @@ const AvatarEditForm = () => {
           </div>
         </form>
       </div>
-      <Modal
-        className="fixed inset-0 flex items-center justify-center z-50"
+      <ModalWrapper
         isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
+        onRequestClose={closeModal}
         contentLabel="Edit Photo"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
       >
         <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
           <h2 className="text-center text-lg font-semibold mb-4 p-2 rounded">
@@ -129,7 +125,7 @@ const AvatarEditForm = () => {
           <div className="flex justify-end gap-4 mt-4">
             <button
               className="border border-stroke py-2 px-6 text-sm text-black hover:shadow-lg hover:bg-gray-100 transition duration-200"
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeModal}
             >
               Cancel
             </button>
@@ -142,7 +138,7 @@ const AvatarEditForm = () => {
             </button>
           </div>
         </div>
-      </Modal>
+      </ModalWrapper>
     </div>
   );
 };
