@@ -16,13 +16,13 @@ const AvatarEditForm = () => {
 
   const avatarBaseUrl = import.meta.env.VITE_AVATAR_BASE_URL;
 
-  const handleUpdateClick = () => {
+  const handleUpdateAvatar = () => {
     openModal();
   };
 
-  const handleDeleteClick = async () => {
+  const handleDeleteAvatar = async () => {
     try {
-      await FileService.deleteAvatar(user.id);
+      await FileService.deleteAvatarFromS3(user.id);
       console.log("Avatar deleted successfully");
       updateUser({ avatarUrl: "" });
     } catch (error) {
@@ -30,7 +30,7 @@ const AvatarEditForm = () => {
     }
   };
 
-  const handleSaveClick = async () => {
+  const handleSaveAvatar = async () => {
     if (editor) {
       try {
         setUploading(true);
@@ -79,14 +79,14 @@ const AvatarEditForm = () => {
                 <button
                   className="text-sm hover:text-primary"
                   type="button"
-                  onClick={handleDeleteClick}
+                  onClick={handleDeleteAvatar}
                 >
                   Delete
                 </button>
                 <button
                   className="text-sm hover:text-primary"
                   type="button"
-                  onClick={handleUpdateClick}
+                  onClick={handleUpdateAvatar}
                 >
                   Update
                 </button>
@@ -132,7 +132,7 @@ const AvatarEditForm = () => {
             </button>
             <button
               className="bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 transition duration-200"
-              onClick={handleSaveClick}
+              onClick={handleSaveAvatar}
               disabled={uploading}
             >
               {uploading ? "Saving..." : "Save"}

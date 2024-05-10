@@ -10,7 +10,7 @@ const getPresignedUrl = async (fileName, fileType) => {
   }
 };
 
-const deleteAvatar = async (userId) => {
+const deleteAvatarFromS3 = async (userId) => {
   try {
     const response = await API.delete('/delete-avatar', { data: { userId } });
     return response.data;
@@ -20,4 +20,4 @@ const deleteAvatar = async (userId) => {
   }
 };
 
-export {getPresignedUrl, deleteAvatar}
+export {getPresignedUrl, deleteAvatarFromS3}
