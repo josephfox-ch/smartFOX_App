@@ -1,4 +1,3 @@
-// src/components/AvatarEditForm/AvatarEditForm.jsx
 import React, { useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import * as FileService from "../../api/services/fileService";
