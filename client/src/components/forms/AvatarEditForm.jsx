@@ -9,11 +9,13 @@ import { uploadToS3, canvasToBlob } from "../../utils/fileUtils";
 Modal.setAppElement("#root");
 
 const AvatarEditForm = () => {
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [editor, setEditor] = useState(null);
   const [uploading, setUploading] = useState(false);
+
+  const avatarBaseUrl = import.meta.env.VITE_AVATAR_BASE_URL;
 
   const handleUpdateClick = () => {
     setIsModalOpen(true);
@@ -23,6 +25,7 @@ const AvatarEditForm = () => {
     try {
       await FileService.deleteAvatar(user.id);
       console.log("Avatar deleted successfully");
+      updateUser({ avatarUrl: "" });
       //todo: Optionally update the user context or state to reflect the deletion
     } catch (error) {
       console.error("Error deleting avatar:", error);
@@ -36,13 +39,17 @@ const AvatarEditForm = () => {
         const canvas = editor.getImageScaledToCanvas();
         const blob = await canvasToBlob(canvas);
         const fileName = `${user.id}.png`;
-        const { url, fields } = await FileService.getPresignedUrl(fileName, blob.type);
+        const { url, fields } = await FileService.getPresignedUrl(
+          fileName,
+          blob.type
+        );
 
         await uploadToS3(url, fields, blob);
-        console.log('Upload successful');
+        console.log("Upload successful");
+        updateUser({ avatarUrl: avatarBaseUrl+fileName });
         //todo: Optionally update the user context or state with the new avatar URL
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error("Error uploading file:", error);
       } finally {
         setUploading(false);
         setIsModalOpen(false);
@@ -131,7 +138,7 @@ const AvatarEditForm = () => {
               onClick={handleSaveClick}
               disabled={uploading}
             >
-              {uploading ? 'Saving...' : 'Save'}
+              {uploading ? "Saving..." : "Save"}
             </button>
           </div>
         </div>
@@ -141,5 +148,3 @@ const AvatarEditForm = () => {
 };
 
 export default AvatarEditForm;
-
-
