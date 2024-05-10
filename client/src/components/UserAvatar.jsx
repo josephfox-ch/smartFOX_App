@@ -13,12 +13,12 @@ const UserAvatar = () => {
     );
   }
 
-  const avatarBaseUrl = `https://smartfoxhome.s3.eu-north-1.amazonaws.com/avatars/`
+  const avatarBaseUrl = import.meta.env.VITE_AVATAR_BASE_URL;
 
   return (
     <span className="h-12 w-12 rounded-full overflow-hidden bg-gray-200">
       <img
-        src={user ? `${avatarBaseUrl+user.id}.png` : userTwo}
+        src={user ? `${avatarBaseUrl + user.id}.png` : userTwo}
         alt="User Avatar"
         className="h-full w-full object-cover"
         onError={(e) => {
