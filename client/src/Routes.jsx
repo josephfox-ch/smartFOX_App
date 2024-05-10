@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./layouts/AuthLayout";
-import VerifyOTP from "./pages/VerifyOTP";
+import VerifyAccountPage from "./pages/VerifyAccountPage";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -33,7 +33,7 @@ const AppRoutes = () => {
           isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
         }
       />
-      <Route path="/auth/verify-otp" element={<VerifyOTP />} />
+      <Route path="/auth/verify-otp" element={<VerifyAccountPage />} />
       <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
       <Route
         path="/auth/reset-password/:token"
