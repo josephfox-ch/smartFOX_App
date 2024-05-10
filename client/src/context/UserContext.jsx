@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
       const response = await AuthService.getUser();
       if (response.user) {
         setUser(response.user);
-        console.log('user-fetched', response.user)
+        console.log('user-fetched', response.user);
       } else {
         throw new Error('No user data found');
       }
@@ -32,16 +32,25 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+
+  const updateUser = (updatedFields) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      ...updatedFields,
+    }));
+  };
+
   useEffect(() => {
     fetchUser();
   }, [isAuthenticated]);
 
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ user, loading, updateUser }}>
       {children}
     </UserContext.Provider>
   );
 };
 
 export const useUser = () => useContext(UserContext);
+
 
