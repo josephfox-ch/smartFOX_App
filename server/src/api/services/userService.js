@@ -19,18 +19,17 @@ const getUserById = async (userId) => {
 };
 
 const updateUser = async (userId, userData) => {
+  const user = await User.findByPk(userId)
+  if (!user) {
+    throw new Error("User not found");
+  }
   if (userData.password) {
     userData.password = await bcrypt.hash(userData.password, 12);
   }
   try {
-    const [updateCount, updatedUsers] = await User.update(userData, {
-      where: { id: userId },
-      returning: true,
-    });
-    if (updateCount === 0) {
-      throw new Error("User not found");
-    }
-    return updatedUsers[0];
+    const updatedUser = await user.update(userData);
+  
+    return updatedUser;
   } catch (error) {
     logger.error(`Error updating user ID ${userId}: ${error}`);
     throw error;

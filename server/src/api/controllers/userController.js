@@ -25,7 +25,7 @@ const UserController = {
       const updatedUser = await UserService.updateUser(id, req.body);
       res.status(200).json({
         message: "User updated successfully",
-        data: updatedUser,
+        user: updatedUser,
       });
     } catch (error) {
       logger.error(`Failed to update user ID ${id}: ${error.message}`);
