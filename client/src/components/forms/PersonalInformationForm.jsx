@@ -8,7 +8,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useUser } from "../../context/UserContext";
 import * as UserService from "../../api/services/userService";
-import * as FileService from "../../api/services/fileService";
+import * as s3Service from "../../api/services/s3Service";
 import { useAuth } from "../../context/AuthContext";
 
 const validationSchema = Yup.object({
@@ -52,7 +52,7 @@ const PersonalInformationForm = () => {
 
   const deleteAccount = async () => {
     try {
-      await FileService.deleteAvatarFromS3(user.id);
+      await s3Service.deleteAvatarFromS3(user.id);
       const result = await UserService.deleteUser();
       if (result.success) {
         alert("User deleted successfully");
