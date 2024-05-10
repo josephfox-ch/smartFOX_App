@@ -3,7 +3,7 @@ import Breadcrumb from "../components/Breadcrumb";
 import PersonalInformationForm from "../components/forms/PersonalInformationForm";
 import AvatarEditForm from "../components/forms/AvatarEditForm";
 
-const AccountSettings = () => {
+const AccountSettingsPage = () => {
   return (
     <div className="mx-auto max-w-7xl">
       <Breadcrumb className="text-foxColor" pageName="Account Settings" />
@@ -19,4 +19,4 @@ const AccountSettings = () => {
   );
 };
 
-export default AccountSettings;
+export default AccountSettingsPage;

@@ -8,7 +8,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
-import AccountSettings from "./pages/AccountSettings";
+import AccountSettingsPage from "./pages/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
 
@@ -43,7 +43,7 @@ const AppRoutes = () => {
       {AdditionalPageRoutes()}
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="account-settings" element={<AccountSettings />} />
+          <Route path="account-settings" element={<AccountSettingsPage />} />
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
       </Route>
