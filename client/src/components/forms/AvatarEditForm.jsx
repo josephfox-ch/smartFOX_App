@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import AvatarEditor from "react-avatar-editor";
 import { useUser } from "../../context/UserContext";
 import UserAvatar from "../UserAvatar";
-import { getPresignedUrl } from "../../api/services/fileService";
+import * as FileService from "../../api/services/fileService";
 import { uploadToS3, canvasToBlob } from "../../utils/fileUtils";
 
 Modal.setAppElement("#root");
@@ -19,8 +19,14 @@ const AvatarEditForm = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteClick = () => {
-    console.log("Delete clicked");
+  const handleDeleteClick = async () => {
+    try {
+      await FileService.deleteAvatar(user.id);
+      console.log("Avatar deleted successfully");
+      //todo: Optionally update the user context or state to reflect the deletion
+    } catch (error) {
+      console.error("Error deleting avatar:", error);
+    }
   };
 
   const handleSaveClick = async () => {
@@ -30,7 +36,7 @@ const AvatarEditForm = () => {
         const canvas = editor.getImageScaledToCanvas();
         const blob = await canvasToBlob(canvas);
         const fileName = `${user.id}.png`;
-        const { url, fields } = await getPresignedUrl(fileName, blob.type);
+        const { url, fields } = await FileService.getPresignedUrl(fileName, blob.type);
 
         await uploadToS3(url, fields, blob);
         console.log('Upload successful');

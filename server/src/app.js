@@ -83,6 +83,24 @@ app.post("/api/v1/upload-avatar", async (req, res) => {
   }
 });
 
+app.delete('/api/v1/delete-avatar', async (req, res) => {
+  const { userId } = req.body;
+  const fileName = `avatars/${userId}.png`; 
+
+  try {
+    const deleteParams = {
+      Bucket: 'smartfoxhome',
+      Key: fileName,
+    };
+    await s3.send(new DeleteObjectCommand(deleteParams));
+    logger.info(`Avatar deleted for user ${userId}`);
+    res.status(200).json({ message: 'Avatar deleted successfully' });
+  } catch (error) {
+    logger.error('Error deleting avatar', error);
+    res.status(500).json({ error: 'Error deleting avatar' });
+  }
+});
+
 process.on("uncaughtException", (err) => {
   logger.error(`Uncaught Exception ${err.message}`);
   process.exit(0);
