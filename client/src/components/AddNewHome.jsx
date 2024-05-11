@@ -33,7 +33,7 @@ const AddNewHome = () => {
         console.log("New home created:", newHome);
         resetForm();
         navigate("/dashboard/home");
-        alert('Your new home created',newHome);
+        alert('Your new home created');
         //todo: show a success message
       } catch (error) {
         console.error("Error creating home:", error);
