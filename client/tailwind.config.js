@@ -66,6 +66,8 @@ export default {
         usdarkblue:'#265a88',
         "gray-4":'#808080',
         lightgray:'#cbcbcb',
+        darkinput:'#1f2937',
+        darkinputborder:'#4b5563',
       },
       fontSize: {
         "title-xxl": ["44px", "55px"],
