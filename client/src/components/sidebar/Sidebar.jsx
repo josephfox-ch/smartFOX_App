@@ -37,20 +37,18 @@ const Sidebar = () => {
       }`}
     >
       <SidebarHeader />
-      <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+      <div className="">
+        {/* <!-- Time Display --> */}
         <TimeDisplay />
-        {/* <!-- Sidebar Menu --> */}
-        {/* <!--Home Menu --> */}
-        <div className="p-4">
-          <MyHomeButton />
-          {/* <!-- Time Display --> */}
-
-          {/* <!-- House Selector --> */}
-          <HomeSelector />
-        </div>
-        {/* <!--Add Device Button --> */}
+        {/* <!--My Home Button --> */}
+        <MyHomeButton />
+        {/* <!-- House Selector --> */}
+        <HomeSelector />
+        {/* <!--Add New Home Button --> */}
         <AddNewHomeButton />
-        {/* <!--Add Device Button --> */}
+      </div>
+      <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+        {/* <!-- Sidebar Menu --> */}
         <nav className="mt-5 py-2 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <SidebarMenu />
