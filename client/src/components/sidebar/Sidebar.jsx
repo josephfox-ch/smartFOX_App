@@ -6,7 +6,7 @@ import useKeydown from "../../hooks/useKeydown";
 import { useSidebar } from "../../context/SidebarContext";
 import TimeDisplay from "./TimeDisplay";
 import HouseSelector from "./HouseSelector";
-import { BsHousesFill } from "react-icons/bs";
+import { BsFillHouseAddFill} from "react-icons/bs";
 import { FiPlusCircle } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -41,7 +41,7 @@ const Sidebar = () => {
         {/* <!--Home Menu --> */}
         <div className="p-4">
           <div className="flex flex-col items-center mb-4 text-bodydark1">
-            <BsHousesFill size={80} />
+          <BsFillHouseAddFill size='80' />
           </div>
           {/* <!-- Time Display --> */}
           <TimeDisplay />

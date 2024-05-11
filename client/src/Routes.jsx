@@ -46,6 +46,7 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="account-settings" element={<AccountSettingsPage />} />
           <Route path ='climate' element ={<ClimatePage />}/>
+          <Route path ='add-new-home' element={<AddNewHomePage />}
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
         
