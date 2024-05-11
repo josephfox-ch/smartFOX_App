@@ -13,7 +13,7 @@ import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
 import ClimatePage from "./pages/climate/ClimatePage";
 import AddNewHomePage from "./components/home/AddNewHome";
-import HomePage from "./pages/home/HomePage";
+import MyHomePage from "./pages/home/MyHomePage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -50,7 +50,7 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="account-settings" element={<AccountSettingsPage />} />
           <Route path="climate" element={<ClimatePage />} />
-          <Route path="my-home" element={<HomePage />} />
+          <Route path="my-home" element={<MyHomePage />} />
           <Route path="add-new-home" element={<AddNewHomePage />} />
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
