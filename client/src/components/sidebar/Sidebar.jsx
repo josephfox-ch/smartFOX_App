@@ -1,13 +1,14 @@
 import React, { useRef, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import SidebarHeader from "./SidebarHeader";
 import SidebarMenu from "./SidebarMenu";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useKeydown from "../../hooks/useKeydown";
 import { useSidebar } from "../../context/SidebarContext";
-import { NavLink } from "react-router-dom";
 import TimeDisplay from "./TimeDisplay";
-import HouseSelector from "./HouseSelector";
+import HomeSelector from "../home/HomeSelector";
 import { BsFillHouseAddFill } from "react-icons/bs";
+import { FaHouseUser } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -41,7 +42,7 @@ const Sidebar = () => {
         {/* <!-- Sidebar Menu --> */}
         {/* <!--Home Menu --> */}
         <div className="p-4">
-          <div className="flex flex-col items-center mb-4 text-bodydark1 hover:text-secondary">
+          <div className="flex flex-col items-center mb-4 text-bodydark1 hover:text-indigo-500 hover:shadow-lg">
             <NavLink
               to="/dashboard/add-new-home"
               className="flex flex-col items-center text-center"
@@ -53,15 +54,18 @@ const Sidebar = () => {
           {/* <!-- Time Display --> */}
           <TimeDisplay />
           {/* <!-- House Selector --> */}
-          <HouseSelector />
+          <HomeSelector />
         </div>
         {/* <!--Add Device Button --> */}
-        <button className=" font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-4 py-2 mt-1 border border-gray-400 rounded shadow flex items-center justify-center">
+        <NavLink
+          to="/dashboard/my-home"
+          className=" font-medium text-bodydark1 duration-300 ease-in-out   mx-4 py-2 mt-1 border border-gray-400 rounded shadow flex items-center justify-center hover:outline-none  hover:ring-indigo-500 hover:border-indigo-500"
+        >
           <span className="mr-2">
-            <FiPlusCircle size="25" />
+            <FaHouseUser size="25" />
           </span>
-          Add Device
-        </button>
+          My Home
+        </NavLink>
         {/* <!--Add Device Button --> */}
         <nav className="mt-5 py-2 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}

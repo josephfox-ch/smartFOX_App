@@ -1,13 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import AddNewHomeForm from "./forms/AddNewHomeForm";
-import Breadcrumb from "../components/Breadcrumb";
+import AddNewHomeForm from "../forms/AddNewHomeForm";
+import Breadcrumb from "../Breadcrumb";
 import * as Yup from "yup";
-import { createHome } from "../api/services/homeService"; 
+import { createHome } from "../../api/services/homeService";
 
 const AddNewHome = () => {
-
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -33,7 +32,7 @@ const AddNewHome = () => {
         console.log("New home created:", newHome);
         resetForm();
         navigate("/dashboard/home");
-        alert('Your new home created');
+        alert("Your new home created");
         //todo: show a success message
       } catch (error) {
         console.error("Error creating home:", error);
