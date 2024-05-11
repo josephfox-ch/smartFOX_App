@@ -11,6 +11,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import AccountSettingsPage from "./pages/user-panel/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
+import ClimatePage from "./pages/climate/ClimatePage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -44,8 +45,10 @@ const AppRoutes = () => {
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="account-settings" element={<AccountSettingsPage />} />
+          <Route path ='climate' element ={<ClimatePage />}/>
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
+        
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
