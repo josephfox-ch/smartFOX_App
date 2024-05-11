@@ -3,6 +3,7 @@ import Select from "react-select";
 import CountryFlag from "react-country-flag";
 import countries from "i18n-iso-countries";
 import englishCountries from "i18n-iso-countries/langs/en.json";
+import customStyles from "../../utils/selectStyles";
 
 countries.registerLocale(englishCountries);
 
@@ -22,33 +23,6 @@ const countryOptions = Object.entries(
   ),
   name: name.toLowerCase(),
 }));
-
-const customStyles = {
-  control: (base) => ({
-    ...base,
-    minHeight: 40,
-    marginBottom: "10px",
-    border: "1px solid #ced4da",
-    borderRadius: 5,
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: 4,
-  }),
-  clearIndicator: (base) => ({
-    ...base,
-    padding: 4,
-  }),
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0px 10px",
-  }),
-  input: (base) => ({
-    ...base,
-    margin: 0,
-    padding: 0,
-  }),
-};
 
 const filterOption = ({ data }, inputValue) =>
   data.name.includes(inputValue.toLowerCase());
