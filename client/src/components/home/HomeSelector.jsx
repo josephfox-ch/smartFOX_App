@@ -18,7 +18,7 @@ const HomeSelector = () => {
       ) : (
         <>
           <select
-            className="block appearance-none bg-transparent text-white p-2 w-full border border-gray-600 shadow rounded-md mb-2 leading-tight focus:outline-none focus:bg-graydark hover:border-indigo-500 focus:border-indigo-500 focus:border-indigo-500 hover:outline-none "
+            className="block text-sm appearance-none bg-transparent text-white p-1 w-full border border-gray-600 shadow  mb-2 leading-tight focus:outline-none  hover:border-indigo-500  focus:border-indigo-500 hover:outline-none duration-300 ease-in-out"
             onChange={handleHomeChange}
             value={selectedHome ? selectedHome.id : ""}
           >
