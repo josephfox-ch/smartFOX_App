@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../api/services/authService";
 import { TbFaceId, TbFaceIdError } from "react-icons/tb";
+import { useAuth } from "../context/AuthContext";
 
-const VerifyOTP = () => {
+const VerifyAccountPage = () => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { validateSession } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ const VerifyOTP = () => {
       if (response.success) {
         console.log("verify-response", response);
         setMessage(response.message);
+        await validateSession();
         setTimeout(() => {
           navigate("/dashboard");
         }, 2000);
@@ -97,13 +100,16 @@ const VerifyOTP = () => {
               >
                 Verify
               </button>
-              <button
-                type="button"
-                onClick={handleResendOTP}
-                className="p-2 bg-bodydark2 text-white rounded hover:bg-bodydark3"
-              >
-                Resend OTP
-              </button>
+              <div className="text-center text-sm">
+                <span>Didn't receive a code? </span>
+                <button
+                  type="button"
+                  onClick={handleResendOTP}
+                  className="  text-primary hover:underline"
+                >
+                  Resend it.
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -112,4 +118,4 @@ const VerifyOTP = () => {
   );
 };
 
-export default VerifyOTP;
+export default VerifyAccountPage;

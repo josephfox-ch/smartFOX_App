@@ -218,7 +218,7 @@ const validateSession = async (req, res) => {
       user,
     });
   } catch (error) {
-    logger.error(`Failed to validate session: ${error.message}`);
+    // logger.error(`Failed to validate session: ${error.message}`);
     res.status(401).json({
       success: false,
       message:
