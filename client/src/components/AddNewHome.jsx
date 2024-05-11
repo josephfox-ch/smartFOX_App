@@ -1,10 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import AddNewHomeForm from "./forms/AddNewHomeForm";
 import Breadcrumb from "../components/Breadcrumb";
 import * as Yup from "yup";
+import { createHome } from "../api/services/homeService"; 
 
 const AddNewHome = () => {
+
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       houseName: "",
@@ -22,8 +27,19 @@ const AddNewHome = () => {
       postalCode: Yup.string().required("Postal code is required"),
       timeZone: Yup.string().required("Time zone is required"),
     }),
-    onSubmit: (values) => {
-      console.log("New-Home-Form-data:", values);
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      try {
+        const newHome = await createHome(values);
+        console.log("New home created:", newHome);
+        resetForm();
+        navigate("/dashboard/home");
+        alert('Your new home created',newHome);
+        //todo: show a success message
+      } catch (error) {
+        console.error("Error creating home:", error);
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 
@@ -40,4 +56,3 @@ const AddNewHome = () => {
 };
 
 export default AddNewHome;
-

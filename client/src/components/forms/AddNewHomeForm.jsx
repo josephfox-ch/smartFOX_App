@@ -22,7 +22,7 @@ const AddNewHomeForm = ({ formik }) => {
                 </label>
                 <div className="relative">
                   <Field
-                    className="w-full border  border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none  focus:border-indigo-500  dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
                     type="text"
                     id="houseName"
                     name="houseName"
@@ -44,7 +44,7 @@ const AddNewHomeForm = ({ formik }) => {
                 </label>
                 <div className="relative">
                   <Field
-                    className="w-full border  border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
                     type="text"
                     id="streetAddress"
                     name="streetAddress"
@@ -68,7 +68,7 @@ const AddNewHomeForm = ({ formik }) => {
                 </label>
                 <div className="relative">
                   <Field
-                    className="w-full border  border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
                     type="text"
                     id="city"
                     name="city"
@@ -90,7 +90,7 @@ const AddNewHomeForm = ({ formik }) => {
                 </label>
                 <div className="relative">
                   <Field
-                    className="w-full border   border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
                     type="text"
                     id="postalCode"
                     name="postalCode"
@@ -185,3 +185,4 @@ const AddNewHomeForm = ({ formik }) => {
 };
 
 export default AddNewHomeForm;
+
