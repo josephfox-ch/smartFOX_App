@@ -14,11 +14,11 @@ const Home = sequelize.define("Home", {
       key: "id",
     },
   },
-  name: {
+  houseName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  address: {
+  streetAddress: {
     type: DataTypes.STRING,
     allowNull: false,
   },
