@@ -19,3 +19,4 @@ export const useErrorBoundary = () => {
 
   return { hasError };
 };
+
