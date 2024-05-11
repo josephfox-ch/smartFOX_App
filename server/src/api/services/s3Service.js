@@ -29,7 +29,7 @@ export const getPresignedPost = async (fileName, fileType) => {
 export const deleteAvatar = async (fileName) => {
   const params = {
     Bucket: "smartfoxhome",
-    Key: `avatars/${fileName}`,
+    Key:fileName,
   };
 
   return s3.send(new DeleteObjectCommand(params));
