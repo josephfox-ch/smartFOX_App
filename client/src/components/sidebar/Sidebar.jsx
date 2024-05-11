@@ -4,9 +4,10 @@ import SidebarMenu from "./SidebarMenu";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useKeydown from "../../hooks/useKeydown";
 import { useSidebar } from "../../context/SidebarContext";
+import { NavLink } from "react-router-dom";
 import TimeDisplay from "./TimeDisplay";
 import HouseSelector from "./HouseSelector";
-import { BsFillHouseAddFill} from "react-icons/bs";
+import { BsFillHouseAddFill } from "react-icons/bs";
 import { FiPlusCircle } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -40,8 +41,14 @@ const Sidebar = () => {
         {/* <!-- Sidebar Menu --> */}
         {/* <!--Home Menu --> */}
         <div className="p-4">
-          <div className="flex flex-col items-center mb-4 text-bodydark1">
-          <BsFillHouseAddFill size='80' />
+          <div className="flex flex-col items-center mb-4 text-bodydark1 hover:text-secondary">
+            <NavLink
+              to="/dashboard/add-new-home"
+              className="flex flex-col items-center text-center"
+            >
+              <BsFillHouseAddFill size="80" className="cursor-pointer" />
+              <span className="mt-2 text-sm">Add New Home</span>
+            </NavLink>
           </div>
           {/* <!-- Time Display --> */}
           <TimeDisplay />
