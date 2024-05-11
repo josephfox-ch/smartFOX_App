@@ -12,6 +12,7 @@ import AccountSettingsPage from "./pages/user-panel/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
 import ClimatePage from "./pages/climate/ClimatePage";
+import AddNewHomePage from "./components/AddNewHome";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -20,7 +21,9 @@ const AppRoutes = () => {
     <Routes>
       <Route
         path="/"
-        element={isAuthenticated ? <Navigate to='/dashboard' /> : <AuthLayout />}
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
+        }
       />
       <Route
         path="/login"
@@ -45,11 +48,10 @@ const AppRoutes = () => {
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="account-settings" element={<AccountSettingsPage />} />
-          <Route path ='climate' element ={<ClimatePage />}/>
-          <Route path ='add-new-home' element={<AddNewHomePage />}
+          <Route path="climate" element={<ClimatePage />} />
+          <Route path="add-new-home" element={<AddNewHomePage />} />
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
-        
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
