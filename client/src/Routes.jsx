@@ -2,15 +2,16 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import AuthLayout from "./layouts/AuthLayout";
-import VerifyOTP from "./pages/VerifyOTP";
+import VerifyAccountPage from "./pages/VerifyAccountPage";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import NotFound from "./pages/NotFound";
+import NotFoundPage from "./pages/NotFoundPage";
 import DashboardLayout from "./layouts/DashboardLayout";
-import AccountSettings from "./pages/AccountSettings";
+import AccountSettingsPage from "./pages/user-panel/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
+import ClimatePage from "./pages/climate/ClimatePage";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -19,7 +20,7 @@ const AppRoutes = () => {
     <Routes>
       <Route
         path="/"
-        element={isAuthenticated ? <DashboardLayout /> : <AuthLayout />}
+        element={isAuthenticated ? <Navigate to='/dashboard' /> : <AuthLayout />}
       />
       <Route
         path="/login"
@@ -33,7 +34,7 @@ const AppRoutes = () => {
           isAuthenticated ? <Navigate to="/dashboard" /> : <AuthLayout />
         }
       />
-      <Route path="/auth/verify-otp" element={<VerifyOTP />} />
+      <Route path="/auth/verify-otp" element={<VerifyAccountPage />} />
       <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
       <Route
         path="/auth/reset-password/:token"
@@ -43,11 +44,13 @@ const AppRoutes = () => {
       {AdditionalPageRoutes()}
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="account-settings" element={<AccountSettings />} />
+          <Route path="account-settings" element={<AccountSettingsPage />} />
+          <Route path ='climate' element ={<ClimatePage />}/>
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
+        
       </Route>
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

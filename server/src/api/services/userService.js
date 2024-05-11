@@ -9,47 +9,49 @@ const getUserById = async (userId) => {
       attributes: { exclude: ["password"] },
     });
     if (!user) {
+      logger.warn(`User not found: ID = ${userId}`);
       throw new Error("User not found");
     }
     return user;
   } catch (error) {
-    logger.error(`Error retrieving user by ID ${userId}: ${error}`);
+    logger.error(`Error retrieving user by ID ${userId}: ${error.message}`);
     throw error;
   }
 };
 
 const updateUser = async (userId, userData) => {
-  if (userData.password) {
-    userData.password = await bcrypt.hash(userData.password, 12);
-  }
   try {
-    const [updateCount, updatedUsers] = await User.update(userData, {
-      where: { id: userId },
-      returning: true,
-    });
-    if (updateCount === 0) {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      logger.warn(`User not found: ID = ${userId}`);
       throw new Error("User not found");
     }
-    return updatedUsers[0];
+    if (userData.password) {
+      userData.password = await bcrypt.hash(userData.password, 12);
+    }
+    const updatedUser = await user.update(userData);
+    return updatedUser;
   } catch (error) {
-    logger.error(`Error updating user ID ${userId}: ${error}`);
+    logger.error(`Error updating user ID ${userId}: ${error.message}`);
     throw error;
   }
 };
 
 const deleteUser = async (id) => {
-  return sequelize
-    .transaction(async (transaction) => {
+  try {
+    return await sequelize.transaction(async (transaction) => {
       const deleted = await User.destroy({ where: { id }, transaction });
       if (!deleted) {
+        logger.warn(`User not found for deletion: ID = ${id}`);
         return { success: false, message: "User not found" };
       }
       return { success: true, id };
-    })
-    .catch((error) => {
-      logger.error(`Error deleting user ID ${id}: ${error}`);
-      throw error;
     });
+  } catch (error) {
+    logger.error(`Error deleting user ID ${id}: ${error.message}`);
+    throw error;
+  }
 };
 
 export { getUserById, updateUser, deleteUser };
+

@@ -267,7 +267,7 @@ npm start
 
 ```
 
-This command will start the application and establish a connection to the database. 
+This command will start the application and establish a connection to the database. It will trigger the code below to connect to the database.
 
 ```javascript
 const PORT = process.env.EXPRESS_PORT || 3000;
