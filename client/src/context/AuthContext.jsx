@@ -83,7 +83,7 @@ const AuthProvider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
       }
     } catch (error) {
-      console.error("Authentication verification failed:", error);
+      // console.error("Authentication verification failed:", error);
       dispatch({ type: "LOGOUT" });
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
@@ -100,4 +100,3 @@ const AuthProvider = ({ children }) => {
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider };
-
