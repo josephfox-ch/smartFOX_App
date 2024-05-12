@@ -9,6 +9,14 @@ import ClimatePage from "../pages/climate/ClimatePage";
 import LightingPage from "../pages/lighting/LightingPage";
 import SecuritySensorsPage from "../pages/security-sensors/SecuritySensorsPage";
 import VideoPage from "../pages/video-page/VideoPage";
+import GeofencesPage from "../pages/geofences/GeofencesPage";
+import HomeControllersPage from "../pages/home-controllers/HomeControllersPage";
+import AppliancesPage from "../pages/appliances/AppliancesPage";
+import BlindsShadesPage from "../pages/blinds-shades/BlindsShadesPage";
+import IrrigationPage from "../pages/irrigation/IrrigationPage";
+import BasicCharts from "../pages/statistics/BasicCharts";
+import AdvancedCharts from "../pages/statistics/AdvancedCharts";
+import DataTables from "../pages/statistics/DataTables";
 
 
 
@@ -24,6 +32,14 @@ const DashboardRoutes = () => {
           <Route path="lighting" element={<LightingPage />} />
           <Route path="security-sensors" element={<SecuritySensorsPage />} />
           <Route path="video" element={<VideoPage />} />
+          <Route path="geofences" element={<GeofencesPage />} />
+          <Route path="appliances" element={<AppliancesPage />} />
+          <Route path="home-controllers" element={<HomeControllersPage />} />
+          <Route path="blinds-shades" element={<BlindsShadesPage />} />
+          <Route path="irrigations" element={<IrrigationPage />} />
+          <Route path="statistics/basic-chart" element={<BasicCharts />} />
+          <Route path="statistics/advanced-chart" element={<AdvancedCharts />} />
+          <Route path="statistics/data-tables" element={<DataTables />} />
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Route>
       </Route>
