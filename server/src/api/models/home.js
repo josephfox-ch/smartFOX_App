@@ -14,7 +14,7 @@ const Home = sequelize.define("Home", {
       key: "id",
     },
   },
-  houseName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -34,6 +34,18 @@ const Home = sequelize.define("Home", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  latitude: {
+    type: DataTypes.DOUBLE,
+    allowNull: true,
+  },
+  longitude: {
+    type: DataTypes.DOUBLE,
+    allowNull: true,
+  },
+  buildingFeatures: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
   timeZone: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -51,20 +63,5 @@ const Home = sequelize.define("Home", {
     defaultValue: true,
   },
 });
-
-// const Home = sequelize.define("Home", {
-
-//   latitude: {
-//     type: DataTypes.DOUBLE,
-//     allowNull: true,
-//   },
-//   longitude: {
-//     type: DataTypes.DOUBLE,
-//     allowNull: true,
-//   },
-//   buildingFeatures: {
-//     type: DataTypes.TEXT,
-//     allowNull: false,
-//   },
 
 export default Home;
