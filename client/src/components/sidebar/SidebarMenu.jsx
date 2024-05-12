@@ -127,7 +127,7 @@ const SidebarMenu = () => {
               <>
                 <NavLink
                   to="#"
-                  className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor focus:text-foxColor"
+                  className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor "
                   onClick={(e) => {
                     e.preventDefault();
                     sidebarExpanded ? handleClick() : setSidebarExpanded(true);
@@ -167,7 +167,7 @@ const SidebarMenu = () => {
                           to={item.to}
                           className={({ isActive }) =>
                             `group relative flex items-center gap-2.5 rounded-md px-4 text-bodydark2 duration-300 ease-in-out hover:text-foxColor ${
-                              isActive ? "!text-white" : ""
+                              isActive && "text-foxColor"
                             }`
                           }
                         >
@@ -192,7 +192,7 @@ const SidebarMenu = () => {
               <>
                 <NavLink
                   to="/dashboard/info"
-                  className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor focus:text-foxColor"
+                  className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor "
                   onClick={(e) => {
                     e.preventDefault();
                     sidebarExpanded ? handleClick() : setSidebarExpanded(true);
@@ -226,7 +226,7 @@ const SidebarMenu = () => {
                           to={item.to}
                           className={({ isActive }) =>
                             `group relative flex items-center gap-2.5 rounded-md px-4 text-bodydark2 duration-300 ease-in-out hover:text-foxColor ${
-                              isActive ? "!text-white" : ""
+                              isActive && "text-foxColor"
                             }`
                           }
                         >
