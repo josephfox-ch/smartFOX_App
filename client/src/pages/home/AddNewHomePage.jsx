@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import AddNewHomeForm from "../forms/AddNewHomeForm";
-import Breadcrumb from "../Breadcrumb";
+import AddNewHomeForm from "../../components/forms/AddNewHomeForm";
+import Breadcrumb from "../../components/Breadcrumb";
 import * as Yup from "yup";
 import { createHome } from "../../api/services/homeService";
 
-const AddNewHome = () => {
+const AddNewHomePage = () => {
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -54,4 +54,4 @@ const AddNewHome = () => {
   );
 };
 
-export default AddNewHome;
+export default AddNewHomePage;

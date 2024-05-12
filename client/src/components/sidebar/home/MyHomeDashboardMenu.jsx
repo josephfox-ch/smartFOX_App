@@ -9,8 +9,8 @@ import { VscColorMode } from "react-icons/vsc";
 import { FaMobileAlt } from "react-icons/fa";
 import { TbTimelineEventExclamation } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
-import SidebarLinkGroup from "../sidebar/SidebarLinkGroup";
-import { useSidebar } from "../../context/SidebarContext";
+import SidebarLinkGroup from "../SidebarLinkGroup";
+import { useSidebar } from "../../../context/SidebarContext";
 
 const MyHomeDashboardMenu = () => {
   const location = useLocation();

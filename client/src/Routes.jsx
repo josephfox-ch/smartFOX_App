@@ -12,7 +12,7 @@ import AccountSettingsPage from "./pages/user-panel/AccountSettingsPage";
 import PolicyPageRoutes from "./routes/PolicyPageRoutes";
 import AdditionalPageRoutes from "./routes/AdditionalPageRoutes";
 import ClimatePage from "./pages/climate/ClimatePage";
-import AddNewHomePage from "./components/home/AddNewHome";
+import AddNewHomePage from "./pages/home/AddNewHomePage";
 import MyHomePage from "./pages/home/MyHomePage";
 
 const AppRoutes = () => {
