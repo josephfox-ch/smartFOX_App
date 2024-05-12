@@ -14,6 +14,7 @@ import UserPreferences from "./userPreferences.js";
 import Room from "./room.js";
 import LightingControl from "./lightingControl.js";
 import RoomTemperature from "./roomTemperature.js";
+import LightingReport from "./lightingReport.js";
 
 // User - UserPreferences
 User.hasOne(UserPreferences, { foreignKey: "userId", onDelete: "CASCADE" });
@@ -81,12 +82,17 @@ LightingControl.belongsTo(Room, { foreignKey: "roomId" });
 Room.hasMany(RoomTemperature, { foreignKey: "roomId", onDelete: "CASCADE" });
 RoomTemperature.belongsTo(Room, { foreignKey: "roomId" });
 
+// Room - LightingReport (One-to-Many)
+Room.hasMany(LightingReport, { foreignKey: "roomId", onDelete: "CASCADE" });
+LightingReport.belongsTo(Room, { foreignKey: "roomId" });
+
 
 export {
   User,
   Home,
   Room,
   LightingControl,
+  LightingReport,
   RoomTemperature,
   OTP,
   Device,
