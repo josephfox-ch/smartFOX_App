@@ -17,20 +17,56 @@ const EnergyCertificate = sequelize.define("EnergyCertificate", {
   },
   buildingVolume: {
     type: DataTypes.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
-  heatLossCoefficient: DataTypes.FLOAT,
+  heatLossCoefficient: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
   additionalHeatSources: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
   heatingSystemDetails: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
-  insulationQuality: DataTypes.STRING,
-  constructionYear: DataTypes.INTEGER,
-  renewalDate: DataTypes.DATE,
+  insulationQuality: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  constructionYear: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  renewalDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  outdoorAirTemperature: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  indoorTemperature: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  globalHeatLossCoefficient: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  volumeOfHeatedZone: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  heatEmissionCoefficient: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
+  freeHeatGains: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
 });
 
 export default EnergyCertificate;
