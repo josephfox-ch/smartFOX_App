@@ -1,5 +1,5 @@
 import React from "react";
-import { useHomes } from "../../context/HomeContext";
+import { useHomes } from "../../../context/HomeContext";
 import { IoIosArrowDown } from "react-icons/io";
 
 const HomeSelector = () => {

@@ -6,9 +6,9 @@ import useOutsideClick from "../../hooks/useOutsideClick";
 import useKeydown from "../../hooks/useKeydown";
 import { useSidebar } from "../../context/SidebarContext";
 import TimeDisplay from "./TimeDisplay";
-import HomeSelector from "../home/HomeSelector";
-import MyHomeButton from "../home/MyHomeButton";
-import AddNewHomeButton from "../home/AddNewHomeButton";
+import HomeSelector from "./home/HomeSelector";
+import MyHomeButton from "./home/MyHomeButton";
+import AddNewHomeButton from "./home/AddNewHomeButton";
 
 const Sidebar = () => {
   const { sidebarOpen, setSidebarOpen, sidebarExpanded } = useSidebar();

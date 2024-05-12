@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import MyHomeDashboardMenu from "../home/MyHomeDashboardMenu";
+import MyHomeDashboardMenu from "./home/MyHomeDashboardMenu";
 import { useSidebar } from "../../context/SidebarContext";
 import { PiThermometerHot } from "react-icons/pi";
 import { MdBlindsClosed, MdOutlineForwardToInbox } from "react-icons/md";
