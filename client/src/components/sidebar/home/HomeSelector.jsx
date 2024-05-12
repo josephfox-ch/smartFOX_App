@@ -1,5 +1,5 @@
 import React from "react";
-import { useHomes } from "../../context/HomeContext";
+import { useHomes } from "../../../context/HomeContext";
 import { IoIosArrowDown } from "react-icons/io";
 
 const HomeSelector = () => {
@@ -18,7 +18,7 @@ const HomeSelector = () => {
       ) : (
         <>
           <select
-            className="block appearance-none text-sm  bg-transparent text-white  mb-2 p-1 w-full border border-graydark shadow  leading-tight focus:outline-none  hover:border-indigo-500  focus:border-indigo-500 hover:outline-none duration-300 ease-in-out"
+            className="block appearance-none text-sm  bg-transparent text-white  mb-2 p-1 w-full border border-graydark shadow  leading-tight focus:outline-none focus:text-foxColor hover:border-indigo-500  focus:border-indigo-500 hover:outline-none duration-300 ease-in-out"
             onChange={handleHomeChange}
             value={selectedHome ? selectedHome.id : ""}
           >
