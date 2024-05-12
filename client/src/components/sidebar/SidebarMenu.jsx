@@ -134,8 +134,8 @@ const SidebarMenu = () => {
                 <div className={`translate transform overflow-hidden ${!open ? 'hidden' : ''}`}>
                   <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                     {[
-                      { to: '/statistics/basic-chart', label: 'Basic Chart' },
-                      { to: '/statistics/advanced-chart', label: 'Advanced Chart' },
+                      { to: '/dashboard/statistics/basic-chart', label: 'Basic Chart' },
+                      { to: '/dashboard/statistics/advanced-chart', label: 'Advanced Chart' },
                       { to: '/dashboard/statistics/data-tables', label: 'Data Tables' },
                     ].map((item) => (
                       <li key={item.to}>
