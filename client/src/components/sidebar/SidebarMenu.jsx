@@ -1,367 +1,161 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import SidebarLinkGroup from "./SidebarLinkGroup";
-import MyHomeDashboardMenu from "./home/MyHomeDashboardMenu";
-import { useSidebar } from "../../context/SidebarContext";
-import { PiThermometerHot } from "react-icons/pi";
-import { MdBlindsClosed, MdOutlineForwardToInbox } from "react-icons/md";
-import { GiSecurityGate, GiPlantWatering, GiLockedDoor } from "react-icons/gi";
-import { CgSmartHomeRefrigerator } from "react-icons/cg";
-import { BsFillGeoFill, BsFillInfoCircleFill } from "react-icons/bs";
-import { FaLightbulb, FaVideo, FaChartLine } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import SidebarLinkGroup from './SidebarLinkGroup';
+import { useSidebar } from '../../context/SidebarContext';
+import { PiThermometerHot } from 'react-icons/pi';
+import { MdBlindsClosed, MdOutlineForwardToInbox } from 'react-icons/md';
+import { GiSecurityGate, GiPlantWatering, GiLockedDoor } from 'react-icons/gi';
+import { CgSmartHomeRefrigerator } from 'react-icons/cg';
+import { BsFillGeoFill, BsFillInfoCircleFill } from 'react-icons/bs';
+import { FaLightbulb, FaVideo, FaChartLine } from 'react-icons/fa';
+import { IoIosArrowDown } from 'react-icons/io';
+import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
 
 const SidebarMenu = () => {
   const location = useLocation();
   const { pathname } = location;
   const { sidebarExpanded, setSidebarExpanded } = useSidebar();
+
   return (
     <>
       <div>
         <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">MENU</h3>
-
         <ul className="mb-6 flex flex-col gap-1.5">
-          {/* <!-- Menu Item Dashboard --> */}
-          <li>
-            <NavLink
-              to="/dashboard/climate"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("climate") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <PiThermometerHot size="30" />
-              Climate
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/security-sensors"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor   ${
-                pathname.includes("security-sensors") &&
-                "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <GiSecurityGate size="30" />
-              Security & Sensors
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/video"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("video") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <FaVideo size="27" />
-              Video
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/lighting-modules"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("lighting-modules") &&
-                "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <FaLightbulb size="30" />
-              Lighting & Modules
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/geofences"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("geofences") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <BsFillGeoFill size="30" />
-              Geofences
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/home-controllers"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor${
-                pathname.includes("home-controllers") &&
-                "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <GiLockedDoor size="30" />
-              Home Controllers
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/appliances"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("appliances") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <CgSmartHomeRefrigerator size="30" />
-              Appliances
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/blinds-shades"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("blinds-shades") &&
-                "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <MdBlindsClosed size="30" />
-              Blinds & Shades
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/irrigations"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("irrigations") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <GiPlantWatering size="30" />
-              Irrigation
-            </NavLink>
-          </li>
+          {[
+            { to: '/dashboard/climate', label: 'Climate', icon: <PiThermometerHot size="30" /> },
+            { to: '/dashboard/security-sensors', label: 'Security & Sensors', icon: <GiSecurityGate size="30" /> },
+            { to: '/dashboard/video', label: 'Video', icon: <FaVideo size="27" /> },
+            { to: '/dashboard/lighting', label: 'Lighting', icon: <FaLightbulb size="30" /> },
+            { to: '/dashboard/geofences', label: 'Geofences', icon: <BsFillGeoFill size="30" /> },
+            { to: '/dashboard/home-controllers', label: 'Home Controllers', icon: <GiLockedDoor size="30" /> },
+            { to: '/dashboard/appliances', label: 'Appliances', icon: <CgSmartHomeRefrigerator size="30" /> },
+            { to: '/dashboard/blinds-shades', label: 'Blinds & Shades', icon: <MdBlindsClosed size="30" /> },
+            { to: '/dashboard/irrigations', label: 'Irrigation', icon: <GiPlantWatering size="30" /> },
+          ].map((item) => (
+            <li key={item.to}>
+              <NavLink
+                to={item.to}
+                className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor focus:text-foxColor"
+              >
+                {item.icon}
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
-      {/* <!-- Support Group --> */}
+      
       <div>
-        <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-          SUPPORT
-        </h3>
-
+        <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">SUPPORT</h3>
         <ul className="mb-6 flex flex-col gap-1.5">
-          {/* <!-- Menu Item Inbox --> */}
-          <li>
-            <NavLink
-              to="/inbox"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("inbox") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <MdOutlineForwardToInbox size="20" />
-              Inbox
-              <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs text-white">
-                7
-              </span>
-            </NavLink>
-          </li>
-          {/* <!-- Menu Item Inbox --> */}
-
-          {/* <!-- Menu Item Invoice --> */}
-          <li>
-            <NavLink
-              to="/invoice"
-              className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                pathname.includes("invoice") && "bg-graydark dark:bg-meta-4"
-              }`}
-            >
-              <LiaFileInvoiceDollarSolid size="20" />
-              Invoice
-            </NavLink>
-          </li>
-          {/* <!-- Menu Item Invoice --> */}
+          {[
+            { to: '/dashboard/inbox', label: 'Inbox', icon: <MdOutlineForwardToInbox size="20" />, badge: 7 },
+            { to: '/dashboard/invoice', label: 'Invoice', icon: <LiaFileInvoiceDollarSolid size="20" /> },
+          ].map((item) => (
+            <li key={item.to}>
+              <NavLink
+                to={item.to}
+                className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor focus:text-foxColor"
+              >
+                {item.icon}
+                {item.label}
+                {item.badge && (
+                  <span className="absolute right-4 block rounded bg-primary py-1 px-2 text-xs text-white">
+                    {item.badge}
+                  </span>
+                )}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
-      {/* <!-- Others Group --> */}
+      
       <div>
-        <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-          OTHERS
-        </h3>
-
+        <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">OTHERS</h3>
         <ul className="mb-6 flex flex-col gap-1.5">
-          {/* <!-- Menu Item Pages --> */}
-          <SidebarLinkGroup
-            activeCondition={
-              pathname === "/pages" || pathname.includes("pages")
-            }
-          >
-            {(handleClick, open) => {
-              return (
-                <React.Fragment>
-                  <NavLink
-                    to="#"
-                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                      (pathname === "/pages" || pathname.includes("pages")) &&
-                      "bg-graydark dark:bg-meta-4"
-                    }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sidebarExpanded
-                        ? handleClick()
-                        : setSidebarExpanded(true);
-                    }}
-                  >
-                    <BsFillInfoCircleFill size="20" />
-                    Info
-                    <IoIosArrowDown
-                      size="20"
-                      className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                        open && "rotate-180"
-                      }`}
-                    />
-                  </NavLink>
-                  {/* <!-- Dropdown Menu Start --> */}
-                  <div
-                    className={`translate transform overflow-hidden ${
-                      !open && "hidden"
-                    }`}
-                  >
-                    <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                      <li>
+          <SidebarLinkGroup activeCondition={pathname.startsWith('/dashboard/info')}>
+            {(handleClick, open) => (
+              <>
+                <NavLink
+                  to="/dashboard/info"
+                  className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor focus:text-foxColor"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                  }}
+                >
+                  <BsFillInfoCircleFill size="20" />
+                  Info
+                  <IoIosArrowDown size="20" className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open ? 'rotate-180' : ''}`} />
+                </NavLink>
+                <div className={`translate transform overflow-hidden ${!open ? 'hidden' : ''}`}>
+                  <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                    {[
+                      { to: '/pages/settings', label: 'Settings' },
+                      { to: '/info/pricing-tables', label: 'Pricing Tables' },
+                      { to: '/info/faq', label: "Faq's" },
+                      { to: '/info/team', label: 'Teams' },
+                      { to: '/info/terms-conditions', label: 'Terms & Conditions' },
+                    ].map((item) => (
+                      <li key={item.to}>
                         <NavLink
-                          to="/pages/settings"
+                          to={item.to}
                           className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
+                            `group relative flex items-center gap-2.5 rounded-md px-4 text-bodydark2 duration-300 ease-in-out hover:text-foxColor ${
+                              isActive ? '!text-white' : ''
+                            }`
                           }
                         >
-                          Settings
+                          {item.label}
                         </NavLink>
                       </li>
-                      <li>
-                        <NavLink
-                          to="/pages/pricing-tables"
-                          className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
-                          }
-                        >
-                          Pricing Tables
-                        </NavLink>
-                      </li>
-
-                      <li>
-                        <NavLink
-                          to="/pages/faq"
-                          className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
-                          }
-                        >
-                          Faq's
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/pages/team"
-                          className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
-                          }
-                        >
-                          Teams
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/pages/terms-conditions"
-                          className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
-                          }
-                        >
-                          Terms & Conditions
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </div>
-                  {/* <!-- Dropdown Menu End --> */}
-                </React.Fragment>
-              );
-            }}
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
           </SidebarLinkGroup>
-          {/* <!-- Menu Item Pages --> */}
-
-          {/* <!-- Menu Item Chart --> */}
-          <SidebarLinkGroup
-            activeCondition={
-              pathname === "/statistics" || pathname.includes("statistics")
-            }
-          >
-            {(handleClick, open) => {
-              return (
-                <React.Fragment>
-                  <NavLink
-                    to="#"
-                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4  text-bodydark1 duration-300 ease-in-out hover:text-foxColor ${
-                      (pathname === "/statistics" ||
-                        pathname.includes("statistics")) &&
-                      "bg-graydark dark:bg-meta-4"
-                    }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sidebarExpanded
-                        ? handleClick()
-                        : setSidebarExpanded(true);
-                    }}
-                  >
-                    <FaChartLine size="20" />
-                    Statistics
-                    <IoIosArrowDown
-                      size="20"
-                      className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                        open && "rotate-180"
-                      }`}
-                    />
-                  </NavLink>
-                  {/* <!-- Dropdown Menu Start --> */}
-                  <div
-                    className={`translate transform overflow-hidden ${
-                      !open && "hidden"
-                    }`}
-                  >
-                    <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                      <li>
+          
+          <SidebarLinkGroup activeCondition={pathname.startsWith('/dashboard/statistics')}>
+            {(handleClick, open) => (
+              <>
+                <NavLink
+                  to="#"
+                  className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 text-bodydark1 duration-300 ease-in-out hover:text-foxColor focus:text-foxColor"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                  }}
+                >
+                  <FaChartLine size="20" />
+                  Statistics
+                  <IoIosArrowDown size="20" className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open ? 'rotate-180' : ''}`} />
+                </NavLink>
+                <div className={`translate transform overflow-hidden ${!open ? 'hidden' : ''}`}>
+                  <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                    {[
+                      { to: '/statistics/basic-chart', label: 'Basic Chart' },
+                      { to: '/statistics/advanced-chart', label: 'Advanced Chart' },
+                      { to: '/dashboard/statistics/data-tables', label: 'Data Tables' },
+                    ].map((item) => (
+                      <li key={item.to}>
                         <NavLink
-                          to="/statistics/basic-chart"
+                          to={item.to}
                           className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
+                            `group relative flex items-center gap-2.5 rounded-md px-4 text-bodydark2 duration-300 ease-in-out hover:text-foxColor ${
+                              isActive ? '!text-white' : ''
+                            }`
                           }
                         >
-                          Basic Chart
+                          {item.label}
                         </NavLink>
                       </li>
-                      <li>
-                        <NavLink
-                          to="/statistics/advanced-chart"
-                          className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
-                          }
-                        >
-                          Advanced Chart
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/statistics/data-tables"
-                          className={({ isActive }) =>
-                            "group relative flex items-center gap-2.5 rounded-md px-4  text-bodydark2 duration-300 ease-in-out hover:text-foxColor " +
-                            (isActive && "!text-white")
-                          }
-                        >
-                          Data Tables
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </div>
-                  {/* <!-- Dropdown Menu End --> */}
-                </React.Fragment>
-              );
-            }}
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
           </SidebarLinkGroup>
-          {/* <!-- Menu Item Chart --> */}
         </ul>
       </div>
     </>
