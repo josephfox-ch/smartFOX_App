@@ -2,17 +2,20 @@ import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Event = sequelize.define("Event", {
-  id: {
+  eventId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
   deviceId: {
     type: DataTypes.UUID,
+    allowNull: false,
     references: {
       model: "Devices",
       key: "id",
     },
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   },
   eventType: {
     type: DataTypes.STRING,
@@ -22,7 +25,12 @@ const Event = sequelize.define("Event", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  timestamp: DataTypes.DATE,
+  timestamp: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
 });
 
 export default Event;
+
