@@ -22,10 +22,10 @@ const HomeSelector = () => {
             onChange={handleHomeChange}
             value={selectedHome ? selectedHome.id : ""}
           >
-            <option value="">Select Home</option>
+            <option value="">select home</option>
             {homes.map((home) => (
               <option key={home.id} value={home.id}>
-                {home.houseName}
+                {home.name}
               </option>
             ))}
           </select>

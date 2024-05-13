@@ -5,33 +5,39 @@ import AddNewHomeForm from "../../components/forms/AddNewHomeForm";
 import Breadcrumb from "../../components/Breadcrumb";
 import * as Yup from "yup";
 import { createHome } from "../../api/services/homeService";
+import { useHomes } from "../../context/HomeContext";
 
 const AddNewHomePage = () => {
   const navigate = useNavigate();
+  const { homes, selectHome } = useHomes();
 
   const formik = useFormik({
     initialValues: {
-      houseName: "",
+      name: "",
       streetAddress: "",
       city: "",
       country: "CH",
       postalCode: "",
       timeZone: "Europe/Zurich",
+      latitude:"",
+      longitude:"",
     },
     validationSchema: Yup.object({
-      houseName: Yup.string().required("House name is required"),
+      name: Yup.string().required("House name is required"),
       streetAddress: Yup.string().required("Street address is required"),
       city: Yup.string().required("City is required"),
       country: Yup.string().required("Country is required"),
       postalCode: Yup.string().required("Postal code is required"),
       timeZone: Yup.string().required("Time zone is required"),
+      latitude:Yup.number().required("Latitude is required"),
+      longitude:Yup.number().required("Longitude is required"),
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const newHome = await createHome(values);
         console.log("New home created:", newHome);
         resetForm();
-        navigate("/dashboard/home");
+        navigate("/dashboard/my-home");
         alert("Your new home created");
         //todo: show a success message
       } catch (error) {

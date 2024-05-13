@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
 const EnergyUsage = sequelize.define("EnergyUsage", {
-  usageId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,

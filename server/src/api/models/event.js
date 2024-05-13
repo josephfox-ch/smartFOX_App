@@ -2,7 +2,7 @@ import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Event = sequelize.define("Event", {
-  eventId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,

@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
 const RoomTemperature = sequelize.define("RoomTemperature", {
-  temperatureId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
