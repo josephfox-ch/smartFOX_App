@@ -3,38 +3,18 @@ import { Field, ErrorMessage, FormikProvider } from "formik";
 import CountrySelect from "../lib-components/CountrySelect";
 import TimeZoneSelect from "../lib-components/TimeZoneSelect";
 import { FaLocationDot } from "react-icons/fa6";
-import axios from "axios"; 
+import { getCoordinates } from "../../utils/geoUtils";
 
 const AddNewHomeForm = ({ formik }) => {
-  const getCoordinates = async () => {
-    const { streetAddress, city, country } = formik.values;
-    const address = `${streetAddress}, ${city}, ${country}`;
-
+  const handleGetCoordinates = async () => {
     try {
-      const response = await axios.get(
-        "https://nominatim.openstreetmap.org/search",
-        {
-          params: {
-            q: address,
-            format: "json",
-            limit: 1,
-          },
-        }
-      );
-
-      if (response.data.length > 0) {
-        const location = response.data[0];
-        formik.setFieldValue("latitude", location.lat);
-        formik.setFieldValue("longitude", location.lon);
-      } else {
-        alert("Location not found");
-      }
+      const { latitude, longitude } = await getCoordinates();
+      formik.setFieldValue("latitude", latitude);
+      formik.setFieldValue("longitude", longitude);
     } catch (error) {
-      console.error("Error fetching coordinates:", error);
-      alert("Failed to fetch coordinates");
+      console.error("Failed to get coordinates:", error);
     }
   };
-
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-center justify-between border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -45,9 +25,9 @@ const AddNewHomeForm = ({ formik }) => {
         <button
           type="button"
           className="flex items-center bg-green-600 text-white p-2 text-sm shadow-lg border border-foxColor"
-          onClick={getCoordinates}
+          onClick={handleGetCoordinates}
         >
-          <FaLocationDot size="20" /> Get Coordinates
+          <FaLocationDot size="20" className="mr-2" /> Get Coordinates
         </button>
       </div>
       <div className="p-7">
@@ -246,12 +226,14 @@ const AddNewHomeForm = ({ formik }) => {
               </div>
             </div>
             <p className="deep-notes ">
-              **Please provide a name, address, and time zone,latitude and longitude for your home.
-              This provides access to location-based functionality within
-              SmartFOX® Home and ensures scheduled events occur at the correct
-              time.
+              **Please provide a name, address, and time zone,latitude and
+              longitude for your home. This provides access to location-based
+              functionality within SmartFOX® Home and ensures scheduled events
+              occur at the correct time.
             </p>
-            <p className="deep-notes ">**By approving this form you consent to location information.</p>
+            <p className="deep-notes ">
+              **By approving this form you consent to location information.
+            </p>
             <div className="flex justify-end gap-4 mt-6">
               <button
                 className="justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
