@@ -10,8 +10,8 @@ const AddNewHomePage = () => {
   const getCoordinates = async () => {
     try {
       const { latitude, longitude } = await fetchCoordinates();
-      formik.setFieldValue("latitude", latitude);
       formik.setFieldValue("longitude", longitude);
+      formik.setFieldValue("latitude", latitude);
     } catch (error) {
       console.error("Failed to get coordinates:", error);
     }
@@ -22,7 +22,10 @@ const AddNewHomePage = () => {
       <Breadcrumb className="text-foxColor" pageName="Add New Home" />
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 dark:bg-gray-800">
         <div className="col-span-1 xl:col-span-5">
-          <AddNewHomeForm handleGetCoordinates={getCoordinates} formik={formik} />
+          <AddNewHomeForm
+            handleGetCoordinates={getCoordinates}
+            formik={formik}
+          />
         </div>
       </div>
     </div>
@@ -30,4 +33,3 @@ const AddNewHomePage = () => {
 };
 
 export default AddNewHomePage;
-

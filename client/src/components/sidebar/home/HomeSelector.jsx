@@ -18,18 +18,18 @@ const HomeSelector = () => {
       ) : (
         <>
           <select
-            className="block appearance-none text-sm  bg-transparent text-white  mb-2 p-1 w-full border border-graydark shadow  leading-tight focus:outline-none focus:text-foxColor hover:border-indigo-500  focus:border-indigo-500 hover:outline-none duration-300 ease-in-out"
+            className="block appearance-none text-sm bg-transparent text-white mb-2 p-1 w-full border border-graydark shadow leading-tight focus:outline-none focus:text-foxColor hover:border-indigo-500 focus:border-indigo-500 hover:outline-none duration-300 ease-in-out"
             onChange={handleHomeChange}
             value={selectedHome ? selectedHome.id : ""}
           >
-            <option value="">select home</option>
+            <option value="">Select home</option>
             {homes.map((home) => (
               <option key={home.id} value={home.id}>
                 {home.name}
               </option>
             ))}
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center  px-2 text-white">
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
             <IoIosArrowDown
               size="20"
               className="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
@@ -42,3 +42,5 @@ const HomeSelector = () => {
 };
 
 export default HomeSelector;
+
+
