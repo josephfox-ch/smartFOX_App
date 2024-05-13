@@ -3,18 +3,10 @@ import { Field, ErrorMessage, FormikProvider } from "formik";
 import CountrySelect from "../lib-components/CountrySelect";
 import TimeZoneSelect from "../lib-components/TimeZoneSelect";
 import { FaLocationDot } from "react-icons/fa6";
-import { getCoordinates } from "../../utils/geoUtils";
 
-const AddNewHomeForm = ({ formik }) => {
-  const handleGetCoordinates = async () => {
-    try {
-      const { latitude, longitude } = await getCoordinates();
-      formik.setFieldValue("latitude", latitude);
-      formik.setFieldValue("longitude", longitude);
-    } catch (error) {
-      console.error("Failed to get coordinates:", error);
-    }
-  };
+
+const AddNewHomeForm = ({handleGetCoordinates, formik }) => {
+ 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-center justify-between border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -125,6 +117,48 @@ const AddNewHomeForm = ({ formik }) => {
                 </div>
               </div>
             </div>
+            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row items-center">
+              <div className="w-full sm:w-1/2 relative flex flex-col">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="latitude"
+                >
+                  Latitude
+                </label>
+                <Field
+                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                  type="number"
+                  id="latitude"
+                  name="latitude"
+                  placeholder="Enter latitude"
+                />
+                <ErrorMessage
+                  name="latitude"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="w-full sm:w-1/2 relative flex flex-col">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="longitude"
+                >
+                  Longitude
+                </label>
+                <Field
+                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                  type="number"
+                  id="longitude"
+                  name="longitude"
+                  placeholder="Enter longitude"
+                />
+                <ErrorMessage
+                  name="longitude"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+            </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
@@ -183,50 +217,9 @@ const AddNewHomeForm = ({ formik }) => {
                 </div>
               </div>
             </div>
-            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row items-center">
-              <div className="w-full sm:w-1/2 relative flex flex-col">
-                <label
-                  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="latitude"
-                >
-                  Latitude
-                </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="latitude"
-                  name="latitude"
-                  placeholder="Enter latitude"
-                />
-                <ErrorMessage
-                  name="latitude"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div className="w-full sm:w-1/2 relative flex flex-col">
-                <label
-                  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="longitude"
-                >
-                  Longitude
-                </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="longitude"
-                  name="longitude"
-                  placeholder="Enter longitude"
-                />
-                <ErrorMessage
-                  name="longitude"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-            </div>
+           
             <p className="deep-notes ">
-              **Please provide a name, address, and time zone,latitude and
+              **Please provide a name, address,time zone,latitude and
               longitude for your home. This provides access to location-based
               functionality within SmartFOX® Home and ensures scheduled events
               occur at the correct time.
