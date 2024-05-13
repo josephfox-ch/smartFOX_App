@@ -2,9 +2,11 @@ import { useFormik } from "formik";
 import { homeValidationSchema } from "../components/forms/validationSchemas";
 import { createHome } from "../api/services/homeService";
 import { useNavigate } from "react-router-dom";
+import { useHomes } from "../context/HomeContext";
 
 const useHomeFormik = () => {
   const navigate = useNavigate();
+  const { fetchHomes, selectHome } = useHomes();
 
   return useFormik({
     initialValues: {
@@ -22,10 +24,11 @@ const useHomeFormik = () => {
       try {
         const newHome = await createHome(values);
         console.log("New home created:", newHome);
+        await fetchHomes();
+        selectHome(newHome.id);
         resetForm();
-        navigate("/dashboard/my-home");
         alert("Your new home created");
-        //todo: show a success message
+        navigate("/dashboard/my-home", { replace: true });
       } catch (error) {
         console.error("Error creating home:", error);
       } finally {
@@ -36,3 +39,8 @@ const useHomeFormik = () => {
 };
 
 export default useHomeFormik;
+
+
+
+
+
