@@ -26,7 +26,7 @@ const MyHomePage = () => {
                   House Name
                 </td>
                 <td className="py-3 px-6 text-left">
-                  {selectedHome.houseName}
+                  {selectedHome.name}
                 </td>
               </tr>
               <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
