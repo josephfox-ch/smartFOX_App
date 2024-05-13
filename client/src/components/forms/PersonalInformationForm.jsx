@@ -1,69 +1,13 @@
 import React from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { useUser } from "../../context/UserContext";
-import * as UserService from "../../api/services/userService";
-import * as s3Service from "../../api/services/s3Service";
-import { useAuth } from "../../context/AuthContext";
-
-const validationSchema = Yup.object({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters long")
-    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .required("Password is required"),
-  phoneNumber: Yup.string()
-    .matches(/^\+?[0-9]{10,14}$/, "Invalid phone number")
-    .notRequired(),
-});
+import usePersonalInfoFormik from "../../hooks/usePersonalInfoFormik";
 
 const PersonalInformationForm = () => {
-  const { user, updateUser } = useUser();
-  const { logout } = useAuth();
-
-  const formik = useFormik({
-    initialValues: {
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      email: user?.email || "",
-      phoneNumber: user?.phoneNumber || "",
-      password: "",
-    },
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      try {
-        await updateUser(values);
-        console.log("User updated successfully");
-      } catch (error) {
-        console.error("Error updating user:", error);
-      }
-    },
-  });
-
-  const deleteAccount = async () => {
-    try {
-      await s3Service.deleteAvatarFromS3(user.id);
-      const result = await UserService.deleteUser();
-      if (result.success) {
-        alert("User deleted successfully");
-        logout();
-      } else {
-        alert(`Error: ${result.message}`);
-      }
-    } catch (error) {
-      alert("Failed to delete user. Please try again later.");
-    }
-  };
+  const { formik, deleteAccount } = usePersonalInfoFormik();
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -235,4 +179,5 @@ const PersonalInformationForm = () => {
 };
 
 export default PersonalInformationForm;
+
 
