@@ -13,6 +13,9 @@ const Home = sequelize.define("Home", {
       model: "Users",
       key: "id",
     },
+    allowNull: false,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   },
   name: {
     type: DataTypes.STRING,
@@ -52,6 +55,7 @@ const Home = sequelize.define("Home", {
   },
   smartSystemStartDate: {
     type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
     allowNull: true,
   },
   smartSystemEndDate: {
@@ -65,3 +69,4 @@ const Home = sequelize.define("Home", {
 });
 
 export default Home;
+

@@ -2,7 +2,7 @@ import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const Device = sequelize.define("Device", {
-  deviceId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,

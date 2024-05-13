@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
 const EnergyCertificate = sequelize.define("EnergyCertificate", {
-  energyCertificateId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,

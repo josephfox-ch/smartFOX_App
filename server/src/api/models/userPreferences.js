@@ -2,7 +2,7 @@ import sequelize from "../../config/db.js";
 import { DataTypes } from "sequelize";
 
 const UserPreferences = sequelize.define("UserPreferences", {
-  preferenceId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
@@ -19,7 +19,7 @@ const UserPreferences = sequelize.define("UserPreferences", {
   },
   homeId: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: "Homes",
       key: "id",
@@ -29,12 +29,12 @@ const UserPreferences = sequelize.define("UserPreferences", {
   },
   preferredTemperature: {
     type: DataTypes.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
   preferredMode: {
     type: DataTypes.ENUM,
     values: ["day", "night", "away", "manual"],
-    allowNull: false,
+    allowNull: true,
   },
   acceptEmails: {
     type: DataTypes.BOOLEAN,
@@ -43,13 +43,11 @@ const UserPreferences = sequelize.define("UserPreferences", {
   },
   acceptTerms: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
-    allowNull: false,
+    defaultValue: true,
   },
   acceptCookies: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
-    allowNull: false,
+    defaultValue: true,
   },
 });
 

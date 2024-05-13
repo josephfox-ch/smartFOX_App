@@ -20,6 +20,7 @@ export const HomeProvider = ({ children }) => {
         const response = await HomeService.getHomes();
         const data = await response;
         setHomes(data);
+        console.log("homes-fetched", data);
       } catch (err) {
         setError(err.message);
       } finally {

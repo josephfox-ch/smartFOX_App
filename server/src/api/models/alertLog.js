@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
 const AlertLog = sequelize.define("AlertLog", {
-  alertId: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
