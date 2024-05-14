@@ -5,7 +5,7 @@ import EnergyCertificateForm from "../../components/forms/EnergyCertificateForm"
 import useHomeFormik from "../../hooks/useHomeFormik";
 import { fetchCoordinates } from "../../utils/geoUtils";
 
-const HomeInfoPage = () => {
+const HomeFormsInfoPage = () => {
   const [showEnergyCertificateForm, setShowEnergyCertificateForm] = useState(false);
   const formik = useHomeFormik();
 
@@ -27,7 +27,16 @@ const HomeInfoPage = () => {
     setShowEnergyCertificateForm(false);
   };
 
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const errors = await formik.validateForm();
+    if (Object.keys(errors).length !== 0) {
+      alert("Please fill out all required fields in the Home Information form.");
+      formik.setErrors(errors);
+      return;
+    }
+    formik.handleSubmit();
+  };
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -43,7 +52,7 @@ const HomeInfoPage = () => {
           </div>
         ) : (
           <div className="col-span-1 xl:col-span-5">
-            <EnergyCertificateForm formik={formik} onBack={handleBack} />
+            <EnergyCertificateForm formik={formik} onBack={handleBack} handleSubmit={handleSubmit} />
           </div>
         )}
       </div>
@@ -51,7 +60,10 @@ const HomeInfoPage = () => {
   );
 };
 
-export default HomeInfoPage;
+export default HomeFormsInfoPage;
+
+
+
 
 
 
