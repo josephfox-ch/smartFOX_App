@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", authenticateUser, HomeController.getHomes);
 
-router.post("/", authenticateUser, HomeController.createHome);
+router.post("/", authenticateUser, HomeController.createHomeWithEnergyCertificate);
 
 router.put("/", authenticateUser, HomeController.updateHome);
 

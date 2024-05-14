@@ -58,3 +58,47 @@ export const homeValidationSchema = Yup.object({
     "Longitude is required.Use get coordinates button."
   ),
 });
+
+
+export const energyCertificateValidationSchema = Yup.object({
+  buildingVolume: Yup.number()
+    .nullable()
+    .typeError('Building Volume must be a number'),
+  heatLossCoefficient: Yup.number()
+    .nullable()
+    .typeError('Heat Loss Coefficient must be a number'),
+  additionalHeatSources: Yup.string()
+    .nullable()
+    .typeError('Additional Heat Sources must be a string'),
+  heatingSystemDetails: Yup.string()
+    .nullable()
+    .typeError('Heating System Details must be a string'),
+  insulationQuality: Yup.string()
+    .nullable()
+    .typeError('Insulation Quality must be a string'),
+  constructionYear: Yup.number()
+    .nullable()
+    .typeError('Construction Year must be a number'),
+  renewalDate: Yup.date()
+    .nullable()
+    .typeError('Renewal Date must be a date'),
+  outdoorAirTemperature: Yup.number()
+    .nullable()
+    .typeError('Outdoor Air Temperature must be a number'),
+  indoorTemperature: Yup.number()
+    .nullable()
+    .typeError('Indoor Temperature must be a number'),
+  globalHeatLossCoefficient: Yup.number()
+    .nullable()
+    .typeError('Global Heat Loss Coefficient must be a number'),
+  volumeOfHeatedZone: Yup.number()
+    .nullable()
+    .typeError('Volume Of Heated Zone must be a number'),
+  heatEmissionCoefficient: Yup.number()
+    .nullable()
+    .typeError('Heat Emission Coefficient must be a number'),
+  freeHeatGains: Yup.number()
+    .nullable()
+    .typeError('Free Heat Gains must be a number'),
+});
+

@@ -35,11 +35,11 @@ const MyHomePage = () => {
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
                 {selectedHome.name}
               </h2>
-              <div className="flex space-x-3">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              <div className="flex items-center justify-center space-x-3">
+                <button className="flex items-center justify-center p-1  bg-blue-500 text-white   rounded hover:bg-blue-600">
                   <FaEdit /> Edit
                 </button>
-                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                <button className=" flex items-center justify-center p-1 bg-red-500 text-white  rounded hover:bg-red-600">
                   <FaTrash /> Delete
                 </button>
               </div>

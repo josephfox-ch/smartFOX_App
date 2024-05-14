@@ -4,8 +4,9 @@ import CountrySelect from "../lib-components/CountrySelect";
 import TimeZoneSelect from "../lib-components/TimeZoneSelect";
 import { FaLocationDot } from "react-icons/fa6";
 import { ImWarning } from "react-icons/im";
+import { FiArrowRightCircle } from "react-icons/fi";
 
-const AddNewHomeForm = ({ handleGetCoordinates, formik }) => {
+const AddNewHomeForm = ({ handleGetCoordinates, formik, onContinue }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -229,7 +230,7 @@ const AddNewHomeForm = ({ handleGetCoordinates, formik }) => {
               </div>
             </div>
             <div className="flex items-start">
-            <ImWarning className="mr-2 text-red-600" />
+              <ImWarning className="mr-2 text-red-600" />
               <p className="deep-notes">
                 Please provide a name, address, time zone, latitude and
                 longitude for your home. This provides access to location-based
@@ -245,18 +246,8 @@ const AddNewHomeForm = ({ handleGetCoordinates, formik }) => {
             </div>
 
             <div className="flex justify-end gap-4 mt-6">
-              <button
-                className="justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
-                type="button"
-                onClick={() => formik.resetForm()}
-              >
-                Cancel
-              </button>
-              <button
-                className="justify-center bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 hover:shadow-lg"
-                type="submit"
-              >
-                Save
+              <button className="flex items-center gap-2 justify-center bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 hover:shadow-lg" type="button" onClick={onContinue}>
+                Continue <FiArrowRightCircle size="15" />
               </button>
             </div>
           </form>
