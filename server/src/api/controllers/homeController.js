@@ -1,5 +1,5 @@
-import * as HomeService from '../services/homeService.js';
-import logger from '../../config/logger.js';
+import * as HomeService from "../services/homeService.js";
+import logger from "../../config/logger.js";
 
 export const getHomes = async (req, res) => {
   try {
@@ -12,11 +12,17 @@ export const getHomes = async (req, res) => {
   }
 };
 
-export const createHome = async (req, res) => {
+export const createHomeWithEnergyCertificate = async (req, res) => {
   try {
     const userId = req.user.id;
     const homeData = req.body;
-    const newHome = await HomeService.createHome(userId, homeData);
+    const energyCertificateData = req.body.energyCertificate;
+
+    const newHome = await HomeService.createHomeWithEnergyCertificate(
+      userId,
+      homeData,
+      energyCertificateData
+    );
     res.status(201).json(newHome);
   } catch (error) {
     logger.error(`POST /homes - ${error.message}`);
