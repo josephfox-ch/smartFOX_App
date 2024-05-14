@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
-const ClimateControl = sequelize.define("ClimateControl", {
+const TemperatureRecord = sequelize.define("TemperatureRecord", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -13,25 +13,23 @@ const ClimateControl = sequelize.define("ClimateControl", {
     references: {
       model: "Homes",
       key: "id",
-    }},
-  desiredTemperature: {
+    },
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  },
+  indoorTemperature: {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  currentTemperature: {
+  outdoorTemperature: {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  waterFlowTemperature: {
-    type: DataTypes.FLOAT,
+  recordedAt: {
+    type: DataTypes.DATE,
     allowNull: false,
-  },
-  mode: {
-    type: DataTypes.ENUM,
-    values: ['day', 'night', 'away', 'manual'],
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 });
 
-export default ClimateControl;
-
+export default TemperatureRecord;
