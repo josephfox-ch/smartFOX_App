@@ -31,7 +31,7 @@ export default {
         linkColor:'#646cff',
         secondary: "#80CAEE",
         stroke: "#E2E8F0",
-        gray: "#EFF4FB",
+        grayC: "#EFF4FB",
         graydark: "#515764",
         "gray-2": "#F7F9FC",
         "gray-3": "#FAFAFA",

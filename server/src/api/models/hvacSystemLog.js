@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
-const AccessControl = sequelize.define("AccessControl", {
+const HVACSystemLog = sequelize.define("HVACSystemLog", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -13,22 +13,21 @@ const AccessControl = sequelize.define("AccessControl", {
     references: {
       model: "Homes",
       key: "id",
-    },
-  },
-  userId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    references: {
-      model: "Users",
-      key: "id",
-    },
-  },
-  permissionLevel: {
+    }},
+  status: {
     type: DataTypes.ENUM,
-    values: ["parents", "children", "guest"], //todo: manage permissions
-    defaultValue: "children",
+    values: ['on', 'off', 'maintenance', 'error'],
     allowNull: false,
+  },
+  startedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  endedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
 });
 
-export default AccessControl;
+export default HVACSystemLog;

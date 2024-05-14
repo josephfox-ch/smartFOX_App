@@ -13,15 +13,17 @@ export const getHomes = async (userId) => {
 
 export const createHome = async (userId, homeData) => {
   try {
-    const { houseName, streetAddress, city, country, postalCode, timeZone } = homeData;
+    const { name, streetAddress, city, country, postalCode, timeZone,latitude,longitude } = homeData;
     const newHome = await Home.create({
       userId,
-      houseName,
+      name,
       streetAddress,
       city,
       country,
       postalCode,
-      timeZone
+      timeZone,
+      latitude,
+      longitude,
     });
     logger.info(`Home created for user ${userId}: ${newHome.id}`);
     return newHome;

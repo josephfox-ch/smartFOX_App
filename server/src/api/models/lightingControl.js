@@ -1,34 +1,37 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
-const AccessControl = sequelize.define("AccessControl", {
+const LightingControl = sequelize.define("LightingControl", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  homeId: {
+  roomId: {
     type: DataTypes.UUID,
     allowNull: false,
     references: {
-      model: "Homes",
+      model: "Rooms",
       key: "id",
     },
   },
-  userId: {
-    type: DataTypes.UUID,
+  name:{
+    type: DataTypes.STRING,
     allowNull: false,
-    references: {
-      model: "Users",
-      key: "id",
-    },
   },
-  permissionLevel: {
+  status: {
     type: DataTypes.ENUM,
-    values: ["parents", "children", "guest"], //todo: manage permissions
-    defaultValue: "children",
+    values: ["on", "off"],
     allowNull: false,
+  },
+  brightnessLevel: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    validate: {
+      min: 0,
+      max: 100,
+    },
   },
 });
 
-export default AccessControl;
+export default LightingControl;

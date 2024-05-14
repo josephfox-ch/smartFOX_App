@@ -1,103 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHomes } from "../../context/HomeContext";
 import Breadcrumb from "../../components/Breadcrumb";
+import TabMenu from "./TabMenu";
+import Dashboard from "./Dashboard";
+import Controls from "./Controls";
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const MyHomePage = () => {
   const { homes, selectedHome, loading, error } = useHomes();
+  const [activeTab, setActiveTab] = useState("Living Room");
+
+  const rooms = [
+    "Living Room",
+    "Bed Room",
+    "Kitchen",
+    "Child Room",
+    "Pantry",
+    "Laundry",
+    "Bathroom",
+    "WC",
+    "Backyard"
+  ];
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-7xl p-4">
       <Breadcrumb className="text-foxColor" pageName="My Home" />
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="rounded-sm border border-stroke bg-white shadow-lg p-6 dark:border-strokedark dark:bg-boxdark">
         {selectedHome ? (
-          <table className="min-w-full bg-white  dark:border-strokedark dark:bg-boxdark shadow-md rounded-lg">
-            <thead>
-              <tr className="bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Property</th>
-                <th className="py-3 px-6 text-left">Details</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-600 dark:text-gray-200 text-sm font-light">
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  House Name
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {selectedHome.houseName}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Address
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {selectedHome.streetAddress}, {selectedHome.city},{" "}
-                  {selectedHome.country}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Postal Code
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {selectedHome.postalCode}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Time Zone
-                </td>
-                <td className="py-3 px-6 text-left">{selectedHome.timeZone}</td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Smart System Active
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {selectedHome.isActive ? "Yes" : "No"}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Smart System Start Date
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {new Date(
-                    selectedHome.smartSystemStartDate
-                  ).toLocaleDateString()}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Smart System End Date
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {new Date(
-                    selectedHome.smartSystemEndDate
-                  ).toLocaleDateString()}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Created At
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {new Date(selectedHome.createdAt).toLocaleDateString()}
-                </td>
-              </tr>
-              <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                <td className="py-3 px-6 text-left whitespace-nowrap font-medium">
-                  Updated At
-                </td>
-                <td className="py-3 px-6 text-left">
-                  {new Date(selectedHome.updatedAt).toLocaleDateString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
+                {selectedHome.name}
+              </h2>
+              <div className="flex space-x-3">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                  <FaEdit /> Edit
+                </button>
+                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                  <FaTrash /> Delete
+                </button>
+              </div>
+            </div>
+            <TabMenu rooms={rooms} activeTab={activeTab} onTabClick={setActiveTab} />
+            <Dashboard activeTab={activeTab} />
+            <Controls />
+          </>
         ) : (
           <p className="text-gray-600 dark:text-gray-300">
             Please select a home to view details.
@@ -109,3 +59,9 @@ const MyHomePage = () => {
 };
 
 export default MyHomePage;
+
+
+
+
+
+

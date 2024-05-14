@@ -42,8 +42,6 @@ const Sidebar = () => {
         <TimeDisplay />
         {/* <!--My Home Button --> */}
         <MyHomeButton />
-        {/* <!-- House Selector --> */}
-        <HomeSelector />
         {/* <!--Add New Home Button --> */}
         <AddNewHomeButton />
       </div>

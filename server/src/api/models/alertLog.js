@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../../config/db.js";
 
-const ExternalTemperature = sequelize.define("ExternalTemperature", {
-  externalTemperatureId: {
+const AlertLog = sequelize.define("AlertLog", {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
@@ -13,10 +13,17 @@ const ExternalTemperature = sequelize.define("ExternalTemperature", {
     references: {
       model: "Homes",
       key: "id",
-    },
+    }
   },
-  temperature: DataTypes.FLOAT,
-  timestamp: DataTypes.DATE,
+  message: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  severity: {
+    type: DataTypes.ENUM,
+    values: ['low', 'medium', 'high', 'critical'],
+    allowNull: false,
+  }
 });
 
-export default ExternalTemperature;
+export default AlertLog;

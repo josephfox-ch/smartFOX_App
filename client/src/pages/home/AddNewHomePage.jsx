@@ -1,53 +1,31 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import AddNewHomeForm from "../../components/forms/AddNewHomeForm";
 import Breadcrumb from "../../components/Breadcrumb";
-import * as Yup from "yup";
-import { createHome } from "../../api/services/homeService";
+import AddNewHomeForm from "../../components/forms/AddNewHomeForm";
+import useHomeFormik from "../../hooks/useHomeFromik";
+import { fetchCoordinates } from "../../utils/geoUtils";
 
 const AddNewHomePage = () => {
-  const navigate = useNavigate();
+  const formik = useHomeFormik();
 
-  const formik = useFormik({
-    initialValues: {
-      houseName: "",
-      streetAddress: "",
-      city: "",
-      country: "CH",
-      postalCode: "",
-      timeZone: "Europe/Zurich",
-    },
-    validationSchema: Yup.object({
-      houseName: Yup.string().required("House name is required"),
-      streetAddress: Yup.string().required("Street address is required"),
-      city: Yup.string().required("City is required"),
-      country: Yup.string().required("Country is required"),
-      postalCode: Yup.string().required("Postal code is required"),
-      timeZone: Yup.string().required("Time zone is required"),
-    }),
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
-      try {
-        const newHome = await createHome(values);
-        console.log("New home created:", newHome);
-        resetForm();
-        navigate("/dashboard/home");
-        alert("Your new home created");
-        //todo: show a success message
-      } catch (error) {
-        console.error("Error creating home:", error);
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
+  const getCoordinates = async () => {
+    try {
+      const { latitude, longitude } = await fetchCoordinates();
+      formik.setFieldValue("longitude", longitude);
+      formik.setFieldValue("latitude", latitude);
+    } catch (error) {
+      console.error("Failed to get coordinates:", error);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-7xl">
       <Breadcrumb className="text-foxColor" pageName="Add New Home" />
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 dark:bg-gray-800">
         <div className="col-span-1 xl:col-span-5">
-          <AddNewHomeForm formik={formik} />
+          <AddNewHomeForm
+            handleGetCoordinates={getCoordinates}
+            formik={formik}
+          />
         </div>
       </div>
     </div>
