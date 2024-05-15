@@ -4,10 +4,12 @@ import AddNewHomeForm from "../../components/forms/AddNewHomeForm";
 import EnergyCertificateForm from "../../components/forms/EnergyCertificateForm";
 import useHomeFormik from "../../hooks/useHomeFormik";
 import { fetchCoordinates } from "../../utils/geoUtils";
+import { useAlert } from "../../context/AlertContext";
 
 const HomeFormsInfoPage = () => {
   const [showEnergyCertificateForm, setShowEnergyCertificateForm] = useState(false);
   const formik = useHomeFormik();
+  const { showAlert } = useAlert();
 
   const getCoordinates = async () => {
     try {
@@ -16,10 +18,30 @@ const HomeFormsInfoPage = () => {
       formik.setFieldValue("longitude", longitude);
     } catch (error) {
       console.error("Failed to get coordinates:", error);
+      showAlert("error", "Error", "Failed to get coordinates.");
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    const errors = await formik.validateForm();
+    if (Object.keys(errors).length !== 0) {
+      formik.setTouched({
+        name: true,
+        streetAddress: true,
+        city: true,
+        country: true,
+        postalCode: true,
+        timeZone: true,
+        latitude: true,
+        longitude: true,
+      });
+      showAlert(
+        "error",
+        "Validation Error",
+        "Please fill out all required fields in the Home Information form."
+      );
+      return;
+    }
     setShowEnergyCertificateForm(true);
   };
 
@@ -31,11 +53,15 @@ const HomeFormsInfoPage = () => {
     event.preventDefault();
     const errors = await formik.validateForm();
     if (Object.keys(errors).length !== 0) {
-      alert("Please fill out all required fields in the Home Information form.");
-      formik.setErrors(errors);
+      showAlert(
+        "error",
+        "Error",
+        "Please fill out all required fields in the Home Information form."
+      );
       return;
     }
     formik.handleSubmit();
+    showAlert("success", "Success", "Form submitted successfully.");
   };
 
   return (
@@ -52,7 +78,11 @@ const HomeFormsInfoPage = () => {
           </div>
         ) : (
           <div className="col-span-1 xl:col-span-5">
-            <EnergyCertificateForm formik={formik} onBack={handleBack} handleSubmit={handleSubmit} />
+            <EnergyCertificateForm
+              formik={formik}
+              onBack={handleBack}
+              handleSubmit={handleSubmit}
+            />
           </div>
         )}
       </div>
@@ -61,11 +91,4 @@ const HomeFormsInfoPage = () => {
 };
 
 export default HomeFormsInfoPage;
-
-
-
-
-
-
-
 
