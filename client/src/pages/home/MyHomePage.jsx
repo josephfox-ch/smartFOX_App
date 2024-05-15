@@ -4,10 +4,12 @@ import Breadcrumb from "../../components/Breadcrumb";
 import TabMenu from "./TabMenu";
 import Dashboard from "./Dashboard";
 import Controls from "./Controls";
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useWeather } from "../../context/WeatherContext";
 
 const MyHomePage = () => {
   const { homes, selectedHome, loading, error } = useHomes();
+  const { outdoorTemperature } = useWeather();
   const [activeTab, setActiveTab] = useState("Living Room");
 
   const rooms = [
@@ -19,7 +21,7 @@ const MyHomePage = () => {
     "Laundry",
     "Bathroom",
     "WC",
-    "Backyard"
+    "Backyard",
   ];
 
   if (loading) return <p>Loading...</p>;
@@ -36,15 +38,24 @@ const MyHomePage = () => {
                 {selectedHome.name}
               </h2>
               <div className="flex items-center justify-center space-x-3">
-                <button className="flex items-center justify-center p-1  bg-blue-500 text-white   rounded hover:bg-blue-600">
+                <button className="flex items-center justify-center p-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                   <FaEdit /> Edit
                 </button>
-                <button className=" flex items-center justify-center p-1 bg-red-500 text-white  rounded hover:bg-red-600">
+                <button className="flex items-center justify-center p-1 bg-red-500 text-white rounded hover:bg-red-600">
                   <FaTrash /> Delete
                 </button>
               </div>
             </div>
-            <TabMenu rooms={rooms} activeTab={activeTab} onTabClick={setActiveTab} />
+            {outdoorTemperature !== null && (
+              <p className="mb-4">
+                Outdoor Temperature: {outdoorTemperature}°C
+              </p>
+            )}
+            <TabMenu
+              rooms={rooms}
+              activeTab={activeTab}
+              onTabClick={setActiveTab}
+            />
             <Dashboard activeTab={activeTab} />
             <Controls />
           </>
@@ -59,9 +70,3 @@ const MyHomePage = () => {
 };
 
 export default MyHomePage;
-
-
-
-
-
-
