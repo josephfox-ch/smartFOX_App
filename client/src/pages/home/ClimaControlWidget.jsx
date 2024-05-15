@@ -1,7 +1,7 @@
 import React from "react";
 import { FaLock, FaLockOpen, FaLightbulb } from 'react-icons/fa';
 
-const Controls = () => (
+const ClimaControlWidget = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div className="bg-gray-100 p-4 rounded shadow dark:bg-gray-800">
       <h3 className="font-medium text-lg mb-3 text-gray-700 dark:text-gray-300">Doors</h3>
@@ -27,5 +27,5 @@ const Controls = () => (
   </div>
 );
 
-export default Controls;
+export default ClimaControlWidget;
 
