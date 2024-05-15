@@ -4,7 +4,10 @@ import "react-phone-input-2/lib/style.css";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { MdOutlineCancel } from "react-icons/md";
+import { FaRegSave } from "react-icons/fa";
 import usePersonalInfoFormik from "../../hooks/usePersonalInfoFormik";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 
 const PersonalInformationForm = () => {
   const { formik, deleteAccount } = usePersonalInfoFormik();
@@ -150,25 +153,25 @@ const PersonalInformationForm = () => {
           </div>
           <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4.5">
             <button
-              className="w-full sm:w-auto sm:flex-3 justify-center border border-stroke py-2 px-4 text-sm text-white bg-red-500 hover:shadow-1 hover:bg-red-600 dark:border-strokedark dark:text-white hover:shadow-lg"
+              className="w-full flex items-center justify-center gap-2 sm:w-auto sm:flex-3 justify-center border border-stroke py-2 px-4 text-sm text-white bg-red-500 hover:shadow-1 hover:bg-red-600 dark:border-strokedark dark:text-white hover:shadow-lg"
               type="button"
               onClick={deleteAccount}
             >
-              Delete Account
+             <RiDeleteBin5Fill size='15'/> Delete Account
             </button>
             <div className="flex justify-between gap-4.5">
               <button
-                className="justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
+                className="flex items-center gap-2 justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
                 type="button"
                 onClick={() => formik.resetForm()}
               >
-                Cancel
+              <MdOutlineCancel size="15" /> Cancel
               </button>
               <button
-                className="justify-center bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 hover:shadow-lg"
+                className="flex items-center gap-2 justify-center bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 hover:shadow-lg"
                 type="submit"
               >
-                Save
+                <FaRegSave size="15" /> Save
               </button>
             </div>
           </div>
