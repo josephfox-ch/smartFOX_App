@@ -7,6 +7,7 @@ import { createHomeWithEnergyCertificate } from "../api/services/homeService";
 import { useNavigate } from "react-router-dom";
 import { useHomes } from "../context/HomeContext";
 import * as Yup from "yup";
+import { useAlert } from "../context/AlertContext";
 
 const combinedValidationSchema = Yup.object().shape({
   ...homeValidationSchema.fields,
@@ -14,6 +15,7 @@ const combinedValidationSchema = Yup.object().shape({
 });
 
 const useHomeFormik = () => {
+  const {showAlert} = useAlert();
   const navigate = useNavigate();
   const { fetchHomes, selectHome } = useHomes();
 
@@ -69,7 +71,7 @@ const useHomeFormik = () => {
         await fetchHomes();
         selectHome(newHome.id);
         resetForm();
-        alert("Your new home created");
+        showAlert("success","Success",`Your new home ${newHome.name} created`);
         navigate("/dashboard/my-home", { replace: true });
       } catch (error) {
         console.error("Error creating home:", error);

@@ -3,6 +3,7 @@ import { ModalProvider } from "./context/ModalContext";
 import { UserProvider } from "./context/UserContext";
 import { HomeProvider } from "./context/HomeContext";
 import AppRoutes from "./Routes";
+import { AlertProvider } from "./context/AlertContext";
 import "./App.css";
 
 function App() {
@@ -10,9 +11,11 @@ function App() {
     <UserProvider>
       <HomeProvider>
         <ModalProvider>
-          <div className="App">
-            <AppRoutes />
-          </div>
+          <AlertProvider>
+            <div className="App">
+              <AppRoutes />
+            </div>
+          </AlertProvider>
         </ModalProvider>
       </HomeProvider>
     </UserProvider>
@@ -20,3 +23,5 @@ function App() {
 }
 
 export default App;
+
+
