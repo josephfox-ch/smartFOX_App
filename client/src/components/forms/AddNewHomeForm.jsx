@@ -16,10 +16,10 @@ const AddNewHomeForm = ({ handleGetCoordinates, formik, onContinue }) => {
           </h3>
           <button
             type="button"
-            className="flex items-center bg-green-600 text-white p-1  text-sm shadow-lg  border border-white hover:opacity-90"
+            className="flex items-center bg-green-600 text-white p-2  text-sm shadow-lg  hover:opacity-90"
             onClick={handleGetCoordinates}
           >
-            <FaLocationDot size="20" className="mr-2" /> Get Coordinates
+            <FaLocationDot size="18" className="mr-1" /> Get Coordinates
           </button>
         </div>
         <div className="flex items-start justify-end mt-1">
