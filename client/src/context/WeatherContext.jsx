@@ -1,29 +1,39 @@
-import React, { createContext, useState, useEffect } from 'react';
-import weatherService from '../api/weatherService';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { getWeatherByCoordinates } from "../api/services/weatherService";
+import { useHomes } from "./HomeContext";
 
 const WeatherContext = createContext();
 
-const WeatherProvider = ({ children }) => {
-  const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(true);
+export const WeatherProvider = ({ children }) => {
+  const { selectedHome } = useHomes();
+  const [outdoorTemperature, setOutdoorTemperature] = useState(null);
 
-  const fetchWeather = async (address) => {
-    setLoading(true);
-    try {
-      const data = await weatherService.getWeatherByAddress(address);
-      setWeatherData(data);
-    } catch (error) {
-      console.error('Error fetching weather data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (selectedHome) {
+        try {
+          const weatherData = await getWeatherByCoordinates({
+            latitude: selectedHome.latitude,
+            longitude: selectedHome.longitude,
+          });
+          setOutdoorTemperature(weatherData.main.temp);
+        } catch (error) {
+          console.error("Error fetching weather data:", error);
+        }
+      }
+    };
+
+    fetchWeather();
+    console.log("weather data changed");
+  }, [selectedHome]);
 
   return (
-    <WeatherContext.Provider value={{ weatherData, loading, fetchWeather }}>
+    <WeatherContext.Provider value={{ outdoorTemperature }}>
       {children}
     </WeatherContext.Provider>
   );
 };
 
-export { WeatherContext, WeatherProvider };
+export const useWeather = () => {
+  return useContext(WeatherContext);
+};

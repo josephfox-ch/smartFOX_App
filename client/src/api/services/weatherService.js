@@ -1,21 +1,20 @@
-import axios from 'axios';
+import openWeatherAPI from "../weatherAPI";
 
-const API_KEY = import.meta.env.OPEN_WEATHER_API_KEY;
-const BASE_URL = import.meta.env.OPEN_WEATHER_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
-const getWeatherByAddress = async (address) => {
-  const { street, city, country } = address;
-  const response = await axios.get(BASE_URL, {
-    params: {
-      q: `${street},${city},${country}`,
-      appid: API_KEY,
-      units: 'metric'
-    }
-  });
-  return response.data;
+export const getWeatherByCoordinates = async ({ latitude, longitude }) => {
+  try {
+    const response = await openWeatherAPI.get("/", {
+      params: {
+        lat: latitude,
+        lon: longitude,
+        appid: API_KEY,
+        units: "metric",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    throw error;
+  }
 };
-
-export default { getWeatherByAddress };
-
-
-
