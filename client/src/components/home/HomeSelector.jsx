@@ -1,5 +1,5 @@
 import React from "react";
-import { useHomes } from "../../../context/HomeContext";
+import { useHomes } from "../../context/HomeContext";
 
 const HomeSelector = () => {
   const { homes, selectedHome, selectHome, loading, error } = useHomes();
