@@ -1,13 +1,13 @@
 import React from "react";
 import { useWeather } from "../../context/WeatherContext";
 
-const Dashboard = () => {
+const EnergyMonitor = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <div className="bg-gray-100 p-4 rounded shadow dark:bg-gray-800">
         <h3 className="font-medium text-lg mb-3 text-gray-700 dark:text-gray-300">
-          Dashboard
+          Energy Monitor
         </h3>
         <p className="text-gray-600 dark:text-gray-300">
           <strong>Energy Used:</strong> 150 kWh
@@ -54,4 +54,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default EnergyMonitor;
