@@ -20,7 +20,9 @@ function HomeDashboardButtons() {
 
   const handleEnergyCertificate = () => {
     if (selectedHome) {
-      console.log(`Fetching energy certificate for home with ID: ${selectedHome.id}`);
+      console.log(
+        `Fetching energy certificate for home with ID: ${selectedHome.id}`
+      );
     }
   };
 
@@ -28,14 +30,23 @@ function HomeDashboardButtons() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="flex items-center justify-center space-x-3">
-      <button onClick={handleEnergyCertificate} className="flex items-center justify-center p-1 bg-transparent text-sm hover:text-foxColor hover:underline gap-2 rounded">
+    <div className="flex flex-wrap items-center justify-center space-x-3">
+      <button
+        onClick={handleEnergyCertificate}
+        className="flex items-center p-1 bg-transparent text-sm hover:text-foxColor hover:underline gap-1 rounded"
+      >
         <AiOutlineSafetyCertificate size="18" /> Energy Certificate
       </button>
-      <button onClick={handleEditHome} className="flex items-center justify-center p-1 bg-transparent text-sm hover:text-blue-600 hover:underline gap-2 rounded">
+      <button
+        onClick={handleEditHome}
+        className="flex items-center justify-center p-1 bg-transparent text-sm hover:text-blue-600 hover:underline gap-1 rounded"
+      >
         <FaEdit size="18" /> Edit
       </button>
-      <button onClick={handleDeleteHome} className="flex items-center justify-center p-1 bg-transparent text-sm hover:text-red-600 hover:underline gap-2 rounded">
+      <button
+        onClick={handleDeleteHome}
+        className="flex items-center justify-center p-1 bg-transparent text-sm hover:text-red-600 hover:underline gap-1 rounded"
+      >
         <FaTrash size="18" /> Delete
       </button>
     </div>
@@ -43,4 +54,3 @@ function HomeDashboardButtons() {
 }
 
 export default HomeDashboardButtons;
-
