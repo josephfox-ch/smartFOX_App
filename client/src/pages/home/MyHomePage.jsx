@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useHomes } from "../../context/HomeContext";
 import Breadcrumb from "../../components/Breadcrumb";
-import HomeDashboardHeader from "./HomeDashboardHeader";
-import WeatherInfoWidget from "./WeatherInfoWidget";
-import EnergyMonitor from "./EnergyMonitor";
-import ClimateControlPanel from "./ClimateControlPanel";
-import DoorsWidget from "./DoorsWidget";
-import LightingWidget from "./LightingWidget";
-import CameraFeedsWidget from "./CameraFeedsWidget";
+import HomeDashboardHeader from "../../components/home/HomeDashboardHeader";
+import WeatherInfoWidget from "../../components/widgets/WeatherInfoWidget";
+import EnergyMonitor from "../../components/widgets/EnergyMonitor";
+import ClimateControlPanel from "../../components/widgets/ClimateControlPanel";
+import DoorsWidget from "../../components/widgets/DoorsWidget";
+import LightingWidget from "../../components/widgets/LightingWidget";
+import CameraFeedsWidget from "../../components/widgets/CameraFeedsWidget";
 
 const MyHomePage = () => {
   const { selectedHome, loading, error } = useHomes();
