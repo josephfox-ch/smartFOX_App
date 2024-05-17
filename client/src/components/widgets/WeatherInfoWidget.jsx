@@ -1,9 +1,10 @@
 import React from "react";
 import { useWeather } from "../../context/WeatherContext";
 import { TbTemperatureCelsius } from "react-icons/tb";
-import { FaHome } from "react-icons/fa";
 import { FaWind } from "react-icons/fa6";
 import { WiHumidity } from "react-icons/wi";
+import { BsSunrise } from "react-icons/bs";
+import { BsSunsetFill } from "react-icons/bs";
 
 function WeatherInfoWidget() {
   const {
@@ -12,6 +13,8 @@ function WeatherInfoWidget() {
     humidity,
     weatherDescription,
     weatherIcon,
+    sunrise,
+    sunset, 
   } = useWeather();
 
   return (
@@ -40,19 +43,22 @@ function WeatherInfoWidget() {
           </div>
           <div className="flex justify-around items-center text-gray-700 dark:text-gray-300">
             <div className="flex flex-col items-center">
-              <FaHome size="20" />{" "}
-              <p className="flex items-center">
-                {" "}
-                19 <TbTemperatureCelsius size="20" />
-              </p>
-            </div>
-            <div className="flex flex-col items-center">
               <FaWind size="20" />
               <p>{windSpeed} m/s</p>
             </div>
             <div className="flex flex-col items-center">
               <WiHumidity size="28" />
               <p>{humidity} %</p>
+            </div>
+          </div>
+          <div className="flex justify-around items-center text-gray-700 dark:text-gray-300 mt-4">
+            <div className="flex flex-col items-center">
+              <BsSunrise size="25" />
+              <p>{sunrise}</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <BsSunsetFill size="25" />
+              <p>{sunset}</p>
             </div>
           </div>
         </div>
