@@ -10,7 +10,7 @@ const LoginForm = ({ error, verifyAccount, message, formik }) => {
       onSubmit={formik.handleSubmit}
       className="bg-white shadow-lg shadow-graydark rounded-lg p-6"
     >
-      <h1 className="text-lg font-bold text-navyBlue mb-4 text-center">
+      <h1 className="text-lg  text-navyBlue mb-4 text-center">
         Sign In
       </h1>
 
