@@ -29,8 +29,8 @@ const AuthLayout = () => {
           <Link to="/" className="mb-4">
             <img src="./SFX.png" alt="Logo" className="h-auto w-32 md:w-96" />
           </Link>
-          <p className="text-navyBlue font-bold text-sm md:text-base">
-            A Gateway to your smart future...
+          <p className="raleway-font text-navyBlue  text-2xl ">
+            A Gateway to your SmartFOX® Home
           </p>
         </div>
         <div className="w-full md:max-w-sm">
