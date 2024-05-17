@@ -5,19 +5,19 @@
   text-align: center;
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* .bootstrap-input-styles{
-   width: 100%;  
-  height: calc(2.25rem + 2px); 
-  padding: 0.375rem 0.75rem; 
-  font-size: 1rem; 
-  line-height: 1.5; 
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-} */
+
 
 #root{
-  font-family: "Amazon Ember", Arial, sans-serif;
+  font-family: Raleway;
+} 
+
+.raleway-font {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight:600;
+  font-style: normal;
 }
 
 .error-message {

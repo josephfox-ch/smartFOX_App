@@ -12,7 +12,7 @@ const SignupForm = ({ error, message, formik }) => {
       onSubmit={formik.handleSubmit}
       className="bg-white shadow-lg shadow-graydark rounded-lg p-6 max-w-md mx-auto"
     >
-      <h1 className="text-lg font-bold text-navyBlue mb-6 text-center">
+      <h1 className="text-lg  text-navyBlue mb-6 text-center">
         Sign Up
       </h1>
       {error && (
