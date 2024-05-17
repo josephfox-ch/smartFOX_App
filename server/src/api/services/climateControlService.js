@@ -1,4 +1,4 @@
-import ClimateControl from '../models/ClimateControl.js';
+import {ClimateControl} from '../models/index.js';
 import logger from '../../config/logger.js';
 
 const createClimateControl = async (data) => {

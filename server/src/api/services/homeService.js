@@ -58,10 +58,9 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
     
     const defaultClimateControl = {
       homeId: newHome.id,
-      desiredTemperature: 22.0,
-      currentTemperature: 22.0,
-      waterFlowTemperature: 20.0,
-      mode: 'manual',
+      desiredTemperature: 22,
+      currentTemperature: 22,
+      mode: 'away',
     };
 
     const newClimateControl = await ClimateControl.create(defaultClimateControl, { transaction });

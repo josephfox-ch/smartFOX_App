@@ -24,7 +24,7 @@ const VerifyAccountPage = () => {
         setMessage(response.message);
         await validateSession();
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/");
         }, 2000);
       } else {
         throw new Error(response.message || "Verification failed");
