@@ -1,4 +1,4 @@
-import { Home, EnergyCertificate } from "../models/index.js";
+import { Home, EnergyCertificate,ClimateControl } from "../models/index.js";
 import sequelize from "../../config/db.js";
 import logger from "../../config/logger.js";
 
@@ -55,14 +55,31 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
       `Energy certificate created for home ${newHome.id}: ${newEnergyCertificate.id}`
     );
 
+    
+    const defaultClimateControl = {
+      homeId: newHome.id,
+      desiredTemperature: 22.0,
+      currentTemperature: 22.0,
+      waterFlowTemperature: 20.0,
+      mode: 'manual',
+    };
+
+    const newClimateControl = await ClimateControl.create(defaultClimateControl, { transaction });
+
+    logger.info(`ClimateControl created for home ${newHome.id}: ${newClimateControl.id}`);
+
     await transaction.commit();
-    return { ...newHome.toJSON(), energyCertificate: newEnergyCertificate };
+    return {
+      ...newHome.toJSON(),
+      energyCertificate: newEnergyCertificate,
+      climateControl: newClimateControl,
+    };
   } catch (error) {
     await transaction.rollback();
     logger.error(
-      `Error creating home and energy certificate for user ${userId}: ${error.message}`
+      `Error creating home, energy certificate, and climate control for user ${userId}: ${error.message}`
     );
-    throw new Error("Could not create home and energy certificate");
+    throw new Error('Could not create home, energy certificate, and climate control');
   }
 };
 

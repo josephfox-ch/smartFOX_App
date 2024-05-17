@@ -20,7 +20,7 @@ function WeatherInfoWidget() {
   return (
     <>
       {outdoorTemperature !== null && (
-        <div className="bg-blue-200 dark:bg-gray-800 p-3 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
+        <div className="bg-blue-100 dark:bg-gray-800 p-3 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
           <div className="flex items-center justify-around mb-4">
             <div className="flex items-center">
               <img
