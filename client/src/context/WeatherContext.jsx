@@ -7,11 +7,13 @@ const WeatherContext = createContext();
 export const WeatherProvider = ({ children }) => {
   const { selectedHome } = useHomes();
   const [outdoorTemperature, setOutdoorTemperature] = useState(null);
-  const [humidity,setHumidity] = useState(null);
-  const [windSpeed,setWindSpeed] = useState(null);
-  const [weatherDescription,setWeatherDescription] = useState(null);
-  const [weatherType,setWeatherType] = useState(null);
-  const [weatherIcon,setWeatherIcon] = useState(null);
+  const [humidity, setHumidity] = useState(null);
+  const [windSpeed, setWindSpeed] = useState(null);
+  const [weatherDescription, setWeatherDescription] = useState(null);
+  const [weatherType, setWeatherType] = useState(null);
+  const [weatherIcon, setWeatherIcon] = useState(null);
+  const [sunrise, setSunrise] = useState(null);
+  const [sunset, setSunset] = useState(null);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -27,6 +29,8 @@ export const WeatherProvider = ({ children }) => {
           setWeatherDescription(weatherData.weather[0].description);
           setWeatherType(weatherData.weather[0].main);
           setWeatherIcon(weatherData.weather[0].icon);
+          setSunrise(new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString());
+          setSunset(new Date(weatherData.sys.sunset * 1000).toLocaleTimeString());
           console.log("Weather data fetched:", weatherData);
         } catch (error) {
           console.error("Error fetching weather data:", error);
@@ -39,7 +43,7 @@ export const WeatherProvider = ({ children }) => {
   }, [selectedHome]);
 
   return (
-    <WeatherContext.Provider value={{ outdoorTemperature ,humidity,windSpeed,weatherDescription,weatherType,weatherIcon }}>
+    <WeatherContext.Provider value={{ outdoorTemperature, humidity, windSpeed, weatherDescription, weatherType, weatherIcon, sunrise, sunset }}>
       {children}
     </WeatherContext.Provider>
   );

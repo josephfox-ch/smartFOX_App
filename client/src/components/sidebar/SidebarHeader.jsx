@@ -8,9 +8,9 @@ const SidebarHeader = () => {
   const trigger = useRef(null);
   return (
     <div className="flex items-center justify-center gap-2 px-3 py-2 lg:py-2">
-      <NavLink to="/dashboard">
+      <NavLink to="/">
         <div className="flex items-center text-white text-xl font-bold">
-          <img width="70px" src="./SFX.png" alt="Logo" /> SmartFOX® Home
+          <img width="70px" src="/SFX.png" alt="Logo" /> SmartFOX® Home
         </div>
       </NavLink>
 
