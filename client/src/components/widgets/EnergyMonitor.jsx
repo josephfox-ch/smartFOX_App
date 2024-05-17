@@ -2,7 +2,7 @@ import React from 'react';
 
 const EnergyMonitor = () => {
   return (
-    <div className="bg-green-100 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
+    <div className="bg-whiten dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
       <h3 className="font-medium text-xl mb-4 text-gray-800 dark:text-gray-100">
         Energy Monitor
       </h3>
