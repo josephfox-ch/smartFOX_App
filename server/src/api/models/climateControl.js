@@ -28,7 +28,7 @@ const ClimateControl = sequelize.define("ClimateControl", {
   },
   mode: {
     type: DataTypes.ENUM,
-    values: ['day', 'night', 'away', 'manual'],
+    values: ['winter', 'summer', 'away', 'manual'],
     allowNull: false,
   },
 });
