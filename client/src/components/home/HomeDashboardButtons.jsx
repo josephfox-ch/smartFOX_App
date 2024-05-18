@@ -2,19 +2,23 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useHomes } from "../../context/HomeContext";
+import { useNavigate } from "react-router-dom";
 
 function HomeDashboardButtons() {
   const { selectedHome, loading, error } = useHomes();
+  const navigate = useNavigate();
 
   const handleEditHome = () => {
     if (selectedHome) {
       console.log(`Editing home with ID: ${selectedHome.id}`);
+      navigate(`/dashboard/my-home/edit-home`);
     }
   };
 
   const handleDeleteHome = () => {
     if (selectedHome) {
       console.log(`Deleting home with ID: ${selectedHome.id}`);
+      // Add your delete logic here
     }
   };
 
@@ -23,6 +27,7 @@ function HomeDashboardButtons() {
       console.log(
         `Fetching energy certificate for home with ID: ${selectedHome.id}`
       );
+      // Add your energy certificate logic here
     }
   };
 
@@ -54,3 +59,5 @@ function HomeDashboardButtons() {
 }
 
 export default HomeDashboardButtons;
+
+
