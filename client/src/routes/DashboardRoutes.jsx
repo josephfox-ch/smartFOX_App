@@ -23,6 +23,7 @@ import DataTables from "../pages/statistics/DataTables";
 import PricingTablesPage from "../pages/info/PricingTablesPage";
 import FaqsPage from "../pages/info/FaqsPage";
 import TeamsPage from "../pages/info/TeamsPage";
+import EditHomePage from "../pages/home/EditHomePage";
 
 const DashboardRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const DashboardRoutes = () => {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="account-settings" element={<AccountSettingsPage />} />
           <Route path="my-home" element={<MyHomePage />} />
+          <Route path="my-home/edit-home" element={<EditHomePage />} />
           <Route path="add-new-home" element={<HomeFormsInfoPage />} />
           <Route path="climate" element={<ClimatePage />} />
           <Route path="lighting" element={<LightingPage />} />
