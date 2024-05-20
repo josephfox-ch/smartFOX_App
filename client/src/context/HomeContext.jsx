@@ -17,11 +17,15 @@ export const HomeProvider = ({ children }) => {
       setError(null);
 
       const data = await HomeService.getHomes();
-      const sortedHomes = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const sortedHomes = data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
       setHomes(sortedHomes);
 
       if (sortedHomes.length > 0) {
         fetchHomeDetails(sortedHomes[0].id);
+      } else {
+        setSelectedHome(null);
       }
     } catch (err) {
       setError(err.message);
@@ -55,14 +59,20 @@ export const HomeProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <HomeContext.Provider value={{ homes, selectedHome, selectHome, fetchHomes, fetchHomeDetails, loading, error }}>
+    <HomeContext.Provider
+      value={{
+        homes,
+        selectedHome,
+        selectHome,
+        fetchHomes,
+        fetchHomeDetails,
+        loading,
+        error,
+      }}
+    >
       {children}
     </HomeContext.Provider>
   );
 };
 
 export const useHomes = () => useContext(HomeContext);
-
-
-
-
