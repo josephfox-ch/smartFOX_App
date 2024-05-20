@@ -161,7 +161,7 @@ const PersonalInformationForm = () => {
             </button>
             <div className="flex justify-between gap-4.5">
               <button
-                className="flex items-center gap-2 justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
+                className="flex items-center gap-2 justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-gray-300 dark:border-strokedark dark:text-white hover:shadow-lg"
                 type="button"
                 onClick={() => formik.resetForm()}
               >
