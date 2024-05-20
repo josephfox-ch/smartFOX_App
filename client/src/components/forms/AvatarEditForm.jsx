@@ -6,6 +6,8 @@ import { useUser } from "../../context/UserContext";
 import UserAvatar from "../UserAvatar";
 import ModalWrapper from "../modals/ModalWrapper";
 import { useModal } from "../../context/ModalContext";
+import { MdOutlineCancel } from "react-icons/md";
+import { FaRegSave } from "react-icons/fa";
 
 const AvatarEditForm = () => {
   const { user, updateUser } = useUser();
@@ -99,45 +101,42 @@ const AvatarEditForm = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Edit Photo"
+        title="Edit Your Photo"
       >
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-          <h2 className="text-center text-lg font-semibold mb-4 p-2 rounded">
-            Edit Your Photo
-          </h2>
-          <div className="flex flex-col items-center mb-4">
-            <input
-              className="mb-4"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
+        <div className="flex flex-col items-center mb-4">
+          <input
+            className="mb-4"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+          {selectedFile && (
+            <AvatarEditor
+              ref={(ref) => setEditor(ref)}
+              image={selectedFile}
+              width={250}
+              height={250}
+              border={50}
+              borderRadius={125}
+              scale={1.2}
             />
-            {selectedFile && (
-              <AvatarEditor
-                ref={(ref) => setEditor(ref)}
-                image={selectedFile}
-                width={250}
-                height={250}
-                border={50}
-                borderRadius={125}
-                scale={1.2}
-              />
-            )}
-          </div>
-          <div className="flex justify-end gap-4 mt-4">
-            <button
-              className="border border-stroke py-2 px-6 text-sm text-black hover:shadow-lg hover:bg-gray-100 transition duration-200"
-              onClick={closeModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 transition duration-200"
-              onClick={handleSaveAvatar}
-              disabled={uploading}
-            >
-              {uploading ? "Saving..." : "Save"}
-            </button>
-          </div>
+          )}
+        </div>
+        <div className="flex justify-end gap-4 mt-4">
+          <button
+            className="flex items-center gap-2 border border-stroke py-2 px-6 text-sm text-black hover:shadow-lg hover:bg-gray-300 transition duration-200"
+            onClick={closeModal}
+          >
+            <MdOutlineCancel size="15" /> Cancel
+          </button>
+          <button
+            className="flex items-center gap-2 bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 transition duration-200"
+            onClick={handleSaveAvatar}
+            disabled={uploading}
+          >
+            <FaRegSave size="15" />
+            {uploading ? "Saving..." : "Save"}
+          </button>
         </div>
       </ModalWrapper>
     </div>
