@@ -12,6 +12,6 @@ router.post("/", authenticateUser, HomeController.createHomeWithEnergyCertificat
 
 router.put("/:id", authenticateUser, HomeController.updateHomeWithEnergyCertificate);
 
-router.delete("/", authenticateUser, HomeController.deleteHome);
+router.delete("/:id", authenticateUser, HomeController.deleteHome);
 
 export default router;
