@@ -3,6 +3,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useHomes } from "../../context/HomeContext";
 import { useNavigate } from "react-router-dom";
+import {deleteHome} from '../../api/services/homeService'
 
 function HomeDashboardButtons() {
   const { selectedHome, loading, error } = useHomes();
@@ -15,8 +16,12 @@ function HomeDashboardButtons() {
     }
   };
 
-  const handleDeleteHome = () => {
+  const handleDeleteHome = async () => {
     if (selectedHome) {
+      if (window.confirm("Are you sure you want to delete this home?")) {
+        await deleteHome(selectedHome.id);
+        navigate("/dashboard/my-home", { replace: true });
+      }
       console.log(`Deleting home with ID: ${selectedHome.id}`);
       // Add your delete logic here
     }

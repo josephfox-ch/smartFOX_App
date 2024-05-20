@@ -57,7 +57,7 @@ export const deleteHome = async (req, res) => {
     const deletedHome = await HomeService.deleteHome(userId, homeId);
     res.status(200).json(deletedHome);
   } catch (error) {
-    logger.error(`DELETE /homes/${req.params.id} - ${error.message}`);
+    logger.error(`DELETE /home/${req.params.id} - ${error.message}`);
     res.status(500).json({ error: error.message });
   }
 };
