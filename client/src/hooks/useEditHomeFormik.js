@@ -18,7 +18,7 @@ const combinedValidationSchema = Yup.object().shape({
 const useEditHomeFormik = (homeId) => {
   const { showAlert } = useAlert();
   const navigate = useNavigate();
-  const { fetchHomes, selectedHome, fetchHomeDetails } = useHomes();
+  const { fetchHomes, selectedHome } = useHomes();
 
   const formik = useFormik({
     initialValues: {
@@ -68,7 +68,7 @@ const useEditHomeFormik = (homeId) => {
           latitude,
           longitude,
         };
-
+        const homeId = selectedHome.id;
         const updatedHome = await updateHomeWithEnergyCertificate(
           homeId,
           homeData,

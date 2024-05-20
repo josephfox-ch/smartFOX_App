@@ -10,7 +10,7 @@ router.get("/:id", authenticateUser, HomeController.getHomeDetails);
 
 router.post("/", authenticateUser, HomeController.createHomeWithEnergyCertificate);
 
-router.put("/", authenticateUser, HomeController.updateHomeWithEnergyCertificate);
+router.put("/:id", authenticateUser, HomeController.updateHomeWithEnergyCertificate);
 
 router.delete("/", authenticateUser, HomeController.deleteHome);
 

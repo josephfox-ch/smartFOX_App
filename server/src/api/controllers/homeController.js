@@ -69,9 +69,11 @@ export const getHomeDetails = async (req, res) => {
     const homeDetails = await HomeService.getHomeDetails(userId, homeId);
     res.status(200).json(homeDetails);
   } catch (error) {
-    logger.error(`GET /home/${req.params.id} - ${error.message}`);
+    logger.error(`GET /homes/${req.params.id} - ${error.message}`);
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 
