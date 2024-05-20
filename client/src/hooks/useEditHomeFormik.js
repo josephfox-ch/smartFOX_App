@@ -18,7 +18,7 @@ const combinedValidationSchema = Yup.object().shape({
 const useEditHomeFormik = (homeId) => {
   const { showAlert } = useAlert();
   const navigate = useNavigate();
-  const { fetchHomes, selectedHome } = useHomes();
+  const { fetchHomeDetails, fetchHomes, selectedHome } = useHomes();
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +44,9 @@ const useEditHomeFormik = (homeId) => {
         selectedHome?.EnergyCertificate?.heatEmissionCoefficient || "",
       freeHeatGains: selectedHome?.EnergyCertificate?.freeHeatGains || "",
     },
+    enableReinitialize: true,
     validationSchema: combinedValidationSchema,
+
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const {
@@ -68,7 +70,7 @@ const useEditHomeFormik = (homeId) => {
           latitude,
           longitude,
         };
-        const homeId = selectedHome.id;
+
         const updatedHome = await updateHomeWithEnergyCertificate(
           homeId,
           homeData,
@@ -76,8 +78,9 @@ const useEditHomeFormik = (homeId) => {
         );
         console.log("Home updated:", updatedHome);
         await fetchHomes();
+        await fetchHomeDetails(homeId);
         showAlert("success", "Success", `Home ${updatedHome.name} updated`);
-        navigate("/dashboard/my-home", { replace: true });
+        navigate("/dashboard/my-home/edit-home", { replace: true });
       } catch (error) {
         console.error("Error updating home:", error);
         showAlert("error", "Error", "Could not update the home");
