@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
 import EditHomeForm from '../../components/forms/EditHomeForm';
-import useHomeFormik from '../../hooks/useHomeFormik';
+import useEditHomeFormik from '../../hooks/useEditHomeFormik';
 import { fetchCoordinates } from '../../utils/geoUtils';
 import { useAlert } from '../../context/AlertContext';
 import { useHomes } from '../../context/HomeContext';
 
 const EditHomePage = () => {
   const { id } = useParams();
-  const { selectedHome, fetchHomeDetails } = useHomes();
-  const formik = useHomeFormik(selectedHome);
+  const { fetchHomeDetails } = useHomes();
+  const formik = useEditHomeFormik(id);
   const { showAlert } = useAlert();
 
   useEffect(() => {
@@ -54,4 +54,6 @@ const EditHomePage = () => {
 };
 
 export default EditHomePage;
+
+
 

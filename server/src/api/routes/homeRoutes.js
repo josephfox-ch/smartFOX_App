@@ -6,9 +6,11 @@ const router = express.Router();
 
 router.get("/", authenticateUser, HomeController.getHomes);
 
+router.get("/:id", authenticateUser, HomeController.getHomeDetails);
+
 router.post("/", authenticateUser, HomeController.createHomeWithEnergyCertificate);
 
-router.put("/", authenticateUser, HomeController.updateHome);
+router.put("/", authenticateUser, HomeController.updateHomeWithEnergyCertificate);
 
 router.delete("/", authenticateUser, HomeController.deleteHome);
 

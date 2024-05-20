@@ -30,12 +30,19 @@ export const createHomeWithEnergyCertificate = async (req, res) => {
   }
 };
 
-export const updateHome = async (req, res) => {
+export const updateHomeWithEnergyCertificate = async (req, res) => {
   try {
     const userId = req.user.id;
     const homeId = req.params.id;
     const homeData = req.body;
-    const updatedHome = await HomeService.updateHome(userId, homeId, homeData);
+    const energyCertificateData = req.body.energyCertificate;
+
+    const updatedHome = await HomeService.updateHomeWithEnergyCertificate(
+      userId,
+      homeId,
+      homeData,
+      energyCertificateData
+    );
     res.status(200).json(updatedHome);
   } catch (error) {
     logger.error(`PUT /homes/${req.params.id} - ${error.message}`);
@@ -54,3 +61,17 @@ export const deleteHome = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getHomeDetails = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const homeId = req.params.id;
+    const homeDetails = await HomeService.getHomeDetails(userId, homeId);
+    res.status(200).json(homeDetails);
+  } catch (error) {
+    logger.error(`GET /home/${req.params.id} - ${error.message}`);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
