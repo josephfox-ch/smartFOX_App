@@ -5,27 +5,28 @@ import { HomeProvider } from "./context/HomeContext";
 import { WeatherProvider } from "./context/WeatherContext";
 import { AlertProvider } from "./context/AlertContext";
 import { ClimateProvider } from "./context/ClimateContext";
+import { EnergyProvider } from "./context/EnergyContext";
 import AppRoutes from "./Routes";
 import "./App.css";
 
 function App() {
   return (
     <UserProvider>
-      
-        <HomeProvider>
+      <HomeProvider>
         <ClimateProvider>
           <WeatherProvider>
-            <ModalProvider>
-              <AlertProvider>
-                <div className="App">
-                  <AppRoutes />
-                </div>
-              </AlertProvider>
-            </ModalProvider>
+            <EnergyProvider>
+              <ModalProvider>
+                <AlertProvider>
+                  <div className="App">
+                    <AppRoutes />
+                  </div>
+                </AlertProvider>
+              </ModalProvider>
+            </EnergyProvider>
           </WeatherProvider>
-          </ClimateProvider>
-        </HomeProvider>
-      
+        </ClimateProvider>
+      </HomeProvider>
     </UserProvider>
   );
 }

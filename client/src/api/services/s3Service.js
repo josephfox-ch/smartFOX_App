@@ -20,4 +20,14 @@ const deleteAvatarFromS3 = async (userId) => {
   }
 };
 
-export {getPresignedUrl, deleteAvatarFromS3}
+const getWaterFlowTemperature = async (homeId) => {
+  try {
+    const response = await API.get(`/aws/iot/home-thermostat/tw/${homeId}`);
+    return response.data.temperature;
+  } catch (error) {
+    console.error(`Failed to fetch water flow temperature for home with ID: ${homeId}`, error);
+    throw error;
+  }
+};
+
+export {getPresignedUrl, deleteAvatarFromS3, getWaterFlowTemperature}
