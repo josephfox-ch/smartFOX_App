@@ -61,7 +61,6 @@ const HomeFormsInfoPage = () => {
       return;
     }
     formik.handleSubmit();
-    showAlert("success", "Success", "Form submitted successfully.");
   };
 
   return (

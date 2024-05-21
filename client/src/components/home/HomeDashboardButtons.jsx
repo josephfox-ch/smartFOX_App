@@ -2,27 +2,46 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useHomes } from "../../context/HomeContext";
+import { useNavigate } from "react-router-dom";
+import { deleteHome } from "../../api/services/homeService";
+import { useModal } from "../../context/ModalContext";
+import { useAlert } from "../../context/AlertContext";
+import DynamicModal from "../modals/DynamicModal";
 
 function HomeDashboardButtons() {
-  const { selectedHome, loading, error } = useHomes();
+  const { fetchHomes, selectedHome, loading, error } = useHomes();
+  const { openModal, closeModal } = useModal();
+  const { showAlert } = useAlert();
+  const navigate = useNavigate();
 
   const handleEditHome = () => {
     if (selectedHome) {
       console.log(`Editing home with ID: ${selectedHome.id}`);
+      navigate(`/dashboard/my-home/edit-home`);
     }
   };
 
-  const handleDeleteHome = () => {
+  const handleDeleteHome = async () => {
     if (selectedHome) {
-      console.log(`Deleting home with ID: ${selectedHome.id}`);
+      openModal({
+        title: "Delete Home",
+        content: "Are you sure you want to delete this home?",
+        onConfirmAction: async () => {
+          await deleteHome(selectedHome.id);
+          showAlert("warning", "Warning", `Home ${selectedHome.name} deleted.`);
+          await fetchHomes();
+          navigate("/dashboard/my-home");
+          closeModal();
+        },
+        onCancelAction: closeModal,
+      });
     }
   };
 
   const handleEnergyCertificate = () => {
     if (selectedHome) {
-      console.log(
-        `Fetching energy certificate for home with ID: ${selectedHome.id}`
-      );
+      console.log(`Fetching energy certificate for home with ID: ${selectedHome.id}`);
+      //energy certificate logic here
     }
   };
 
@@ -49,8 +68,11 @@ function HomeDashboardButtons() {
       >
         <FaTrash size="18" /> Delete
       </button>
+      <DynamicModal />
     </div>
   );
 }
 
 export default HomeDashboardButtons;
+
+

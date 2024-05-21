@@ -6,10 +6,12 @@ const router = express.Router();
 
 router.get("/", authenticateUser, HomeController.getHomes);
 
+router.get("/:id", authenticateUser, HomeController.getHomeDetails);
+
 router.post("/", authenticateUser, HomeController.createHomeWithEnergyCertificate);
 
-router.put("/", authenticateUser, HomeController.updateHome);
+router.put("/:id", authenticateUser, HomeController.updateHomeWithEnergyCertificate);
 
-router.delete("/", authenticateUser, HomeController.deleteHome);
+router.delete("/:id", authenticateUser, HomeController.deleteHome);
 
 export default router;

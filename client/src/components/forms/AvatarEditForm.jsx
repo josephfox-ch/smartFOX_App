@@ -1,63 +1,41 @@
-import React, { useState } from "react";
-import AvatarEditor from "react-avatar-editor";
-import * as s3Service from "../../api/services/s3Service";
-import { uploadToS3, canvasToBlob } from "../../utils/s3Utils";
-import { useUser } from "../../context/UserContext";
+import React from "react";
 import UserAvatar from "../UserAvatar";
-import ModalWrapper from "../modals/ModalWrapper";
 import { useModal } from "../../context/ModalContext";
+import AvatarModal from "../modals/AvatarModal";
+import * as s3Service from "../../api/services/s3Service";
+import { useUser } from "../../context/UserContext";
+import { useAlert } from "../../context/AlertContext";
 
 const AvatarEditForm = () => {
+  const { openModal, closeModal } = useModal();
   const { user, updateUser } = useUser();
-  const { openModal, closeModal, isModalOpen } = useModal();
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [editor, setEditor] = useState(null);
-  const [uploading, setUploading] = useState(false);
-
-  const avatarBaseUrl = import.meta.env.VITE_AVATAR_BASE_URL;
+  const { showAlert } = useAlert();
 
   const handleUpdateAvatar = () => {
-    openModal();
+    openModal({
+      title: "Edit Your Photo",
+      content: <AvatarModal />,
+    });
   };
 
-  const handleDeleteAvatar = async () => {
+  const confirmDeleteAvatar = async () => {
     try {
       await s3Service.deleteAvatarFromS3(user.id);
-      console.log("Avatar deleted successfully");
+      showAlert("warning", "Warning", "Avatar deleted.");
       updateUser({ avatarUrl: "" });
+      closeModal();
     } catch (error) {
       console.error("Error deleting avatar:", error);
     }
   };
 
-  const handleSaveAvatar = async () => {
-    if (editor) {
-      try {
-        setUploading(true);
-        const canvas = editor.getImageScaledToCanvas();
-        const blob = await canvasToBlob(canvas);
-        const fileName = `${user.id}.png`;
-        const { url, fields } = await s3Service.getPresignedUrl(
-          fileName,
-          blob.type
-        );
-
-        await uploadToS3(url, fields, blob);
-        console.log("Upload successful");
-
-        const newAvatarUrl = `${avatarBaseUrl}${fileName}?t=${Date.now()}`;
-        await updateUser({ avatarUrl: newAvatarUrl });
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      } finally {
-        setUploading(false);
-        closeModal();
-      }
-    }
-  };
-
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleDeleteAvatar = () => {
+    openModal({
+      title: "Delete Avatar",
+      content: "Are you sure you want to delete your avatar?",
+      onConfirmAction: confirmDeleteAvatar,
+      onCancelAction: closeModal,
+    });
   };
 
   return (
@@ -95,51 +73,6 @@ const AvatarEditForm = () => {
           </div>
         </form>
       </div>
-      <ModalWrapper
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Edit Photo"
-      >
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-          <h2 className="text-center text-lg font-semibold mb-4 p-2 rounded">
-            Edit Your Photo
-          </h2>
-          <div className="flex flex-col items-center mb-4">
-            <input
-              className="mb-4"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-            {selectedFile && (
-              <AvatarEditor
-                ref={(ref) => setEditor(ref)}
-                image={selectedFile}
-                width={250}
-                height={250}
-                border={50}
-                borderRadius={125}
-                scale={1.2}
-              />
-            )}
-          </div>
-          <div className="flex justify-end gap-4 mt-4">
-            <button
-              className="border border-stroke py-2 px-6 text-sm text-black hover:shadow-lg hover:bg-gray-100 transition duration-200"
-              onClick={closeModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 transition duration-200"
-              onClick={handleSaveAvatar}
-              disabled={uploading}
-            >
-              {uploading ? "Saving..." : "Save"}
-            </button>
-          </div>
-        </div>
-      </ModalWrapper>
     </div>
   );
 };

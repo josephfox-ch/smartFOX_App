@@ -16,22 +16,31 @@ export const HomeProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const response = await HomeService.getHomes();
-      const data = await response;
-
-     
+      const data = await HomeService.getHomes();
       const sortedHomes = data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-
       setHomes(sortedHomes);
 
-      
       if (sortedHomes.length > 0) {
-        setSelectedHome(sortedHomes[0]);
+        fetchHomeDetails(sortedHomes[0].id);
+      } else {
+        setSelectedHome(null);
       }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      console.log("homes-fetched", sortedHomes);
+  const fetchHomeDetails = async (homeId) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const homeDetails = await HomeService.getHomeDetails(homeId);
+      setSelectedHome(homeDetails);
+      console.log("home-details-fetched", homeDetails);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -40,8 +49,7 @@ export const HomeProvider = ({ children }) => {
   };
 
   const selectHome = (homeId) => {
-    const home = homes.find((h) => h.id === homeId);
-    setSelectedHome(home);
+    fetchHomeDetails(homeId);
   };
 
   useEffect(() => {
@@ -50,15 +58,17 @@ export const HomeProvider = ({ children }) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (homes.length > 0 && !selectedHome) {
-      setSelectedHome(homes[0]);
-    }
-  }, [homes]);
-
   return (
     <HomeContext.Provider
-      value={{ homes, selectedHome, selectHome, fetchHomes, loading, error }}
+      value={{
+        homes,
+        selectedHome,
+        selectHome,
+        fetchHomes,
+        fetchHomeDetails,
+        loading,
+        error,
+      }}
     >
       {children}
     </HomeContext.Provider>
@@ -66,5 +76,3 @@ export const HomeProvider = ({ children }) => {
 };
 
 export const useHomes = () => useContext(HomeContext);
-
-

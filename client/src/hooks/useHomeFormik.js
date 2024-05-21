@@ -15,9 +15,17 @@ const combinedValidationSchema = Yup.object().shape({
 });
 
 const useHomeFormik = () => {
-  const {showAlert} = useAlert();
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
   const { fetchHomes, selectHome } = useHomes();
+
+  const transformValues = (values) => {
+    const transformedValues = {};
+    Object.keys(values).forEach((key) => {
+      transformedValues[key] = values[key] === "" ? null : values[key];
+    });
+    return transformedValues;
+  };
 
   return useFormik({
     initialValues: {
@@ -40,6 +48,7 @@ const useHomeFormik = () => {
     },
     validationSchema: combinedValidationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      const transformedValues = transformValues(values);
       try {
         const {
           name,
@@ -51,7 +60,7 @@ const useHomeFormik = () => {
           latitude,
           longitude,
           ...energyCertificateData
-        } = values;
+        } = transformedValues;
         const homeData = {
           name,
           streetAddress,
@@ -71,7 +80,7 @@ const useHomeFormik = () => {
         await fetchHomes();
         selectHome(newHome.id);
         resetForm();
-        showAlert("success","Success",`Your new home ${newHome.name} created`);
+        showAlert("success", "Success", `Your new home ${newHome.name} created`);
         navigate("/dashboard/my-home", { replace: true });
       } catch (error) {
         console.error("Error creating home:", error);
@@ -83,5 +92,6 @@ const useHomeFormik = () => {
 };
 
 export default useHomeFormik;
+
 
 
