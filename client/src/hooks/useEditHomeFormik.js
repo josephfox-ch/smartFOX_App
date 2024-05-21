@@ -30,19 +30,19 @@ const useEditHomeFormik = (homeId) => {
       timeZone: selectedHome?.timeZone || "Europe/Zurich",
       latitude: selectedHome?.latitude || "",
       longitude: selectedHome?.longitude || "",
-      buildingVolume: selectedHome?.EnergyCertificate?.buildingVolume || "",
+      buildingVolume: selectedHome?.EnergyCertificate?.buildingVolume || null,
       heatLossCoefficient:
-        selectedHome?.EnergyCertificate?.heatLossCoefficient || "",
-      constructionYear: selectedHome?.EnergyCertificate?.constructionYear || "",
+        selectedHome?.EnergyCertificate?.heatLossCoefficient || null,
+      constructionYear: selectedHome?.EnergyCertificate?.constructionYear || null,
       renewalDate:
-        formatDate(selectedHome?.EnergyCertificate?.renewalDate) || "",
+        formatDate(selectedHome?.EnergyCertificate?.renewalDate) || null,
       globalHeatLossCoefficient:
-        selectedHome?.EnergyCertificate?.globalHeatLossCoefficient || "",
+        selectedHome?.EnergyCertificate?.globalHeatLossCoefficient || null,
       volumeOfHeatedZone:
-        selectedHome?.EnergyCertificate?.volumeOfHeatedZone || "",
+        selectedHome?.EnergyCertificate?.volumeOfHeatedZone || null,
       heatEmissionCoefficient:
-        selectedHome?.EnergyCertificate?.heatEmissionCoefficient || "",
-      freeHeatGains: selectedHome?.EnergyCertificate?.freeHeatGains || "",
+        selectedHome?.EnergyCertificate?.heatEmissionCoefficient || null,
+      freeHeatGains: selectedHome?.EnergyCertificate?.freeHeatGains || null,
     },
     enableReinitialize: true,
     validationSchema: combinedValidationSchema,
