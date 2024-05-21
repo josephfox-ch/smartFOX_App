@@ -74,6 +74,10 @@ AlertLog.belongsTo(Home, { foreignKey: "homeId" });
 Home.hasMany(Room, { foreignKey: "homeId", onDelete: "CASCADE" });
 Room.belongsTo(Home, { foreignKey: "homeId" });
 
+// Home - LightingControl (One-to-Many)
+Home.hasMany(LightingControl, { foreignKey: "homeId", onDelete: "CASCADE" });
+LightingControl.belongsTo(Home, { foreignKey: "homeId" });
+
 // LightingControl - Room (One-to-One)
 Room.hasOne(LightingControl, { foreignKey: "roomId", onDelete: "CASCADE" });
 LightingControl.belongsTo(Room, { foreignKey: "roomId" });
@@ -81,6 +85,10 @@ LightingControl.belongsTo(Room, { foreignKey: "roomId" });
 // RoomTemperature - Room (One-to-Many)
 Room.hasMany(RoomTemperature, { foreignKey: "roomId", onDelete: "CASCADE" });
 RoomTemperature.belongsTo(Room, { foreignKey: "roomId" });
+
+// Home - LightingReport (One-to-Many)
+Home.hasMany(LightingReport, { foreignKey: "homeId", onDelete: "CASCADE" });
+LightingReport.belongsTo(Home, { foreignKey: "homeId" });
 
 // Room - LightingReport (One-to-Many)
 Room.hasMany(LightingReport, { foreignKey: "roomId", onDelete: "CASCADE" });

@@ -75,7 +75,7 @@ export const AlertProvider = ({ children }) => {
     setAlert({ type, title, message });
     setTimeout(() => {
       setAlert(null);
-    }, 2500);
+    }, 3000);
   };
 
   return (

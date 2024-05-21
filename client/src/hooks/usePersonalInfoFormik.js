@@ -4,8 +4,10 @@ import { useUser } from "../context/UserContext";
 import * as UserService from "../api/services/userService";
 import * as s3Service from "../api/services/s3Service"
 import { useAuth } from "../context/AuthContext";
+import { useAlert } from "../context/AlertContext";
 
 const usePersonalInfoFormik = () => {
+  const { showAlert } = useAlert();
   const { user, updateUser } = useUser();
   const { logout } = useAuth();
 
@@ -22,8 +24,9 @@ const usePersonalInfoFormik = () => {
     onSubmit: async (values) => {
       try {
         await updateUser(values);
-        console.log("User updated successfully");
+        showAlert("success", "Success", "User updated successfully");
       } catch (error) {
+        showAlert("error", "Error", "Could not update user")
         console.error("Error updating user:", error);
       }
     },
@@ -34,13 +37,13 @@ const usePersonalInfoFormik = () => {
       await s3Service.deleteAvatarFromS3(user.id);
       const result = await UserService.deleteUser();
       if (result.success) {
-        alert("User deleted successfully");
+        showAlert("warning", "Warning", "Your Account deleted.");
         logout();
       } else {
-        alert(`Error: ${result.message}`);
+        showAlert("error", "Error", result.message);
       }
     } catch (error) {
-      alert("Failed to delete user. Please try again later.");
+      showAlert("error", "Error", "Failed to delete user. Please try again later.")
     }
   };
 

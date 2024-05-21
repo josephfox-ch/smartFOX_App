@@ -3,14 +3,25 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
+import { RiLockPasswordFill, RiDeleteBin5Fill } from "react-icons/ri";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaRegSave } from "react-icons/fa";
 import usePersonalInfoFormik from "../../hooks/usePersonalInfoFormik";
-import { RiDeleteBin5Fill } from "react-icons/ri";
+import { useModal } from "../../context/ModalContext";
+import DynamicModal from "../modals/DynamicModal";
 
 const PersonalInformationForm = () => {
+  const { openModal, closeModal } = useModal();
   const { formik, deleteAccount } = usePersonalInfoFormik();
+
+  const handleDeleteAccount = () => {
+    openModal({
+      title: "Delete Account",
+      content: "Are you sure you want to delete your account?",
+      onConfirmAction: deleteAccount,
+      onCancelAction: closeModal,
+    });
+  };
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -155,17 +166,17 @@ const PersonalInformationForm = () => {
             <button
               className="w-full flex items-center justify-center gap-2 sm:w-auto sm:flex-3 justify-center border border-stroke py-2 px-4 text-sm text-white bg-red-500 hover:shadow-1 hover:bg-red-600 dark:border-strokedark dark:text-white hover:shadow-lg"
               type="button"
-              onClick={deleteAccount}
+              onClick={handleDeleteAccount}
             >
-             <RiDeleteBin5Fill size='15'/> Delete Account
+              <RiDeleteBin5Fill size='15'/> Delete Account
             </button>
             <div className="flex justify-between gap-4.5">
               <button
-                className="flex items-center gap-2 justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-bodydark dark:border-strokedark dark:text-white hover:shadow-lg"
+                className="flex items-center gap-2 justify-center border border-stroke py-2 px-6 text-sm text-black hover:shadow-1 hover:bg-gray-300 dark:border-strokedark dark:text-white hover:shadow-lg"
                 type="button"
                 onClick={() => formik.resetForm()}
               >
-              <MdOutlineCancel size="15" /> Cancel
+                <MdOutlineCancel size="15" /> Cancel
               </button>
               <button
                 className="flex items-center gap-2 justify-center bg-blue-600 py-2 px-6 text-sm text-white hover:bg-blue-700 hover:shadow-lg"
@@ -177,10 +188,13 @@ const PersonalInformationForm = () => {
           </div>
         </form>
       </div>
+      <DynamicModal />
     </div>
   );
 };
 
 export default PersonalInformationForm;
+
+
 
 

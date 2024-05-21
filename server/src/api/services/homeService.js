@@ -1,4 +1,4 @@
-import { Home, EnergyCertificate,ClimateControl } from "../models/index.js";
+import { Home, ClimateControl, EnergyCertificate, Device, Event, EnergyUsage, TemperatureRecord, HVACSystemLog, AlertLog, Room, LightingControl, LightingReport } from "../models/index.js";
 import sequelize from "../../config/db.js";
 import logger from "../../config/logger.js";
 
@@ -55,7 +55,6 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
       `Energy certificate created for home ${newHome.id}: ${newEnergyCertificate.id}`
     );
 
-    
     const defaultClimateControl = {
       homeId: newHome.id,
       desiredTemperature: 22,
@@ -82,48 +81,67 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
   }
 };
 
-export const updateHome = async (userId, homeId, homeData) => {
+export const updateHomeWithEnergyCertificate = async (userId, homeId, homeData, energyCertificateData) => {
+  const transaction = await sequelize.transaction();
   try {
-    const { houseName, streetAddress, city, country, postalCode, timeZone } =
-      homeData;
-    const [updated] = await Home.update(
+    const {
+      name,
+      streetAddress,
+      city,
+      country,
+      postalCode,
+      timeZone,
+      latitude,
+      longitude,
+    } = homeData;
+
+    const [updatedHomeCount] = await Home.update(
       {
-        houseName,
+        name,
         streetAddress,
         city,
         country,
         postalCode,
         timeZone,
+        latitude,
+        longitude,
       },
-      {
-        where: {
-          id: homeId,
-          userId,
-        },
-      }
+      { where: { id: homeId, userId }, transaction }
     );
 
-    if (!updated) {
+    if (!updatedHomeCount) {
       throw new Error("Home not found or user unauthorized");
     }
 
-    const updatedHome = await Home.findOne({ where: { id: homeId } });
-    logger.info(`Home updated for user ${userId}: ${homeId}`);
+    const [updatedEnergyCertificateCount] = await EnergyCertificate.update(
+      {
+        ...energyCertificateData,
+      },
+      { where: { homeId }, transaction }
+    );
+
+    if (!updatedEnergyCertificateCount) {
+      throw new Error("Energy Certificate not found or user unauthorized");
+    }
+
+    await transaction.commit();
+    const updatedHome = await Home.findOne({
+      where: { id: homeId, userId },
+      include: [ClimateControl, EnergyCertificate, Device, EnergyUsage, TemperatureRecord, HVACSystemLog, AlertLog, Room, LightingControl, LightingReport],
+    });
+
+    logger.info(`Home and Energy Certificate updated for user ${userId}: ${homeId}`);
     return updatedHome;
   } catch (error) {
-    logger.error(`Error updating home for user ${userId}: ${error.message}`);
-    throw new Error("Could not update home");
+    await transaction.rollback();
+    logger.error(`Error updating home and energy certificate for user ${userId}: ${error.message}`);
+    throw new Error("Could not update home and energy certificate");
   }
 };
 
 export const deleteHome = async (userId, homeId) => {
   try {
-    const deleted = await Home.destroy({
-      where: {
-        id: homeId,
-        userId,
-      },
-    });
+    const deleted = await Home.destroy({ where: { id: homeId, userId } });
 
     if (!deleted) {
       throw new Error("Home not found or user unauthorized");
@@ -136,3 +154,20 @@ export const deleteHome = async (userId, homeId) => {
     throw new Error("Could not delete home");
   }
 };
+
+export const getHomeDetails = async (userId, homeId) => {
+  try {
+    const home = await Home.findOne({
+      where: { id: homeId, userId },
+      include: [ClimateControl, EnergyCertificate, Device, EnergyUsage, TemperatureRecord, HVACSystemLog, AlertLog, Room, LightingControl, LightingReport]
+    });
+    if (!home) {
+      throw new Error("Home not found or user unauthorized");
+    }
+    return home;
+  } catch (error) {
+    logger.error(`Error fetching home details for user ${userId}: ${error.message}`);
+    throw new Error("Could not fetch home details");
+  }
+};
+
