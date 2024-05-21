@@ -4,7 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import AccountSettingsPage from "../pages/user-panel/AccountSettingsPage";
 import MyHomePage from "../pages/home/MyHomePage";
-import HomeFormsInfoPage from "../pages/home/HomeFormsInfoPage";
+import AddHomePage from "../pages/home/AddHomePage";
 import ClimatePage from "../pages/climate/ClimatePage";
 import LightingPage from "../pages/lighting/LightingPage";
 import SecuritySensorsPage from "../pages/security-sensors/SecuritySensorsPage";
@@ -33,7 +33,7 @@ const DashboardRoutes = () => {
           <Route path="account-settings" element={<AccountSettingsPage />} />
           <Route path="my-home" element={<MyHomePage />} />
           <Route path="my-home/edit-home" element={<EditHomePage />} />
-          <Route path="add-new-home" element={<HomeFormsInfoPage />} />
+          <Route path="add-new-home" element={<AddHomePage />} />
           <Route path="climate" element={<ClimatePage />} />
           <Route path="lighting" element={<LightingPage />} />
           <Route path="security-sensors" element={<SecuritySensorsPage />} />
