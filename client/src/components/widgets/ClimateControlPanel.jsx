@@ -4,6 +4,8 @@ import { TbTemperatureCelsius } from "react-icons/tb";
 import { RiTakeawayLine } from "react-icons/ri";
 import { useHomes } from "../../context/HomeContext";
 import { useClimate } from "../../context/ClimateContext";
+import * as hvacSystemLogService from "../../api/services/hvacSystemLogService";
+import * as energyUsageService from "../../api/services/energyUsageService";
 
 const ClimateControlPanel = () => {
   const { selectedHome } = useHomes();
@@ -16,12 +18,37 @@ const ClimateControlPanel = () => {
     if (climateControl) {
       setDesiredTemperature(climateControl.desiredTemperature);
       setMode(climateControl.mode);
+      setIsOn(climateControl.status === "on");
     }
   }, [climateControl]);
 
   if (!climateControl) {
     return <p>Loading...</p>;
   }
+
+  const logHVACStatus = async (status) => {
+    try {
+      await hvacSystemLogService.createHVACSystemLog({
+        homeId: selectedHome.id,
+        status,
+        startedAt: new Date(),
+      });
+    } catch (error) {
+      console.error("Failed to log HVAC status", error);
+    }
+  };
+
+  const logEnergyUsage = async (energyConsumed) => {
+    try {
+      await energyUsageService.createEnergyUsage({
+        homeId: selectedHome.id,
+        date: new Date(),
+        energyConsumed,
+      });
+    } catch (error) {
+      console.error("Failed to log energy usage", error);
+    }
+  };
 
   const handleTemperatureIncrease = async () => {
     let newTemperature;
@@ -36,6 +63,7 @@ const ClimateControlPanel = () => {
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
     console.log(`Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    logEnergyUsage(1); // Example value
   };
 
   const handleTemperatureDecrease = async () => {
@@ -51,11 +79,16 @@ const ClimateControlPanel = () => {
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
     console.log(`Temperature for home ${selectedHome.name} decreased to ${newTemperature}°C`);
+    logEnergyUsage(1); // Example value
   };
 
   const handleTogglePower = async () => {
+    const newStatus = isOn ? "off" : "on";
     setIsOn(!isOn);
+    await updateClimateControl(climateControl.id, { ...climateControl, status: newStatus });
     console.log(`Climate control for home ${selectedHome.name} turned ${isOn ? "off" : "on"}`);
+    logHVACStatus(newStatus);
+    logEnergyUsage(5); // Example value
   };
 
   const handleToggleMode = async () => {
@@ -138,6 +171,8 @@ const ClimateControlPanel = () => {
 };
 
 export default ClimateControlPanel;
+
+
 
 
 
