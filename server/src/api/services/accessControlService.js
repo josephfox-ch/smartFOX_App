@@ -13,6 +13,15 @@ const createAccessControl = async (userId, homeId, permissionLevel) => {
   }
 };
 
+const getAccessControlByUser = async (userId) => {
+  try {
+    const accessControl = await AccessControl.findAll({ where: { userId } });
+    return accessControl;
+  } catch (error) {
+    throw new Error(`AccessControl could not fetched: ${error.message}`);
+  }
+};
+
 const updateAccessControl = async (userId, homeId, newPermissionLevel) => {
   try {
     const accessControl = await AccessControl.findOne({ where: { userId, homeId } });
@@ -26,4 +35,4 @@ const updateAccessControl = async (userId, homeId, newPermissionLevel) => {
   }
 };
 
-export default { createAccessControl, updateAccessControl };
+export default { createAccessControl,getAccessControlByUser, updateAccessControl };

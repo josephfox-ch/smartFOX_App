@@ -8,31 +8,34 @@ import { ClimateProvider } from "./context/ClimateContext";
 import { EnergyProvider } from "./context/EnergyContext";
 import { HVACSystemLogProvider } from "./context/HVACSystemLogContext";
 import { EnergyUsageProvider } from "./context/EnergyUsageContext";
+import { AccessControlProvider } from "./context/AccessControlContext";
 import AppRoutes from "./Routes";
 import "./App.css";
 
 function App() {
   return (
     <UserProvider>
-      <HomeProvider>
-        <ClimateProvider>
-          <WeatherProvider>
-            <EnergyProvider>
-              <EnergyUsageProvider>
-                <HVACSystemLogProvider>
-                  <ModalProvider>
-                    <AlertProvider>
-                      <div className="App">
-                        <AppRoutes />
-                      </div>
-                    </AlertProvider>
-                  </ModalProvider>
-                </HVACSystemLogProvider>
-              </EnergyUsageProvider>
-            </EnergyProvider>
-          </WeatherProvider>
-        </ClimateProvider>
-      </HomeProvider>
+      <AccessControlProvider>
+        <HomeProvider>
+          <ClimateProvider>
+            <WeatherProvider>
+              <EnergyProvider>
+                <EnergyUsageProvider>
+                  <HVACSystemLogProvider>
+                    <ModalProvider>
+                      <AlertProvider>
+                        <div className="App">
+                          <AppRoutes />
+                        </div>
+                      </AlertProvider>
+                    </ModalProvider>
+                  </HVACSystemLogProvider>
+                </EnergyUsageProvider>
+              </EnergyProvider>
+            </WeatherProvider>
+          </ClimateProvider>
+        </HomeProvider>
+      </AccessControlProvider>
     </UserProvider>
   );
 }

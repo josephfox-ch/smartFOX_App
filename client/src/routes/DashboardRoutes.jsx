@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
-import AccountSettingsPage from "../pages/user-panel/AccountSettingsPage";
+import AccountSettingsPage from "../pages/user/AccountSettingsPage";
 import MyHomePage from "../pages/home/MyHomePage";
 import AddHomePage from "../pages/home/AddHomePage";
 import ClimatePage from "../pages/climate/ClimatePage";
@@ -24,12 +24,14 @@ import PricingTablesPage from "../pages/info/PricingTablesPage";
 import FaqsPage from "../pages/info/FaqsPage";
 import TeamsPage from "../pages/info/TeamsPage";
 import EditHomePage from "../pages/home/EditHomePage";
+import UserProfile from "../pages/user/UserProfile";
 
 const DashboardRoutes = () => {
   return (
     <>
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route path="user-profile" element={<UserProfile />} />
           <Route path="account-settings" element={<AccountSettingsPage />} />
           <Route path="my-home" element={<MyHomePage />} />
           <Route path="my-home/edit-home" element={<EditHomePage />} />
