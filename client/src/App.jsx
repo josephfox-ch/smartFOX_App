@@ -6,6 +6,8 @@ import { WeatherProvider } from "./context/WeatherContext";
 import { AlertProvider } from "./context/AlertContext";
 import { ClimateProvider } from "./context/ClimateContext";
 import { EnergyProvider } from "./context/EnergyContext";
+import { HVACSystemLogProvider } from "./context/HVACSystemLogContext";
+import { EnergyUsageProvider } from "./context/EnergyUsageContext";
 import AppRoutes from "./Routes";
 import "./App.css";
 
@@ -16,13 +18,17 @@ function App() {
         <ClimateProvider>
           <WeatherProvider>
             <EnergyProvider>
-              <ModalProvider>
-                <AlertProvider>
-                  <div className="App">
-                    <AppRoutes />
-                  </div>
-                </AlertProvider>
-              </ModalProvider>
+              <EnergyUsageProvider>
+                <HVACSystemLogProvider>
+                  <ModalProvider>
+                    <AlertProvider>
+                      <div className="App">
+                        <AppRoutes />
+                      </div>
+                    </AlertProvider>
+                  </ModalProvider>
+                </HVACSystemLogProvider>
+              </EnergyUsageProvider>
             </EnergyProvider>
           </WeatherProvider>
         </ClimateProvider>

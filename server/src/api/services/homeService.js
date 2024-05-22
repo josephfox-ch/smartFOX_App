@@ -63,8 +63,21 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
     };
 
     const newClimateControl = await ClimateControl.create(defaultClimateControl, { transaction });
-
     logger.info(`ClimateControl created for home ${newHome.id}: ${newClimateControl.id}`);
+
+    const defaultModels = [
+      { model: TemperatureRecord, data: { homeId: newHome.id } },
+      { model: HVACSystemLog, data: { homeId: newHome.id, status: 'off', startedAt: new Date() } },
+      { model: AlertLog, data: { homeId: newHome.id } },
+      { model: LightingControl, data: { homeId: newHome.id } },
+      { model: LightingReport, data: { homeId: newHome.id } },
+      { model: EnergyUsage, data: { homeId: newHome.id, energyConsumed: 0, date: new Date() } },
+    ];
+
+    for (const item of defaultModels) {
+      await item.model.create(item.data, { transaction });
+      logger.info(`${item.model.name} created for home ${newHome.id}`);
+    }
 
     await transaction.commit();
     return {
@@ -75,9 +88,9 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
   } catch (error) {
     await transaction.rollback();
     logger.error(
-      `Error creating home, energy certificate, and climate control for user ${userId}: ${error.message}`
+      `Error creating home, energy certificate, and related models for user ${userId}: ${error.message}`
     );
-    throw new Error('Could not create home, energy certificate, and climate control');
+    throw new Error('Could not create home, energy certificate, and related models');
   }
 };
 

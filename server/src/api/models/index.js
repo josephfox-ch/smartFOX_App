@@ -78,8 +78,8 @@ Room.belongsTo(Home, { foreignKey: "homeId" });
 Home.hasMany(LightingControl, { foreignKey: "homeId", onDelete: "CASCADE" });
 LightingControl.belongsTo(Home, { foreignKey: "homeId" });
 
-// LightingControl - Room (One-to-One)
-Room.hasOne(LightingControl, { foreignKey: "roomId", onDelete: "CASCADE" });
+// Room - LightingControl (One-to-Many)
+Room.hasMany(LightingControl, { foreignKey: "roomId", onDelete: "CASCADE" });
 LightingControl.belongsTo(Room, { foreignKey: "roomId" });
 
 // RoomTemperature - Room (One-to-Many)

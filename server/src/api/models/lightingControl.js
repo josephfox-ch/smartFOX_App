@@ -7,22 +7,31 @@ const LightingControl = sequelize.define("LightingControl", {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
+  homeId: {
+    type: DataTypes.UUID,
+    allowNull: true,
+    references: {
+      model: "Homes",
+      key: "id",
+    },
+  },
   roomId: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: "Rooms",
       key: "id",
     },
   },
-  name:{
+  name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   status: {
     type: DataTypes.ENUM,
     values: ["on", "off"],
-    allowNull: false,
+    defaultValue: "off",
+    allowNull: true,
   },
   brightnessLevel: {
     type: DataTypes.INTEGER,
@@ -35,3 +44,4 @@ const LightingControl = sequelize.define("LightingControl", {
 });
 
 export default LightingControl;
+
