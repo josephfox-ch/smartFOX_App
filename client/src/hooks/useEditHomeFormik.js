@@ -31,9 +31,10 @@ const useEditHomeFormik = (homeId) => {
       latitude: selectedHome?.latitude || "",
       longitude: selectedHome?.longitude || "",
       buildingVolume: selectedHome?.EnergyCertificate?.buildingVolume || null,
-      heatLossCoefficient:
-        selectedHome?.EnergyCertificate?.heatLossCoefficient || null,
-      constructionYear: selectedHome?.EnergyCertificate?.constructionYear || null,
+      globalHeatLossCoefficient:
+        selectedHome?.EnergyCertificate?.globalHeatLossCoefficient || null,
+      constructionYear:
+        selectedHome?.EnergyCertificate?.constructionYear || null,
       renewalDate:
         formatDate(selectedHome?.EnergyCertificate?.renewalDate) || null,
       globalHeatLossCoefficient:

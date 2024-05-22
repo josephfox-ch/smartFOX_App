@@ -178,17 +178,17 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
             </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="heatLossCoefficient">
-                  Heat Loss Coefficient
+                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="globalHeatLossCoefficient">
+                  Global Heat Loss Coefficient
                 </label>
                 <Field
                   className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
                   type="number"
-                  id="heatLossCoefficient"
-                  name="heatLossCoefficient"
+                  id="globalHeatLossCoefficient"
+                  name="globalHeatLossCoefficient"
                   placeholder="Enter heat loss coefficient"
                 />
-                <ErrorMessage name="heatLossCoefficient" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage name="globalHeatLossCoefficient" component="div" className="text-red-500 text-sm" />
               </div>
               <div className="w-full sm:w-1/2">
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="heatEmissionCoefficient">
