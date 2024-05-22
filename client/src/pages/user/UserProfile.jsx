@@ -8,10 +8,8 @@ import { FcHome } from "react-icons/fc";
 
 const UserProfile = () => {
   const { user, loading: userLoading } = useUser();
-  const {
-    accessControls,
-    loading: accessControlsLoading,
-  } = useAccessControls();
+  const { accessControls, loading: accessControlsLoading } =
+    useAccessControls();
   const { homes, loading: homesLoading } = useHomes();
 
   console.log(accessControls);
@@ -22,7 +20,7 @@ const UserProfile = () => {
   return (
     <div className="mx-auto max-w-7xl">
       <Breadcrumb className="text-foxColor" pageName="My Profile" />
-      <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+      <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg  dark:border-strokedark dark:bg-boxdark">
         <div className="flex items-center mb-6">
           <div className="mr-6">
             <UserAvatar />
@@ -30,15 +28,15 @@ const UserProfile = () => {
 
           <div>
             <h1 className="text-2xl font-bold">{`${user.firstName} ${user.lastName}`}</h1>
-            <p className="text-gray-600">{user.email}</p>
-            <p className="text-gray-600">{user.phoneNumber}</p>
-            <p className="text-gray-600">{user.role}</p>
+            <p>{user.email}</p>
+            <p>{user.phoneNumber}</p>
+            <p>{user.role}</p>
           </div>
         </div>
         <div>
           <h2 className="text-xl font-semibold mb-4">Connected Homes</h2>
           {homes.length === 0 ? (
-            <p className="text-gray-600">No homes connected.</p>
+            <p className="">No homes connected.</p>
           ) : (
             homes.map((home) => {
               const accessControl = accessControls.find(
@@ -53,11 +51,12 @@ const UserProfile = () => {
                     <FcHome size="30" />
                     <h3 className="text-lg font-semibold ">{home.name}</h3>
                   </div>
-                  <p className="text-gray-600">
+                  <p>
                     Address: {home.streetAddress}, {home.city}, {home.country}
                   </p>
-                  <p className="text-gray-600">
-                    Access level: {accessControl ? accessControl.permissionLevel : "N/A"}
+                  <p>
+                    Access level:{" "}
+                    {accessControl ? accessControl.permissionLevel : "N/A"}
                   </p>
                 </div>
               );
