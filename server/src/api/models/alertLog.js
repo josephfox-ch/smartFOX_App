@@ -17,12 +17,13 @@ const AlertLog = sequelize.define("AlertLog", {
   },
   message: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   severity: {
     type: DataTypes.ENUM,
     values: ['low', 'medium', 'high', 'critical'],
-    allowNull: false,
+    defaultValue:'low',
+    allowNull: true,
   }
 });
 

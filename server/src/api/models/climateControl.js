@@ -23,6 +23,12 @@ const ClimateControl = sequelize.define("ClimateControl", {
     type: DataTypes.FLOAT,
     allowNull: false, 
   },
+  status:{
+    type: DataTypes.ENUM,
+    values: ['on', 'off', 'error'],
+    defaultValue:'off',
+    allowNull: false,
+  },
   mode: {
     type: DataTypes.ENUM,
     values: ['heating', 'cooling', 'away'],

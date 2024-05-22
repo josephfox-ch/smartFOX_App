@@ -19,10 +19,6 @@ const EnergyCertificate = sequelize.define("EnergyCertificate", {
     type: DataTypes.FLOAT,
     allowNull: true,
   },
-  heatLossCoefficient: {
-    type: DataTypes.FLOAT,
-    allowNull: true,
-  },
   constructionYear: {
     type: DataTypes.INTEGER,
     allowNull: true,
