@@ -36,7 +36,7 @@ const User = sequelize.define("User", {
     type: DataTypes.ENUM,
     values: ["homeowner", "resident", "guest"],
     allowNull: true,
-    defaultValue: "guest",
+    defaultValue: "homeowner",
   },
   isVerified: {
     type: DataTypes.BOOLEAN,
