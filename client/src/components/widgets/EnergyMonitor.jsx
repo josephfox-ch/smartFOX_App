@@ -76,8 +76,8 @@ const EnergyMonitor = () => {
       <div className="flex flex-col items-center mb-4">
         <ImFire color={isClimateControlOn ? "orange" : "gray"} size="50" className="mb-2" />
         <div className="text-center text-gray-600 dark:text-gray-300">
-          <p><strong>Heating Curve:</strong> {heatingCurve}</p>
-          <p><strong>Energy Balance:</strong> {energyBalance}</p>
+          <p><strong>Heating Curve:</strong> {heatingCurve}°C</p>
+          <p><strong>Energy Balance:</strong> {energyBalance} Watt</p>
           <p><strong>Water Flow Temperature:</strong> {waterFlowTemperature}°C</p>
         </div>
       </div>

@@ -58,7 +58,7 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
   
 
     const defaultModels = [
-      { model: ClimateControl, data: {homeId: newHome.id}},
+      { model: ClimateControl, data: {homeId: newHome.id, currentTemperature:28}},
       { model: AccessControl, data: {homeId: newHome.id, userId: newHome.userId}},
       { model: TemperatureRecord, data: { homeId: newHome.id } },
       { model: HVACSystemLog, data: { homeId: newHome.id, status: 'off', startedAt: new Date() } },
