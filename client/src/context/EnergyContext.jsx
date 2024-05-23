@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { useHomes } from "./HomeContext";
 import { useClimate } from "./ClimateContext";
 import { useWeather } from "./WeatherContext";
-import { calculateHeatingCurveAndEnergyBalance } from "../utils/heatingCalculations";
+import { calculateHeatingCurveAndEnergyBalance } from "../utils/calculations";
 import * as s3Service from '../api/services/s3Service';
 
 const EnergyContext = createContext();
@@ -47,6 +47,7 @@ export const EnergyProvider = ({ children }) => {
       const data = {
         Te: parseFloat(outdoorTemperature),
         Ti: parseFloat(climateControl.currentTemperature),
+        Tc: parseFloat(climateControl.desiredTemperature),
         Tw: parseFloat(waterFlowTemperature), 
         G: parseFloat(energyCertificate.globalHeatLossCoefficient),
         V: parseFloat(energyCertificate.volumeOfHeatedZone),
