@@ -15,15 +15,11 @@ export const HomeProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-
       const data = await HomeService.getHomes();
-      const sortedHomes = data.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
+      const sortedHomes = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setHomes(sortedHomes);
-
       if (sortedHomes.length > 0) {
-        fetchHomeDetails(sortedHomes[0].id);
+        setSelectedHome(sortedHomes[0]);
       } else {
         setSelectedHome(null);
       }
@@ -49,19 +45,22 @@ export const HomeProvider = ({ children }) => {
   };
 
   const selectHome = (homeId) => {
-    fetchHomeDetails(homeId);
+    if (selectedHome?.id !== homeId) {
+      fetchHomeDetails(homeId);
+    }
   };
 
   useEffect(() => {
     if (user) {
       fetchHomes();
     }
-  }, [user]);
+  }, [user,selectedHome?.name]);
 
   return (
     <HomeContext.Provider
       value={{
         homes,
+        setSelectedHome,
         selectedHome,
         selectHome,
         fetchHomes,
@@ -76,3 +75,4 @@ export const HomeProvider = ({ children }) => {
 };
 
 export const useHomes = () => useContext(HomeContext);
+

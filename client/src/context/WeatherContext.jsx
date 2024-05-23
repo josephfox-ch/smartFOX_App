@@ -16,6 +16,8 @@ export const WeatherProvider = ({ children }) => {
   const [sunset, setSunset] = useState(null);
 
   useEffect(() => {
+    let intervalId;
+
     const fetchWeather = async () => {
       if (selectedHome) {
         try {
@@ -31,7 +33,6 @@ export const WeatherProvider = ({ children }) => {
           setWeatherIcon(weatherData.weather[0].icon);
           setSunrise(new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString());
           setSunset(new Date(weatherData.sys.sunset * 1000).toLocaleTimeString());
-          console.log("Weather data fetched:", weatherData);
         } catch (error) {
           console.error("Error fetching weather data:", error);
         }
@@ -39,11 +40,29 @@ export const WeatherProvider = ({ children }) => {
     };
 
     fetchWeather();
-    console.log("weather data changed");
+
+    if (selectedHome) {
+      intervalId = setInterval(fetchWeather, 30 * 60 * 1000); 
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId); 
+    };
   }, [selectedHome]);
 
   return (
-    <WeatherContext.Provider value={{ outdoorTemperature, humidity, windSpeed, weatherDescription, weatherType, weatherIcon, sunrise, sunset }}>
+    <WeatherContext.Provider
+      value={{
+        outdoorTemperature,
+        humidity,
+        windSpeed,
+        weatherDescription,
+        weatherType,
+        weatherIcon,
+        sunrise,
+        sunset,
+      }}
+    >
       {children}
     </WeatherContext.Provider>
   );
