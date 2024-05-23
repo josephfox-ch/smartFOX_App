@@ -1,26 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { useAccessControls } from "../../context/AccessControlContext";
 import { useHomes } from "../../context/HomeContext";
 import UserAvatar from "../../components/UserAvatar";
 import Breadcrumb from "../../components/Breadcrumb";
 import { FcHome } from "react-icons/fc";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const UserProfile = () => {
   const { user, loading: userLoading } = useUser();
   const { accessControls, loading: accessControlsLoading } =
     useAccessControls();
-  const { homes, loading: homesLoading } = useHomes();
+  const {
+    homes,
+    selectedHome,
+    setSelectedHome,
+    loading: homesLoading,
+  } = useHomes();
+  const [selectedHomeId, setSelectedHomeId] = useState(null);
 
-  console.log(accessControls);
+  useEffect(() => {
+    if (selectedHome) {
+      setSelectedHomeId(selectedHome.id);
+    }
+  }, [selectedHome]);
 
   if (userLoading || accessControlsLoading || homesLoading)
     return <div className="text-center py-4">Loading...</div>;
 
+  const handleHomeClick = (home) => {
+    setSelectedHome(home);
+    setSelectedHomeId(home.id);
+  };
+
   return (
     <div className="mx-auto max-w-7xl">
       <Breadcrumb className="text-foxColor" pageName="My Profile" />
-      <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg  dark:border-strokedark dark:bg-boxdark">
+      <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg dark:border-strokedark dark:bg-boxdark">
         <div className="flex items-center mb-6">
           <div className="mr-6">
             <UserAvatar />
@@ -45,11 +61,22 @@ const UserProfile = () => {
               return (
                 <div
                   key={home.id}
-                  className="border border-gray-300 p-4 mb-4 rounded"
+                  className="relative border border-gray-300 p-4 mb-5 rounded cursor-pointer transition-transform  hover:scale-105"
+                  onClick={() => handleHomeClick(home)}
                 >
-                  <div className=" items-end gap-1">
-                    <FcHome size="30" />
-                    <h3 className="text-lg font-semibold ">{home.name}</h3>
+                  <div>
+                    <div className="flex items-center">
+                      <FcHome size="30" />
+                      {selectedHomeId === home.id && (
+                        <FaMapMarkerAlt
+                          className="inline-block ml-2 text-blue-600 animate-ping"
+                          size="18"
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold">{home.name}</h3>
+                    </div>
                   </div>
                   <p>
                     Address: {home.streetAddress}, {home.city}, {home.country}
