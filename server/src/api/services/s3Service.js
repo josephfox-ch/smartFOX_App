@@ -36,7 +36,7 @@ export const deleteAvatar = async (fileName) => {
 };
 
 export const getWaterFlowTemperature = async (homeId) => {
-  const tw = '45.5';
+  const tw = '35.5';
   return tw;
 };
 
