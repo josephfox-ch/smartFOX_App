@@ -24,13 +24,13 @@ const EnergyMonitor = () => {
     datasets: [
       {
         label: "Heating Curve",
-        data: Array(12).fill(heatingCurve),
+        data: Array(12).fill(heatingCurve !== "N/A" ? heatingCurve : null),
         borderColor: "rgba(75,192,192,1)",
         backgroundColor: "rgba(75,192,192,0.2)",
       },
       {
         label: "Energy Balance",
-        data: Array(12).fill(energyBalance),
+        data: Array(12).fill(energyBalance !== "N/A" ? energyBalance : null),
         borderColor: "rgba(153,102,255,1)",
         backgroundColor: "rgba(153,102,255,0.2)",
       },
@@ -59,8 +59,8 @@ const EnergyMonitor = () => {
       <div className="flex flex-col items-center mb-4">
         <ImFire color={isClimateControlOn ? "orange" : "gray"} size="50" className="mb-2" />
         <div className="text-center text-gray-600 dark:text-gray-300">
-          <p><strong>Heating Curve:</strong> {heatingCurve}°C</p>
-          <p><strong>Energy Balance:</strong> {energyBalance} Watt</p>
+          <p><strong>Heating Curve:</strong> {heatingCurve !== "N/A" ? `${heatingCurve}°C` : "N/A"}</p>
+          <p><strong>Energy Balance:</strong> {energyBalance !== "N/A" ? `${energyBalance} Watt` : "N/A"}</p>
           <p><strong>Water Flow Temperature:</strong> {waterFlowTemperature}°C</p>
         </div>
       </div>
@@ -72,6 +72,7 @@ const EnergyMonitor = () => {
 };
 
 export default EnergyMonitor;
+
 
 
 
