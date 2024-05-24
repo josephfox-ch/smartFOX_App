@@ -1,13 +1,13 @@
-import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { calculateHeatingCurveAndEnergyBalance } from "../utils/calculations";
+import * as s3Service from "../api/services/s3Service";
 import { useHomes } from "./HomeContext";
 import { useClimate } from "./ClimateContext";
 import { useWeather } from "./WeatherContext";
-import { calculateHeatingCurveAndEnergyBalance } from "../utils/calculations";
-import * as s3Service from '../api/services/s3Service';
 
-const EnergyContext = createContext();
+const CalculationContext = createContext();
 
-export const EnergyProvider = ({ children }) => {
+export const CalculationProvider = ({ children }) => {
   const { selectedHome } = useHomes();
   const { climateControl } = useClimate();
   const { outdoorTemperature } = useWeather();
@@ -37,7 +37,7 @@ export const EnergyProvider = ({ children }) => {
     fetchWaterFlowTemperature();
   }, [fetchWaterFlowTemperature]);
 
-  useEffect(() => {
+  const performCalculations = useCallback(() => {
     if (
       climateControl &&
       climateControl.status === 'on' && // Only perform calculations when the heating system is on
@@ -58,28 +58,27 @@ export const EnergyProvider = ({ children }) => {
 
       const { heatingCurve: calculatedHeatingCurve, energyBalance: calculatedEnergyBalance } = calculateHeatingCurveAndEnergyBalance(data);
 
-      console.log(data);
-
       setHeatingCurve(calculatedHeatingCurve);
       setEnergyBalance(calculatedEnergyBalance);
     }
   }, [climateControl, energyCertificate, outdoorTemperature, waterFlowTemperature]);
 
+  useEffect(() => {
+    performCalculations();
+  }, [performCalculations]);
+
   return (
-    <EnergyContext.Provider
+    <CalculationContext.Provider
       value={{
-        energyCertificate,
         heatingCurve,
         energyBalance,
-        waterFlowTemperature // Keep showing water flow temperature
+        waterFlowTemperature,
+        performCalculations,
       }}
     >
       {children}
-    </EnergyContext.Provider>
+    </CalculationContext.Provider>
   );
 };
 
-export const useEnergy = () => useContext(EnergyContext);
-
-
-
+export const useCalculations = () => useContext(CalculationContext);

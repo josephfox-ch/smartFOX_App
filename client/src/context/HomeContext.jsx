@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext, useCallback } from "react";
 import * as HomeService from "../api/services/homeService";
 import { useAuth } from "./AuthContext";
 
@@ -11,7 +11,7 @@ export const HomeProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchHomes = async () => {
+  const fetchHomes = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -19,18 +19,19 @@ export const HomeProvider = ({ children }) => {
       const sortedHomes = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setHomes(sortedHomes);
       if (sortedHomes.length > 0) {
-        setSelectedHome(sortedHomes[0]);
+        fetchHomeDetails(sortedHomes[0].id);
       } else {
         setSelectedHome(null);
       }
+      console.log("homes-fetched", sortedHomes);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchHomeDetails = async (homeId) => {
+  const fetchHomeDetails = useCallback(async (homeId) => {
     try {
       setLoading(true);
       setError(null);
@@ -42,25 +43,24 @@ export const HomeProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const selectHome = (homeId) => {
+  const selectHome = useCallback((homeId) => {
     if (selectedHome?.id !== homeId) {
       fetchHomeDetails(homeId);
     }
-  };
+  }, [selectedHome, fetchHomeDetails]);
 
   useEffect(() => {
     if (user) {
       fetchHomes();
     }
-  }, [user,selectedHome?.name]);
+  }, [user, fetchHomes]);
 
   return (
     <HomeContext.Provider
       value={{
         homes,
-        setSelectedHome,
         selectedHome,
         selectHome,
         fetchHomes,
@@ -75,4 +75,7 @@ export const HomeProvider = ({ children }) => {
 };
 
 export const useHomes = () => useContext(HomeContext);
+
+
+
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import * as DoorService from '../api/services/doorService';
 import { useHomes } from './HomeContext';
 
@@ -9,20 +9,20 @@ export const DoorProvider = ({ children }) => {
   const [doors, setDoors] = useState([]);
   const [mainStatus, setMainStatus] = useState(null);
 
-  useEffect(() => {
-    const fetchDoors = async () => {
-      if (selectedHome) {
-        try {
-          const response = await DoorService.getDoors(selectedHome.id);
-          setDoors(response);
-        } catch (error) {
-          console.error('Error fetching doors:', error);
-        }
+  const fetchDoors = useCallback(async () => {
+    if (selectedHome) {
+      try {
+        const response = await DoorService.getDoors(selectedHome.id);
+        setDoors(response);
+      } catch (error) {
+        console.error('Error fetching doors:', error);
       }
-    };
-    
-    fetchDoors();
+    }
   }, [selectedHome]);
+
+  useEffect(() => {
+    fetchDoors();
+  }, [fetchDoors]);
 
   useEffect(() => {
     if (selectedHome && doors.length > 0) {
@@ -58,4 +58,5 @@ export const DoorProvider = ({ children }) => {
 };
 
 export const useDoors = () => useContext(DoorContext);
+
 

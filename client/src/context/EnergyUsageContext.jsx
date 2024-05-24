@@ -21,7 +21,7 @@ export const EnergyUsageProvider = ({ children }) => {
       setEnergyUsage(data);
     } catch (err) {
       setError(err.message);
-      setEnergyUsage([]); 
+      setEnergyUsage([]);
     }
   };
 
@@ -33,4 +33,5 @@ export const EnergyUsageProvider = ({ children }) => {
 };
 
 export const useEnergyUsage = () => useContext(EnergyUsageContext);
+
 
