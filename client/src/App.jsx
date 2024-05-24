@@ -5,6 +5,7 @@ import { HomeProvider } from "./context/HomeContext";
 import { WeatherProvider } from "./context/WeatherContext";
 import { AlertProvider } from "./context/AlertContext";
 import { ClimateProvider } from "./context/ClimateContext";
+import { CalculationProvider } from "./context/CalculationContext";
 import { EnergyProvider } from "./context/EnergyContext";
 import { HVACSystemLogProvider } from "./context/HVACSystemLogContext";
 import { EnergyUsageProvider } from "./context/EnergyUsageContext";
@@ -21,19 +22,21 @@ function App() {
           <ClimateProvider>
             <DoorProvider>
               <WeatherProvider>
-                <EnergyProvider>
-                  <EnergyUsageProvider>
-                    <HVACSystemLogProvider>
-                      <ModalProvider>
-                        <AlertProvider>
-                          <div className="App">
-                            <AppRoutes />
-                          </div>
-                        </AlertProvider>
-                      </ModalProvider>
-                    </HVACSystemLogProvider>
-                  </EnergyUsageProvider>
-                </EnergyProvider>
+                <CalculationProvider>
+                  <EnergyProvider>
+                    <EnergyUsageProvider>
+                      <HVACSystemLogProvider>
+                        <ModalProvider>
+                          <AlertProvider>
+                            <div className="App">
+                              <AppRoutes />
+                            </div>
+                          </AlertProvider>
+                        </ModalProvider>
+                      </HVACSystemLogProvider>
+                    </EnergyUsageProvider>
+                  </EnergyProvider>
+                </CalculationProvider>
               </WeatherProvider>
             </DoorProvider>
           </ClimateProvider>
@@ -44,3 +47,4 @@ function App() {
 }
 
 export default App;
+

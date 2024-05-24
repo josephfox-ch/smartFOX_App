@@ -21,7 +21,7 @@ export const HVACSystemLogProvider = ({ children }) => {
       setHVACLogs(data);
     } catch (err) {
       setError(err.message);
-      setHVACLogs([]); 
+      setHVACLogs([]);
     }
   };
 
@@ -33,4 +33,5 @@ export const HVACSystemLogProvider = ({ children }) => {
 };
 
 export const useHVACLogs = () => useContext(HVACSystemLogContext);
+
 

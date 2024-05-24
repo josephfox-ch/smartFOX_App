@@ -5,30 +5,13 @@ import { useClimate } from "../../context/ClimateContext";
 import { useHVACLogs } from "../../context/HVACSystemLogContext";
 import { useEnergyUsage } from "../../context/EnergyUsageContext";
 import { ImFire } from "react-icons/im";
-import * as s3Service from '../../api/services/s3Service';
 
 const EnergyMonitor = () => {
-  const { heatingCurve, energyBalance } = useEnergy();
+  const { heatingCurve, energyBalance, waterFlowTemperature } = useEnergy();
   const { climateControl } = useClimate();
   const { hvacLogs } = useHVACLogs();
   const { energyUsage } = useEnergyUsage();
-  const [waterFlowTemperature, setWaterFlowTemperature] = useState(null);
   const [isClimateControlOn, setIsClimateControlOn] = useState(false);
-
-  useEffect(() => {
-    if (climateControl) {
-      fetchWaterFlowTemperature();
-    }
-  }, [climateControl]);
-
-  const fetchWaterFlowTemperature = async () => {
-    try {
-      const temperature = await s3Service.getWaterFlowTemperature(climateControl.homeId);
-      setWaterFlowTemperature(temperature);
-    } catch (error) {
-      console.error("Failed to fetch water flow temperature", error);
-    }
-  };
 
   useEffect(() => {
     if (climateControl) {
@@ -89,6 +72,9 @@ const EnergyMonitor = () => {
 };
 
 export default EnergyMonitor;
+
+
+
 
 
 
