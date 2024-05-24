@@ -5,6 +5,7 @@ import { RiTakeawayLine } from "react-icons/ri";
 import { useClimate } from "../../context/ClimateContext";
 import { useAlert } from "../../context/AlertContext";
 import { useHomes } from "../../context/HomeContext";
+import { useEnergy } from "../../context/EnergyContext";
 import { useCalculations } from "../../context/CalculationContext";
 import * as hvacSystemLogService from "../../api/services/hvacSystemLogService";
 import * as energyUsageService from "../../api/services/energyUsageService";
@@ -12,23 +13,23 @@ import * as energyUsageService from "../../api/services/energyUsageService";
 const ClimateControlPanel = () => {
   const { selectedHome } = useHomes();
   const { showAlert } = useAlert();
+  const { setHeatingCurve, setEnergyBalance } = useEnergy();
   const { climateControl, updateClimateControl } = useClimate();
-  const { performCalculations, waterFlowTemperature } = useCalculations();
+  const { performCalculations } = useCalculations();
   const [desiredTemperature, setDesiredTemperature] = useState(20);
-  const [isOn, setIsOn] = useState(false);
-  const [mode, setMode] = useState("away");
 
   useEffect(() => {
     if (climateControl) {
       setDesiredTemperature(climateControl.desiredTemperature);
-      setMode(climateControl.mode);
-      setIsOn(climateControl.status === "on");
     }
   }, [climateControl]);
 
   if (!climateControl) {
     return <p>Loading...</p>;
   }
+
+  const isOn = climateControl.status === "on";
+  const mode = climateControl.mode;
 
   const logHVACStatus = async (status) => {
     try {
@@ -98,15 +99,17 @@ const ClimateControlPanel = () => {
 
   const handleTogglePower = async () => {
     const newStatus = isOn ? "off" : "on";
-    setIsOn(!isOn);
     await updateClimateControl(climateControl.id, { ...climateControl, status: newStatus });
     showAlert("warning", "Climate Control", `Climate control for home '${selectedHome.name}' turned ${isOn ? "OFF" : "ON"}`);
     console.log(`Climate control for home '${selectedHome.name}' turned ${isOn ? "off" : "on"}`);
     logHVACStatus(newStatus);
     logEnergyUsage(5);
 
-    if (newStatus === 'on') {
+    if (newStatus === "on") {
       performCalculations();
+    } else {
+      setHeatingCurve("N/A");
+      setEnergyBalance("N/A");
     }
   };
 
@@ -120,7 +123,6 @@ const ClimateControlPanel = () => {
       newMode = "cooling";
     }
 
-    setMode(newMode);
     await updateClimateControl(climateControl.id, { ...climateControl, mode: newMode });
     showAlert("warning", "Climate Mode", `Climate Mode changed to '${newMode.toUpperCase()}' for home '${selectedHome.name}'`);
     console.log(`Climate Mode changed to '${newMode}' for home '${selectedHome.name}'`);
@@ -137,9 +139,7 @@ const ClimateControlPanel = () => {
           <button
             onClick={handleTogglePower}
             className={`border-2 px-4 py-4 rounded text-black dark:text-white transition-colors ${
-              isOn
-                ? "border-green-600 hover:bg-green-500"
-                : "border-red-600 hover:bg-red-500"
+              isOn ? "border-green-600 hover:bg-green-500" : "border-red-600 hover:bg-red-500"
             }`}
           >
             <FaPowerOff size="30" />
@@ -155,20 +155,10 @@ const ClimateControlPanel = () => {
           <button
             onClick={handleToggleMode}
             className={`flex flex-col px-4 py-2 transition-colors items-center ${
-              mode === "heating"
-                ? "text-yellow-400"
-                : mode === "cooling"
-                ? "text-blue-400"
-                : "text-red-400"
+              mode === "heating" ? "text-yellow-400" : mode === "cooling" ? "text-blue-400" : "text-red-400"
             }`}
           >
-            {mode === "heating" ? (
-              <FaSun size="40" />
-            ) : mode === "cooling" ? (
-              <FaSnowflake size="40" />
-            ) : (
-              <RiTakeawayLine size="40" />
-            )}
+            {mode === "heating" ? <FaSun size="40" /> : mode === "cooling" ? <FaSnowflake size="40" /> : <RiTakeawayLine size="40" />}
             <p>{mode} mode</p>
           </button>
         </div>
@@ -195,9 +185,6 @@ const ClimateControlPanel = () => {
 };
 
 export default ClimateControlPanel;
-
-
-
 
 
 
