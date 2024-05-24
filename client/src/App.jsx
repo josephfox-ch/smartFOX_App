@@ -9,6 +9,7 @@ import { EnergyProvider } from "./context/EnergyContext";
 import { HVACSystemLogProvider } from "./context/HVACSystemLogContext";
 import { EnergyUsageProvider } from "./context/EnergyUsageContext";
 import { AccessControlProvider } from "./context/AccessControlContext";
+import { DoorProvider } from "./context/DoorContext";
 import AppRoutes from "./Routes";
 import "./App.css";
 
@@ -18,21 +19,23 @@ function App() {
       <AccessControlProvider>
         <HomeProvider>
           <ClimateProvider>
-            <WeatherProvider>
-              <EnergyProvider>
-                <EnergyUsageProvider>
-                  <HVACSystemLogProvider>
-                    <ModalProvider>
-                      <AlertProvider>
-                        <div className="App">
-                          <AppRoutes />
-                        </div>
-                      </AlertProvider>
-                    </ModalProvider>
-                  </HVACSystemLogProvider>
-                </EnergyUsageProvider>
-              </EnergyProvider>
-            </WeatherProvider>
+            <DoorProvider>
+              <WeatherProvider>
+                <EnergyProvider>
+                  <EnergyUsageProvider>
+                    <HVACSystemLogProvider>
+                      <ModalProvider>
+                        <AlertProvider>
+                          <div className="App">
+                            <AppRoutes />
+                          </div>
+                        </AlertProvider>
+                      </ModalProvider>
+                    </HVACSystemLogProvider>
+                  </EnergyUsageProvider>
+                </EnergyProvider>
+              </WeatherProvider>
+            </DoorProvider>
           </ClimateProvider>
         </HomeProvider>
       </AccessControlProvider>

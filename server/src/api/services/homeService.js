@@ -1,4 +1,4 @@
-import { Home, ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog,LightingControl, LightingReport,AccessControl } from "../models/index.js";
+import { Home, ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog,LightingControl, LightingReport,AccessControl,Door } from "../models/index.js";
 import sequelize from "../../config/db.js";
 import logger from "../../config/logger.js";
 
@@ -58,8 +58,9 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
   
 
     const defaultModels = [
+      { model: Door, data: { homeId: newHome.id, userId: newHome.userId ,name:newHome.name} },
       { model: ClimateControl, data: {homeId: newHome.id, currentTemperature:28}},
-      { model: AccessControl, data: {homeId: newHome.id, userId: newHome.userId}},
+      { model: AccessControl, data: {homeId: newHome.id, userId: newHome.userId ,permissionLevel: 'parents'}},
       { model: TemperatureRecord, data: { homeId: newHome.id } },
       { model: HVACSystemLog, data: { homeId: newHome.id, status: 'off', startedAt: new Date() } },
       { model: LightingControl, data: { homeId: newHome.id } },
@@ -132,7 +133,7 @@ export const updateHomeWithEnergyCertificate = async (userId, homeId, homeData, 
     await transaction.commit();
     const updatedHome = await Home.findOne({
       where: { id: homeId, userId },
-      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport],
+      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport,Door],
     });
 
     logger.info(`Home and Energy Certificate updated for user ${userId}: ${homeId}`);
@@ -164,7 +165,7 @@ export const getHomeDetails = async (userId, homeId) => {
   try {
     const home = await Home.findOne({
       where: { id: homeId, userId },
-      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport]
+      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport,Door]
     });
     if (!home) {
       throw new Error("Home not found or user unauthorized");
