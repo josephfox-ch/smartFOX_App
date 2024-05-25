@@ -2,26 +2,58 @@ import React, { useState, useEffect } from "react";
 import { FaHome, FaSun, FaSnowflake, FaPowerOff, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { RiTakeawayLine } from "react-icons/ri";
-import { useHomes } from "../../context/HomeContext";
 import { useClimate } from "../../context/ClimateContext";
+import { useAlert } from "../../context/AlertContext";
+import { useHomes } from "../../context/HomeContext";
+import { useEnergy } from "../../context/EnergyContext";
+import { useCalculations } from "../../context/CalculationContext";
+import * as hvacSystemLogService from "../../api/services/hvacSystemLogService";
+import * as energyUsageService from "../../api/services/energyUsageService";
 
 const ClimateControlPanel = () => {
   const { selectedHome } = useHomes();
+  const { showAlert } = useAlert();
+  const { setHeatingCurve, setEnergyBalance } = useEnergy();
   const { climateControl, updateClimateControl } = useClimate();
+  const { performCalculations } = useCalculations();
   const [desiredTemperature, setDesiredTemperature] = useState(20);
-  const [isOn, setIsOn] = useState(false);
-  const [mode, setMode] = useState("away");
 
   useEffect(() => {
     if (climateControl) {
       setDesiredTemperature(climateControl.desiredTemperature);
-      setMode(climateControl.mode);
     }
   }, [climateControl]);
 
   if (!climateControl) {
     return <p>Loading...</p>;
   }
+
+  const isOn = climateControl.status === "on";
+  const mode = climateControl.mode;
+
+  const logHVACStatus = async (status) => {
+    try {
+      await hvacSystemLogService.createHVACSystemLog({
+        homeId: selectedHome.id,
+        status,
+        startedAt: new Date(),
+      });
+    } catch (error) {
+      console.error("Failed to log HVAC status", error);
+    }
+  };
+
+  const logEnergyUsage = async (energyConsumed) => {
+    try {
+      await energyUsageService.createEnergyUsage({
+        homeId: selectedHome.id,
+        date: new Date(),
+        energyConsumed,
+      });
+    } catch (error) {
+      console.error("Failed to log energy usage", error);
+    }
+  };
 
   const handleTemperatureIncrease = async () => {
     let newTemperature;
@@ -30,12 +62,18 @@ const ClimateControlPanel = () => {
     } else if (mode === "heating") {
       newTemperature = Math.min(desiredTemperature + 1, 30);
     } else {
-      newTemperature = Math.min(desiredTemperature + 1, 22); 
+      newTemperature = Math.min(desiredTemperature + 1, 22);
     }
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    console.log(`Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    showAlert("warning", "Temperature", `Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    console.log(`Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    logEnergyUsage(1);
+
+    if (isOn) {
+      performCalculations();
+    }
   };
 
   const handleTemperatureDecrease = async () => {
@@ -45,17 +83,34 @@ const ClimateControlPanel = () => {
     } else if (mode === "heating") {
       newTemperature = Math.max(desiredTemperature - 1, 17);
     } else {
-      newTemperature = Math.max(desiredTemperature - 1, 18); 
+      newTemperature = Math.max(desiredTemperature - 1, 18);
     }
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    console.log(`Temperature for home ${selectedHome.name} decreased to ${newTemperature}°C`);
+    showAlert("warning", "Temperature", `Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
+    console.log(`Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
+    logEnergyUsage(1);
+
+    if (isOn) {
+      performCalculations();
+    }
   };
 
   const handleTogglePower = async () => {
-    setIsOn(!isOn);
-    console.log(`Climate control for home ${selectedHome.name} turned ${isOn ? "off" : "on"}`);
+    const newStatus = isOn ? "off" : "on";
+    await updateClimateControl(climateControl.id, { ...climateControl, status: newStatus });
+    showAlert("warning", "Climate Control", `Climate control for home '${selectedHome.name}' turned ${isOn ? "OFF" : "ON"}`);
+    console.log(`Climate control for home '${selectedHome.name}' turned ${isOn ? "off" : "on"}`);
+    logHVACStatus(newStatus);
+    logEnergyUsage(5);
+
+    if (newStatus === "on") {
+      performCalculations();
+    } else {
+      setHeatingCurve("N/A");
+      setEnergyBalance("N/A");
+    }
   };
 
   const handleToggleMode = async () => {
@@ -68,9 +123,13 @@ const ClimateControlPanel = () => {
       newMode = "cooling";
     }
 
-    setMode(newMode);
     await updateClimateControl(climateControl.id, { ...climateControl, mode: newMode });
-    console.log(`Mode changed to ${newMode}`);
+    showAlert("warning", "Climate Mode", `Climate Mode changed to '${newMode.toUpperCase()}' for home '${selectedHome.name}'`);
+    console.log(`Climate Mode changed to '${newMode}' for home '${selectedHome.name}'`);
+
+    if (isOn) {
+      performCalculations();
+    }
   };
 
   return (
@@ -80,9 +139,7 @@ const ClimateControlPanel = () => {
           <button
             onClick={handleTogglePower}
             className={`border-2 px-4 py-4 rounded text-black dark:text-white transition-colors ${
-              isOn
-                ? "border-green-600 hover:bg-green-500"
-                : "border-red-600 hover:bg-red-500"
+              isOn ? "border-green-600 hover:bg-green-500" : "border-red-600 hover:bg-red-500"
             }`}
           >
             <FaPowerOff size="30" />
@@ -98,20 +155,10 @@ const ClimateControlPanel = () => {
           <button
             onClick={handleToggleMode}
             className={`flex flex-col px-4 py-2 transition-colors items-center ${
-              mode === "heating"
-                ? "text-yellow-400"
-                : mode === "cooling"
-                ? "text-blue-400"
-                : "text-red-400"
+              mode === "heating" ? "text-yellow-400" : mode === "cooling" ? "text-blue-400" : "text-red-400"
             }`}
           >
-            {mode === "heating" ? (
-              <FaSun size="40" />
-            ) : mode === "cooling" ? (
-              <FaSnowflake size="40" />
-            ) : (
-              <RiTakeawayLine size="40" />
-            )}
+            {mode === "heating" ? <FaSun size="40" /> : mode === "cooling" ? <FaSnowflake size="40" /> : <RiTakeawayLine size="40" />}
             <p>{mode} mode</p>
           </button>
         </div>
@@ -138,6 +185,10 @@ const ClimateControlPanel = () => {
 };
 
 export default ClimateControlPanel;
+
+
+
+
 
 
 

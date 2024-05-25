@@ -1,17 +1,19 @@
-import React from 'react';
-import { Field, ErrorMessage, FormikProvider } from 'formik';
-import CountrySelect from '../lib-components/CountrySelect';
-import TimeZoneSelect from '../lib-components/TimeZoneSelect';
-import { FaLocationDot } from 'react-icons/fa6';
-import { MdOutlineCancel } from 'react-icons/md';
-import { FaRegSave } from 'react-icons/fa';
+import React from "react";
+import { Field, ErrorMessage, FormikProvider } from "formik";
+import CountrySelect from "../lib-components/CountrySelect";
+import TimeZoneSelect from "../lib-components/TimeZoneSelect";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdOutlineCancel } from "react-icons/md";
+import { FaRegSave } from "react-icons/fa";
 
 const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
         <div className="flex items-center justify-between">
-          <h3 className="font-medium text-navyBlue dark:text-white">Home Information</h3>
+          <h3 className="font-medium text-navyBlue dark:text-white">
+            Home Information
+          </h3>
           <button
             type="button"
             className="flex items-center bg-green-600 text-white p-2 text-sm shadow-lg hover:opacity-90"
@@ -33,7 +35,10 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
             {/* Home Information Section */}
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="name">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="name"
+                >
                   House Name
                 </label>
                 <Field
@@ -43,10 +48,17 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="name"
                   placeholder="Enter house name"
                 />
-                <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="streetAddress">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="streetAddress"
+                >
                   Street Address
                 </label>
                 <Field
@@ -56,12 +68,19 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="streetAddress"
                   placeholder="Enter street address"
                 />
-                <ErrorMessage name="streetAddress" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="streetAddress"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="city">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="city"
+                >
                   City
                 </label>
                 <Field
@@ -71,10 +90,17 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="city"
                   placeholder="Enter city"
                 />
-                <ErrorMessage name="city" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="city"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="postalCode">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="postalCode"
+                >
                   Postal Code
                 </label>
                 <Field
@@ -84,12 +110,19 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="postalCode"
                   placeholder="Enter postal code"
                 />
-                <ErrorMessage name="postalCode" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="postalCode"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="latitude">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="latitude"
+                >
                   Latitude
                 </label>
                 <Field
@@ -99,10 +132,17 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="latitude"
                   placeholder="Enter latitude"
                 />
-                <ErrorMessage name="latitude" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="latitude"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="longitude">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="longitude"
+                >
                   Longitude
                 </label>
                 <Field
@@ -112,45 +152,78 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="longitude"
                   placeholder="Enter longitude"
                 />
-                <ErrorMessage name="longitude" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="longitude"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="country">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="country"
+                >
                   Country
                 </label>
                 <Field name="country">
                   {({ field, form }) => (
                     <CountrySelect
                       value={field.value}
-                      onChange={(option) => form.setFieldValue(field.name, option ? option.value : "")}
+                      onChange={(option) =>
+                        form.setFieldValue(
+                          field.name,
+                          option ? option.value : ""
+                        )
+                      }
                     />
                   )}
                 </Field>
-                <ErrorMessage name="country" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="country"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="timeZone">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="timeZone"
+                >
                   Time Zone
                 </label>
                 <Field name="timeZone">
                   {({ field, form }) => (
                     <TimeZoneSelect
                       value={field.value}
-                      onChange={(option) => form.setFieldValue(field.name, option ? option.value : "")}
+                      onChange={(option) =>
+                        form.setFieldValue(
+                          field.name,
+                          option ? option.value : ""
+                        )
+                      }
                     />
                   )}
                 </Field>
-                <ErrorMessage name="timeZone" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="timeZone"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
 
             {/* Energy Certificate Section */}
-            <h4 className="font-medium text-navyBlue dark:text-white mb-5 mt-10">Home Energy Certificate</h4>
+            <h4 className="font-medium text-navyBlue dark:text-white mb-5 mt-10">
+              Home Energy Certificate
+            </h4>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="buildingVolume">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="buildingVolume"
+                >
                   Building Volume
                 </label>
                 <Field
@@ -160,10 +233,17 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="buildingVolume"
                   placeholder="Enter building volume"
                 />
-                <ErrorMessage name="buildingVolume" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="buildingVolume"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="volumeOfHeatedZone">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="volumeOfHeatedZone"
+                >
                   Volume of Heated Zone
                 </label>
                 <Field
@@ -173,53 +253,19 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="volumeOfHeatedZone"
                   placeholder="Enter volume of heated zone"
                 />
-                <ErrorMessage name="volumeOfHeatedZone" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="volumeOfHeatedZone"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="heatLossCoefficient">
-                  Heat Loss Coefficient
-                </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="heatLossCoefficient"
-                  name="heatLossCoefficient"
-                  placeholder="Enter heat loss coefficient"
-                />
-                <ErrorMessage name="heatLossCoefficient" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="heatEmissionCoefficient">
-                  Heat Emission Coefficient
-                </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="heatEmissionCoefficient"
-                  name="heatEmissionCoefficient"
-                  placeholder="Enter heat emission coefficient"
-                />
-                <ErrorMessage name="heatEmissionCoefficient" component="div" className="text-red-500 text-sm" />
-              </div>
-            </div>
-            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-              <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="freeHeatGains">
-                  Free Heat Gains
-                </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="freeHeatGains"
-                  name="freeHeatGains"
-                  placeholder="Enter free heat gains"
-                />
-                <ErrorMessage name="freeHeatGains" component="div" className="text-red-500 text-sm" />
-              </div>
-              <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="globalHeatLossCoefficient">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="globalHeatLossCoefficient"
+                >
                   Global Heat Loss Coefficient
                 </label>
                 <Field
@@ -229,12 +275,59 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="globalHeatLossCoefficient"
                   placeholder="Enter global heat loss coefficient"
                 />
-                <ErrorMessage name="globalHeatLossCoefficient" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="globalHeatLossCoefficient"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="w-full sm:w-1/2">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="heatEmissionCoefficient"
+                >
+                  Heat Emission Coefficient
+                </label>
+                <Field
+                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                  type="number"
+                  id="heatEmissionCoefficient"
+                  name="heatEmissionCoefficient"
+                  placeholder="Enter heat emission coefficient"
+                />
+                <ErrorMessage
+                  name="heatEmissionCoefficient"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="constructionYear">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="freeHeatGains"
+                >
+                  Free Heat Gains
+                </label>
+                <Field
+                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                  type="number"
+                  id="freeHeatGains"
+                  name="freeHeatGains"
+                  placeholder="Enter free heat gains"
+                />
+                <ErrorMessage
+                  name="freeHeatGains"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+              <div className="w-full sm:w-1/2">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="constructionYear"
+                >
                   Construction Year
                 </label>
                 <Field
@@ -244,10 +337,19 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="constructionYear"
                   placeholder="Enter construction year"
                 />
-                <ErrorMessage name="constructionYear" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="constructionYear"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
+            </div>
+            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="renewalDate">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="renewalDate"
+                >
                   Renewal Date
                 </label>
                 <Field
@@ -257,7 +359,11 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                   name="renewalDate"
                   placeholder="Enter renewal date"
                 />
-                <ErrorMessage name="renewalDate" component="div" className="text-red-500 text-sm" />
+                <ErrorMessage
+                  name="renewalDate"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
               </div>
             </div>
 

@@ -15,6 +15,7 @@ import Room from "./room.js";
 import LightingControl from "./lightingControl.js";
 import RoomTemperature from "./roomTemperature.js";
 import LightingReport from "./lightingReport.js";
+import Door from './door.js'; 
 
 // User - UserPreferences
 User.hasOne(UserPreferences, { foreignKey: "userId", onDelete: "CASCADE" });
@@ -78,8 +79,8 @@ Room.belongsTo(Home, { foreignKey: "homeId" });
 Home.hasMany(LightingControl, { foreignKey: "homeId", onDelete: "CASCADE" });
 LightingControl.belongsTo(Home, { foreignKey: "homeId" });
 
-// LightingControl - Room (One-to-One)
-Room.hasOne(LightingControl, { foreignKey: "roomId", onDelete: "CASCADE" });
+// Room - LightingControl (One-to-Many)
+Room.hasMany(LightingControl, { foreignKey: "roomId", onDelete: "CASCADE" });
 LightingControl.belongsTo(Room, { foreignKey: "roomId" });
 
 // RoomTemperature - Room (One-to-Many)
@@ -94,6 +95,13 @@ LightingReport.belongsTo(Home, { foreignKey: "homeId" });
 Room.hasMany(LightingReport, { foreignKey: "roomId", onDelete: "CASCADE" });
 LightingReport.belongsTo(Room, { foreignKey: "roomId" });
 
+// Home - Door (One-to-Many)
+Home.hasMany(Door, { foreignKey: "homeId", onDelete: "CASCADE" });
+Door.belongsTo(Home, { foreignKey: "homeId" });
+
+// Room - Door (One-to-Many)
+Room.hasMany(Door, { foreignKey: "roomId", onDelete: "CASCADE" });
+Door.belongsTo(Room, { foreignKey: "roomId" });
 
 export {
   User,
@@ -113,5 +121,7 @@ export {
   Event,
   AlertLog,
   UserPreferences,
+  Door, 
 };
+
 

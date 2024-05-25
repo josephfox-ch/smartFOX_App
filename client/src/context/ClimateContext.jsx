@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import ClimateService from '../api/services/climateService'; 
 import { useHomes } from './HomeContext'; 
 
@@ -10,7 +10,7 @@ export const ClimateProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchClimateControl = async (homeId) => {
+  const fetchClimateControl = useCallback(async (homeId) => {
     try {
       setLoading(true);
       const data = await ClimateService.getClimateControlByHomeId(homeId);
@@ -21,7 +21,13 @@ export const ClimateProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (selectedHome) {
+      fetchClimateControl(selectedHome.id);
+    }
+  }, [selectedHome, fetchClimateControl]);
 
   const updateClimateControl = async (id, updatedControl) => {
     try {
@@ -31,12 +37,6 @@ export const ClimateProvider = ({ children }) => {
       setError(err.message);
     }
   };
-
-  useEffect(() => {
-    if (selectedHome) {
-      fetchClimateControl(selectedHome.id);
-    }
-  }, [selectedHome]);
 
   return (
     <ClimateContext.Provider
@@ -53,5 +53,3 @@ export const ClimateProvider = ({ children }) => {
 };
 
 export const useClimate = () => useContext(ClimateContext);
-
-

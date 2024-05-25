@@ -38,7 +38,6 @@ const useHomeFormik = () => {
       latitude: "",
       longitude: "",
       buildingVolume: "",
-      heatLossCoefficient: "",
       constructionYear: "",
       renewalDate: "",
       globalHeatLossCoefficient: "",

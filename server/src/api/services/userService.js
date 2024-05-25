@@ -1,12 +1,12 @@
 import sequelize from "../../config/db.js";
-import { User } from "../models/index.js";
+import { User} from "../models/index.js";
 import bcrypt from "bcryptjs";
 import logger from "../../config/logger.js";
 
 const getUserById = async (userId) => {
   try {
     const user = await User.findByPk(userId, {
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ["password"] }
     });
     if (!user) {
       logger.warn(`User not found: ID = ${userId}`);
