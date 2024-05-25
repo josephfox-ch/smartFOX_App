@@ -7,25 +7,34 @@ const LightingReport = sequelize.define("LightingReport", {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
+  homeId: {
+    type: DataTypes.UUID,
+    allowNull: true,
+    references: {
+      model: "Homes",
+      key: "id",
+    },
+  },
   roomId: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: "Rooms",
       key: "id",
-    }},
+    },
+  },
   date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     defaultValue: DataTypes.NOW,
   },
   usageDuration: {
     type: DataTypes.FLOAT, // In hours
-    allowNull: false,
+    allowNull: true,
   },
   energyConsumed: {
     type: DataTypes.FLOAT, // In kWh
-    allowNull: false,
+    allowNull: true,
   },
   brightnessLevel: {
     type: DataTypes.INTEGER,

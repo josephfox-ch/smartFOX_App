@@ -1,36 +1,31 @@
 import React from 'react';
 
 const CameraFeedsWidget = () => (
-  <div className="bg-whiten dark:bg-gray-800 p-4  rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
+  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
     <div className="grid grid-cols-2 gap-6 p-2">
-      <div className="bg-black p-4 rounded-lg shadow-md text-white text-center h-35">
-        <img src="https://via.placeholder.com/100" alt="Camera 1" className="mx-auto " />
-        Livingroom
-      </div>
-      <div className="bg-black p-4 rounded-lg shadow-md text-white text-center h-35">
-        <img src="https://via.placeholder.com/100" alt="Camera 2" className="mx-auto" />
-        Kitchen
-      </div>
-      <div className="bg-black p-4 rounded-lg shadow-md text-white text-center h-35">
-        <img src="https://via.placeholder.com/100" alt="Camera 1" className="mx-auto" />
-        Corridor
-      </div>
-      <div className="bg-black p-4 rounded-lg shadow-md text-white text-center h-35">
-        <img src="https://via.placeholder.com/100" alt="Camera 2" className="mx-auto" />
-        Cat
-      </div>
-      <div className="bg-black p-4 rounded-lg shadow-md text-white text-center h-35">
-        <img src="https://via.placeholder.com/100" alt="Camera 2" className="mx-auto" />
-        Backyard
-      </div>
-      <div className="bg-black p-4 rounded-lg shadow-md text-white text-center h-35">
-        <img src="https://via.placeholder.com/100" alt="Camera 2" className="mx-auto" />
-        Frontyard
-      </div>
+      {[
+        { id: 1, name: 'Livingroom', image: '/livingroom.png' },
+        { id: 2, name: 'Kitchen', image: '/kitchen.png' },
+        { id: 3, name: 'Corridor', image: '/corridor.png' },
+        { id: 4, name: 'Cat', image: '/cat.png' },
+        { id: 5, name: 'Backyard', image: '/backyard.png' },
+        { id: 6, name: 'Frontyard', image: '/frontyard.png' },
+      ].map(camera => (
+        <div key={camera.id} className="relative bg-black rounded-lg shadow-md text-white text-center h-35">
+          <img src={camera.image} alt={`${camera.name}`} className="w-100  h-35 object-cover rounded-t-lg" />
+          <div className="absolute top-0 left-0 bg-red-600 text-white text-xs px-2 py-1 rounded-br-lg">
+            Live
+          </div>
+          <div className="p-4">
+            {camera.name}
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 );
 
 export default CameraFeedsWidget;
+
 
 

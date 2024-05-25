@@ -1,4 +1,4 @@
-import { Home, ClimateControl, EnergyCertificate, Device, Event, EnergyUsage, TemperatureRecord, HVACSystemLog, AlertLog, Room, LightingControl, LightingReport } from "../models/index.js";
+import { Home, ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog,LightingControl, LightingReport,AccessControl,Door } from "../models/index.js";
 import sequelize from "../../config/db.js";
 import logger from "../../config/logger.js";
 
@@ -55,29 +55,35 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
       `Energy certificate created for home ${newHome.id}: ${newEnergyCertificate.id}`
     );
 
-    const defaultClimateControl = {
-      homeId: newHome.id,
-      desiredTemperature: 22,
-      currentTemperature: 22,
-      mode: 'away',
-    };
+  
 
-    const newClimateControl = await ClimateControl.create(defaultClimateControl, { transaction });
+    const defaultModels = [
+      { model: Door, data: { homeId: newHome.id, userId: newHome.userId ,name:newHome.name} },
+      { model: ClimateControl, data: {homeId: newHome.id, currentTemperature:28}},
+      { model: AccessControl, data: {homeId: newHome.id, userId: newHome.userId ,permissionLevel: 'parents'}},
+      { model: TemperatureRecord, data: { homeId: newHome.id } },
+      { model: HVACSystemLog, data: { homeId: newHome.id, status: 'off', startedAt: new Date() } },
+      { model: LightingControl, data: { homeId: newHome.id } },
+      { model: LightingReport, data: { homeId: newHome.id } },
+      { model: EnergyUsage, data: { homeId: newHome.id, energyConsumed: 0, date: new Date() } },
+    ];
 
-    logger.info(`ClimateControl created for home ${newHome.id}: ${newClimateControl.id}`);
+    for (const item of defaultModels) {
+      await item.model.create(item.data, { transaction });
+      logger.info(`${item.model.name} created for home ${newHome.id}`);
+    }
 
     await transaction.commit();
     return {
       ...newHome.toJSON(),
       energyCertificate: newEnergyCertificate,
-      climateControl: newClimateControl,
     };
   } catch (error) {
     await transaction.rollback();
     logger.error(
-      `Error creating home, energy certificate, and climate control for user ${userId}: ${error.message}`
+      `Error creating home, energy certificate, and related models for user ${userId}: ${error.message}`
     );
-    throw new Error('Could not create home, energy certificate, and climate control');
+    throw new Error('Could not create home, energy certificate, and related models');
   }
 };
 
@@ -127,7 +133,7 @@ export const updateHomeWithEnergyCertificate = async (userId, homeId, homeData, 
     await transaction.commit();
     const updatedHome = await Home.findOne({
       where: { id: homeId, userId },
-      include: [ClimateControl, EnergyCertificate, Device, EnergyUsage, TemperatureRecord, HVACSystemLog, AlertLog, Room, LightingControl, LightingReport],
+      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport,Door],
     });
 
     logger.info(`Home and Energy Certificate updated for user ${userId}: ${homeId}`);
@@ -159,7 +165,7 @@ export const getHomeDetails = async (userId, homeId) => {
   try {
     const home = await Home.findOne({
       where: { id: homeId, userId },
-      include: [ClimateControl, EnergyCertificate, Device, EnergyUsage, TemperatureRecord, HVACSystemLog, AlertLog, Room, LightingControl, LightingReport]
+      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport,Door]
     });
     if (!home) {
       throw new Error("Home not found or user unauthorized");

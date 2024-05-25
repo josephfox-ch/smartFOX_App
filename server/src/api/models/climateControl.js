@@ -16,21 +16,25 @@ const ClimateControl = sequelize.define("ClimateControl", {
     }},
   desiredTemperature: {
     type: DataTypes.FLOAT,
+    defaultValue:22,
     allowNull: false,
    
   },
   currentTemperature: {
     type: DataTypes.FLOAT,
-    allowNull: false,
-   
+    defaultValue:22,
+    allowNull: false, 
   },
-  waterFlowTemperature: {
-    type: DataTypes.FLOAT,
-    allowNull: true,
+  status:{
+    type: DataTypes.ENUM,
+    values: ['on', 'off', 'error'],
+    defaultValue:'off',
+    allowNull: false,
   },
   mode: {
     type: DataTypes.ENUM,
     values: ['heating', 'cooling', 'away'],
+    defaultValue:'away',
     allowNull: false,
   },
 });

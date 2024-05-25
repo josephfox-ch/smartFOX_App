@@ -19,15 +19,15 @@ const TemperatureRecord = sequelize.define("TemperatureRecord", {
   },
   indoorTemperature: {
     type: DataTypes.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
   outdoorTemperature: {
     type: DataTypes.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
   recordedAt: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     defaultValue: DataTypes.NOW,
   },
 });

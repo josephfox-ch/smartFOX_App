@@ -31,18 +31,17 @@ const useEditHomeFormik = (homeId) => {
       latitude: selectedHome?.latitude || "",
       longitude: selectedHome?.longitude || "",
       buildingVolume: selectedHome?.EnergyCertificate?.buildingVolume || null,
-      heatLossCoefficient:
-        selectedHome?.EnergyCertificate?.heatLossCoefficient || null,
-      constructionYear: selectedHome?.EnergyCertificate?.constructionYear || null,
-      renewalDate:
-        formatDate(selectedHome?.EnergyCertificate?.renewalDate) || null,
-      globalHeatLossCoefficient:
-        selectedHome?.EnergyCertificate?.globalHeatLossCoefficient || null,
       volumeOfHeatedZone:
         selectedHome?.EnergyCertificate?.volumeOfHeatedZone || null,
+      globalHeatLossCoefficient:
+        selectedHome?.EnergyCertificate?.globalHeatLossCoefficient || null,
       heatEmissionCoefficient:
         selectedHome?.EnergyCertificate?.heatEmissionCoefficient || null,
       freeHeatGains: selectedHome?.EnergyCertificate?.freeHeatGains || null,
+      constructionYear:
+        selectedHome?.EnergyCertificate?.constructionYear || null,
+      renewalDate:
+        formatDate(selectedHome?.EnergyCertificate?.renewalDate) || null,
     },
     enableReinitialize: true,
     validationSchema: combinedValidationSchema,
@@ -77,7 +76,6 @@ const useEditHomeFormik = (homeId) => {
           energyCertificateData
         );
         console.log("Home updated:", updatedHome);
-        await fetchHomes();
         await fetchHomeDetails(homeId);
         showAlert("success", "Success", `Home ${updatedHome.name} updated`);
         navigate("/dashboard/my-home/edit-home", { replace: true });

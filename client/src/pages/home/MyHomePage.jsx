@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHomes } from "../../context/HomeContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import HomeDashboardHeader from "../../components/home/HomeDashboardHeader";
@@ -50,3 +50,4 @@ const MyHomePage = () => {
 };
 
 export default MyHomePage;
+

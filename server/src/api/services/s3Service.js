@@ -35,3 +35,9 @@ export const deleteAvatar = async (fileName) => {
   return s3.send(new DeleteObjectCommand(params));
 };
 
+export const getWaterFlowTemperature = async (homeId) => {
+  const tw = '35.5';
+  return tw;
+};
+
+
