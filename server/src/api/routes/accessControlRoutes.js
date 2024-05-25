@@ -1,5 +1,5 @@
 import express from 'express';
-import AccessControlController from '../controllers/AccessControlController.js';
+import * as AccessControlController from '../controllers/AccessControlController.js';
 
 const router = express.Router();
 
