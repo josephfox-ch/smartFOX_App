@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
+import path from "path";
+import fs from "fs";
 import { sessionMiddleware } from "./src/api/middlewares/sessionMiddleware.js";
 import { useRoutes } from "./src/api/routes/routes.js";
 import logger from "./src/config/logger.js";
@@ -11,7 +13,15 @@ import errorHandler from "./src/api/middlewares/errorHandler.js";
 import "./src/api/models/index.js";
 import { connectDB } from "./src/config/db.js";
 
+
 const app = express();
+
+if (process.env.NODE_ENV !== "production") {
+  const logDir = path.resolve("logs");
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+  }
+}
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,  
