@@ -1,9 +1,9 @@
-version: '3.9'
+version: "3.9"
 
 services:
   mysql-db:
     container_name: mysql-smartfox-dev
-    image: mysql
+    image: mysql:8
     ports:
       - "3306:3306"
     environment:
@@ -12,7 +12,7 @@ services:
       - MYSQL_USER=${DB_USER}
       - MYSQL_DATABASE=${DB_NAME}
     volumes:
-      - ./mysqlDB:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     restart: always
 
   phpmyadmin-db:
@@ -21,7 +21,14 @@ services:
     depends_on:
       - mysql-db
     environment:
-      - PMA_HOST=mysql-db
+      PMA_HOST: mysql-db
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      PMA_PORT: 3306
     ports:
       - "8080:80"
     restart: always
+
+volumes:
+  mysql-data:
+
