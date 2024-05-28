@@ -1,9 +1,11 @@
 import React from 'react';
 import { useDoors } from '../../context/DoorContext';
+import { useHomes } from "../../context/HomeContext";
 import {useAlert} from '../../context/AlertContext';
 import { FaLock, FaLockOpen } from 'react-icons/fa';
 
 const DoorsWidget = () => {
+  const { selectedHome } = useHomes();
   const { doors, toggleAllDoors, mainStatus } = useDoors();
   const { showAlert } = useAlert();
 
@@ -16,14 +18,14 @@ const DoorsWidget = () => {
     if (!mainStatus) {
       showAlert(
         "success",
-        "Doors Unlocked",
-        "All doors have been unlocked"
+        "Doors UNLOCKED",
+        `All doors have been unlocked for '${selectedHome.name}' home`
       );
     } else {
       showAlert(
         "error",
-        "Doors Locked",
-        "All doors have been locked"
+        "Doors LOCKED",
+        `All doors have been locked for '${selectedHome.name}' home `
       );
     }
   };
