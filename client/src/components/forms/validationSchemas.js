@@ -61,26 +61,35 @@ export const homeValidationSchema = Yup.object({
 
 
 export const energyCertificateValidationSchema = Yup.object({
-  buildingVolume: Yup.number()
+  buildingArea: Yup.number()
     .nullable()
-    .typeError('Building Volume must be a number'),
+    .typeError('Building Area must be a number'),
   constructionYear: Yup.number()
     .nullable()
     .typeError('Construction Year must be a number'),
-  renewalDate: Yup.date()
+  windowArea: Yup.number()
     .nullable()
-    .typeError('Renewal Date must be a date'),
-  globalHeatLossCoefficient: Yup.number()
+    .typeError('Window Area must be a number'),
+  windowUValue: Yup.number()
     .nullable()
-    .typeError('Global Heat Loss Coefficient must be a number'),
-  volumeOfHeatedZone: Yup.number()
+    .typeError('Window U-Value must be a number'),
+  wallUValue: Yup.number()
     .nullable()
-    .typeError('Volume Of Heated Zone must be a number'),
-  heatEmissionCoefficient: Yup.number()
+    .typeError('Wall U-Value must be a number'),
+  boilerEfficiency: Yup.number()
     .nullable()
-    .typeError('Heat Emission Coefficient must be a number'),
-  freeHeatGains: Yup.number()
+    .typeError('Boiler Efficiency must be a number'),
+  boilerCapacity: Yup.number()
     .nullable()
-    .typeError('Free Heat Gains must be a number'),
+    .typeError('Boiler Capacity must be a number'),
+  waterMass: Yup.number()
+    .nullable()
+    .typeError('Water Mass must be a number'),
+  fuelType: Yup.string()
+    .nullable()
+    .typeError('Fuel Type must be selected'),
+  insulationQuality: Yup.string()
+    .nullable()
+    .typeError('Insulation Quality must be selected')
 });
 

@@ -31,4 +31,6 @@ export function calculateHeatingCurveAndEnergyBalance(data) {
 
 
 
+
+
   
