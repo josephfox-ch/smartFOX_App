@@ -1,8 +1,5 @@
 import { useFormik } from "formik";
-import {
-  homeValidationSchema,
-  energyCertificateValidationSchema,
-} from "../components/forms/validationSchemas";
+import { homeValidationSchema, energyCertificateValidationSchema } from "../components/forms/validationSchemas";
 import { createHomeWithEnergyCertificate } from "../api/services/homeService";
 import { useNavigate } from "react-router-dom";
 import { useHomes } from "../context/HomeContext";
@@ -37,13 +34,16 @@ const useHomeFormik = () => {
       timeZone: "Europe/Zurich",
       latitude: "",
       longitude: "",
-      buildingVolume: "",
+      buildingArea: "",
       constructionYear: "",
-      renewalDate: "",
-      globalHeatLossCoefficient: "",
-      volumeOfHeatedZone: "",
-      heatEmissionCoefficient: "",
-      freeHeatGains: "",
+      windowArea: "",
+      windowUValue: "",
+      wallUValue: "",
+      boilerEfficiency: "",
+      boilerCapacity: "",
+      waterMass: "",
+      fuelType: "",
+      insulationQuality: ""
     },
     validationSchema: combinedValidationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
@@ -91,6 +91,7 @@ const useHomeFormik = () => {
 };
 
 export default useHomeFormik;
+
 
 
 
