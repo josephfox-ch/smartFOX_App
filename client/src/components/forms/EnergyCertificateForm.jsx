@@ -74,26 +74,50 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
               <div className="w-full sm:w-1/2">
                 <label
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="constructionYear"
+                  htmlFor="wallArea"
                 >
-                  Construction Year
+                  Wall Area (m²)
                 </label>
                 <div className="relative">
                   <Field
                     className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
                     type="number"
-                    id="constructionYear"
-                    name="constructionYear"
-                    placeholder="Enter construction year"
+                    id="wallArea"
+                    name="wallArea"
+                    placeholder="Enter wall area (m²)"
                   />
                   <ErrorMessage
-                    name="constructionYear"
+                    name="wallArea"
                     component="div"
                     className="text-red-500 text-sm"
                   />
                 </div>
               </div>
+              <div className="w-full sm:w-1/2">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="wallUValue"
+                >
+                  Wall U-Value (W/m²°C)
+                </label>
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="wallUValue"
+                    name="wallUValue"
+                    placeholder="Enter wall U-value (W/m²°C)"
+                  />
+                  <ErrorMessage
+                    name="wallUValue"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+              </div>
+            </div>
 
+            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -116,9 +140,6 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
                   />
                 </div>
               </div>
-            </div>
-
-            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -136,29 +157,6 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
                   />
                   <ErrorMessage
                     name="windowUValue"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="w-full sm:w-1/2">
-                <label
-                  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="wallUValue"
-                >
-                  Wall U-Value (W/m²°C)
-                </label>
-                <div className="relative">
-                  <Field
-                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                    type="number"
-                    id="wallUValue"
-                    name="wallUValue"
-                    placeholder="Enter wall U-value (W/m²°C)"
-                  />
-                  <ErrorMessage
-                    name="wallUValue"
                     component="div"
                     className="text-red-500 text-sm"
                   />
@@ -266,6 +264,28 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
                 </div>
               </div>
             </div>
+            <div className="w-full sm:w-1/2">
+              <label
+                className="mb-3 block text-sm font-medium text-black dark:text-white"
+                htmlFor="constructionYear"
+              >
+                Construction Year
+              </label>
+              <div className="relative">
+                <Field
+                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                  type="number"
+                  id="constructionYear"
+                  name="constructionYear"
+                  placeholder="Enter construction year"
+                />
+                <ErrorMessage
+                  name="constructionYear"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+            </div>
 
             <div className="flex justify-between gap-4 mt-6">
               <div>
@@ -302,5 +322,3 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
 };
 
 export default EnergyCertificateForm;
-
-
