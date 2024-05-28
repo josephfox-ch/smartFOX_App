@@ -24,7 +24,7 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
                   htmlFor="buildingArea"
                 >
-                  Building Area (m²)
+                  Building Area (m²)*
                 </label>
                 <div className="relative">
                   <Field
@@ -47,7 +47,7 @@ const EnergyCertificateForm = ({ formik, onBack, handleSubmit }) => {
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
                   htmlFor="insulationQuality"
                 >
-                  Insulation Quality
+                  Insulation Quality*
                 </label>
                 <div className="relative">
                   <Field
