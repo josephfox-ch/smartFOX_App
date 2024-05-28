@@ -6,13 +6,14 @@ const FUEL_LOWER_HEATING_VALUES = {
   oil: 42.6 // MJ/kg
 };
 
-export const calculateHeatingEnergy = (buildingArea, wallUValue, windowUValue, wallArea, windowArea, insideTemp, outsideTemp) => {
+export const calculateHeatingEnergy = (wallUValue, windowUValue, wallArea, windowArea, insideTemp, outsideTemp) => {
   const deltaT = insideTemp - outsideTemp;
   const wallHeatLoss = wallArea * wallUValue * deltaT; // W
   const windowHeatLoss = windowArea * windowUValue * deltaT; // W
   const totalHeatLoss = wallHeatLoss + windowHeatLoss; // W
   return totalHeatLoss; // W
 };
+
 
 export const calculateEnergyRequirement = (totalHeatLoss, heatingHours) => {
   return totalHeatLoss * heatingHours; // Wh

@@ -31,6 +31,10 @@ const EnergyCertificate = sequelize.define("EnergyCertificate", {
     type: DataTypes.FLOAT,
     allowNull: true,
   },
+  wallArea: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
   wallUValue: {
     type: DataTypes.FLOAT,
     allowNull: true,
@@ -58,4 +62,5 @@ const EnergyCertificate = sequelize.define("EnergyCertificate", {
 });
 
 export default EnergyCertificate;
+
 

@@ -73,6 +73,9 @@ export const energyCertificateValidationSchema = Yup.object({
   windowUValue: Yup.number()
     .nullable()
     .typeError('Window U-Value must be a number'),
+  wallArea: Yup.number()
+    .nullable()
+    .typeError('Wall Area must be a number'),
   wallUValue: Yup.number()
     .nullable()
     .typeError('Wall U-Value must be a number'),
