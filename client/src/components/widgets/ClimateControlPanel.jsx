@@ -67,7 +67,7 @@ const ClimateControlPanel = () => {
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    showAlert("warning", "Temperature INCREASED", `Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    showAlert("info", "Temperature INCREASED", `Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
     console.log(`Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
     logEnergyUsage(1);
 
@@ -88,7 +88,7 @@ const ClimateControlPanel = () => {
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    showAlert("warning", "Temperature DECREASED", `Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
+    showAlert("info", "Temperature DECREASED", `Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
     console.log(`Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
     logEnergyUsage(1);
 
@@ -124,7 +124,7 @@ const ClimateControlPanel = () => {
     }
 
     await updateClimateControl(climateControl.id, { ...climateControl, mode: newMode });
-    showAlert("warning", "Climate Mode", `Climate Mode changed to '${newMode.toUpperCase()}' for home '${selectedHome.name}'`);
+    showAlert('warning',`'${newMode.toUpperCase()}' mode ON for home '${selectedHome.name}'`);
     console.log(`Climate Mode changed to '${newMode}' for home '${selectedHome.name}'`);
 
     if (isOn) {
