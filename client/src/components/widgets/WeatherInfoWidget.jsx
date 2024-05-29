@@ -1,10 +1,12 @@
 import React from "react";
 import { useWeather } from "../../context/WeatherContext";
-import { TbTemperatureCelsius } from "react-icons/tb";
-import { FaWind } from "react-icons/fa6";
-import { WiHumidity } from "react-icons/wi";
-import { BsSunrise } from "react-icons/bs";
-import { BsSunsetFill } from "react-icons/bs";
+import { WiStrongWind, WiSunrise, WiSunset } from "react-icons/wi";
+import { FaTemperatureHigh } from "react-icons/fa";
+import Lottie from "react-lottie";
+import clearDayAnimation from "../animations/clear-day.json";
+import scatteredCloudsAnimation from "../animations/scattered-clouds.json";
+import humidityAnimation from "../animations/humidity.json";
+import windAnimation from "../animations/wind.json";
 
 const WeatherInfoWidget = () => {
   const {
@@ -14,52 +16,80 @@ const WeatherInfoWidget = () => {
     weatherDescription,
     weatherIcon,
     sunrise,
-    sunset, 
+    sunset,
   } = useWeather();
 
   if (outdoorTemperature === null) {
     return <div>Loading...</div>;
   }
 
+  const weatherAnimations = {
+    "01d": clearDayAnimation,
+    "03d": scatteredCloudsAnimation,
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: weatherAnimations[weatherIcon] || clearDayAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const windOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: windAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const humidityOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: humidityAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+
+  };
+
   return (
-    <div className="bg-blue-100 dark:bg-gray-800 p-3 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
-      <div className="flex items-center justify-around mb-4">
-        <div className="flex items-center">
-          <img
-            src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`}
-            alt="Weather icon"
-            className="w-20 h-20"
-          />
-          <div className="ml-2">
-            <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-              {weatherDescription}
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          <p className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-            {outdoorTemperature}
-          </p>
-          <TbTemperatureCelsius size="30" />
+    <div className="bg-gradient-to-r from-teal-400 to-blue-500 p-4 rounded-lg shadow-lg flex flex-col items-center text-white transition-transform transform hover:scale-105 h-full">
+      <div className="flex items-center space-x-4 mb-4">
+        <Lottie options={defaultOptions} height={120} width={120} />
+        <div>
+          <p className="text-2xl font-semibold">{weatherDescription}</p>
         </div>
       </div>
-      <div className="flex justify-around items-center text-gray-700 dark:text-gray-300">
-        <div className="flex flex-col items-center">
-          <FaWind size="20" />
+      <div className="flex items-center space-x-2 text-4xl font-bold">
+        <p>{outdoorTemperature}</p>
+        <FaTemperatureHigh size="30" />
+      </div>
+      <div className="flex justify-around items-center w-full text-lg">
+        <div className="flex  items-center">
+        <Lottie options={windOptions} height={70} width={70} />
           <p>{windSpeed} m/s</p>
         </div>
-        <div className="flex flex-col items-center">
-          <WiHumidity size="28" />
+        <div className="flex  items-center">
+          <Lottie
+            options={humidityOptions}
+            height={60}
+            width={60}
+            className="mb-2"
+          />
           <p>{humidity} %</p>
         </div>
       </div>
-      <div className="flex justify-around items-center text-gray-700 dark:text-gray-300 mt-4">
-        <div className="flex flex-col items-center">
-          <BsSunrise size="25" />
+      <div className="flex justify-around items-center w-full text-lg mt-4">
+        <div className="flex items-center">
+          <WiSunrise size="24" className="mb-2" />
           <p>{sunrise}</p>
         </div>
-        <div className="flex flex-col items-center">
-          <BsSunsetFill size="25" />
+        <div className="flex items-center">
+          <WiSunset size="24" className="mb-2" />
           <p>{sunset}</p>
         </div>
       </div>
@@ -68,4 +98,3 @@ const WeatherInfoWidget = () => {
 };
 
 export default React.memo(WeatherInfoWidget);
-
