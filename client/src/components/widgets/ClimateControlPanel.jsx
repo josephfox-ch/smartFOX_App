@@ -67,7 +67,7 @@ const ClimateControlPanel = () => {
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    showAlert("warning", "Temperature", `Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    showAlert("info", "Temperature INCREASED", `Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
     console.log(`Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
     logEnergyUsage(1);
 
@@ -88,7 +88,7 @@ const ClimateControlPanel = () => {
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    showAlert("warning", "Temperature", `Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
+    showAlert("info", "Temperature DECREASED", `Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
     console.log(`Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
     logEnergyUsage(1);
 
@@ -100,7 +100,7 @@ const ClimateControlPanel = () => {
   const handleTogglePower = async () => {
     const newStatus = isOn ? "off" : "on";
     await updateClimateControl(climateControl.id, { ...climateControl, status: newStatus });
-    showAlert("warning", "Climate Control", `Climate control for home '${selectedHome.name}' turned ${isOn ? "OFF" : "ON"}`);
+    showAlert(isOn ? "error" : "success", `Climate Turned ${isOn ? "OFF" : "ON"}`, `Climate control for home '${selectedHome.name}' turned ${isOn ? "OFF" : "ON"}`);
     console.log(`Climate control for home '${selectedHome.name}' turned ${isOn ? "off" : "on"}`);
     logHVACStatus(newStatus);
     logEnergyUsage(5);
@@ -124,7 +124,7 @@ const ClimateControlPanel = () => {
     }
 
     await updateClimateControl(climateControl.id, { ...climateControl, mode: newMode });
-    showAlert("warning", "Climate Mode", `Climate Mode changed to '${newMode.toUpperCase()}' for home '${selectedHome.name}'`);
+    showAlert('warning',`'${newMode.toUpperCase()}' mode ON for home '${selectedHome.name}'`);
     console.log(`Climate Mode changed to '${newMode}' for home '${selectedHome.name}'`);
 
     if (isOn) {
@@ -185,6 +185,7 @@ const ClimateControlPanel = () => {
 };
 
 export default ClimateControlPanel;
+
 
 
 
