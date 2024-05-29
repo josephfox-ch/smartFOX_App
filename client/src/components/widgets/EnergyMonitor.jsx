@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import LineChart from "../charts/LineChart";
 import { useEnergy } from "../../context/EnergyContext";
 import { useClimate } from "../../context/ClimateContext";
-import { useHVACLogs } from "../../context/HVACSystemLogContext";
-import { useEnergyUsage } from "../../context/EnergyUsageContext";
 import { ImFire } from "react-icons/im";
+import { FaThermometerHalf } from "react-icons/fa";
+import { GiElectric } from "react-icons/gi";
 
 const EnergyMonitor = () => {
-  const { heatingCurve, energyBalance, waterFlowTemperature } = useEnergy();
+  const { energyRequirementToTarget, heatingCurve, waterFlowTemperature, energyBalance, fuelConsumptionToTarget } = useEnergy();
   const { climateControl } = useClimate();
-  const { hvacLogs } = useHVACLogs();
-  const { energyUsage } = useEnergyUsage();
   const [isClimateControlOn, setIsClimateControlOn] = useState(false);
 
   useEffect(() => {
@@ -23,20 +21,32 @@ const EnergyMonitor = () => {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
-        label: "Heating Curve",
-        data: Array(12).fill(heatingCurve !== "N/A" ? heatingCurve : null),
+        label: "Energy Requirement to Target",
+        data: Array(12).fill(energyRequirementToTarget !== "N/A" ? energyRequirementToTarget : null),
         borderColor: "rgba(75,192,192,1)",
         backgroundColor: "rgba(75,192,192,0.2)",
       },
       {
-        label: "Energy Balance",
-        data: Array(12).fill(energyBalance !== "N/A" ? energyBalance : null),
+        label: "Heating Curve",
+        data: Array(12).fill(heatingCurve !== "N/A" ? heatingCurve : null),
         borderColor: "rgba(153,102,255,1)",
         backgroundColor: "rgba(153,102,255,0.2)",
       },
       {
-        label: "Energy Usage",
-        data: energyUsage.map(entry => entry.energyConsumed),
+        label: "Current Water Temperature",
+        data: Array(12).fill(waterFlowTemperature !== "N/A" ? waterFlowTemperature : null),
+        borderColor: "rgba(255,206,86,1)",
+        backgroundColor: "rgba(255,206,86,0.2)",
+      },
+      {
+        label: "Energy Balance",
+        data: Array(12).fill(energyBalance !== "N/A" ? energyBalance : null),
+        borderColor: "rgba(54,162,235,1)",
+        backgroundColor: "rgba(54,162,235,0.2)",
+      },
+      {
+        label: "Fuel Consumption to Target",
+        data: Array(12).fill(fuelConsumptionToTarget !== "N/A" ? fuelConsumptionToTarget : null),
         borderColor: "rgba(255,99,132,1)",
         backgroundColor: "rgba(255,99,132,0.2)",
       },
@@ -59,9 +69,11 @@ const EnergyMonitor = () => {
       <div className="flex flex-col items-center mb-4">
         <ImFire color={isClimateControlOn ? "orange" : "gray"} size="50" className="mb-2" />
         <div className="text-center text-gray-600 dark:text-gray-300">
+          <p><strong>Energy Requirement to Target:</strong> {energyRequirementToTarget !== "N/A" ? `${energyRequirementToTarget} Wh` : "N/A"}</p>
           <p><strong>Heating Curve:</strong> {heatingCurve !== "N/A" ? `${heatingCurve}°C` : "N/A"}</p>
-          <p><strong>Energy Balance:</strong> {energyBalance !== "N/A" ? `${energyBalance} Watt` : "N/A"}</p>
-          <p><strong>Water Flow Temperature:</strong> {waterFlowTemperature}°C</p>
+          <p><strong>Current Water Temperature:</strong> {waterFlowTemperature}°C</p>
+          <p><strong>Energy Balance:</strong> {energyBalance !== "N/A" ? `${energyBalance} Wh` : "N/A"}</p>
+          <p><strong>Fuel Consumption to Target:</strong> {fuelConsumptionToTarget !== "N/A" ? `${fuelConsumptionToTarget} units` : "N/A"}</p>
         </div>
       </div>
       <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded shadow h-64 w-full">

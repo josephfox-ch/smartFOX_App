@@ -13,7 +13,6 @@ import errorHandler from "./src/api/middlewares/errorHandler.js";
 import "./src/api/models/index.js";
 import { connectDB } from "./src/config/db.js";
 
-
 const app = express();
 
 if (process.env.NODE_ENV !== "production") {
@@ -51,7 +50,9 @@ app.use(helmet.contentSecurityPolicy({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
 app.use(sessionMiddleware);
+
 useRoutes(app);
 
 if (process.env.NODE_ENV === "development") {
@@ -91,5 +92,6 @@ connectDB()
   });
 
 export default app;
+
 
   

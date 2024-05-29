@@ -116,8 +116,4 @@ console.log("Daily Energy Consumption:", dailyEnergyConsumption, "Wh");
 console.log("Energy Balance:", energyBalance, "Wh");
 console.log("Is Boiler Capacity Sufficient?:", isBoilerCapacitySufficient);
 
-
-
-
-
   

@@ -1,9 +1,19 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { calculateHeatingCurveAndEnergyBalance } from "../utils/calculations";
 import * as s3Service from "../api/services/s3Service";
 import { useHomes } from "./HomeContext";
 import { useClimate } from "./ClimateContext";
 import { useWeather } from "./WeatherContext";
+import {
+  calculateHeatingEnergy,
+  calculateEnergyRequirementToTarget,
+  calculateDailyEnergyRequirement,
+  calculateWaterTargetTemperatureToReachTargetTemp,
+  calculateFuelConsumptionToReachTargetTemp,
+  calculateDailyFuelConsumption,
+  calculateDailyEnergyConsumption,
+  calculateEnergyBalance,
+  checkBoilerCapacity
+} from "../utils/calculations";
 
 const CalculationContext = createContext();
 
@@ -50,16 +60,29 @@ export const CalculationProvider = ({ children }) => {
         Ti: parseFloat(climateControl.currentTemperature),
         Tc: parseFloat(climateControl.desiredTemperature),
         Tw: parseFloat(waterFlowTemperature),
-        G: parseFloat(energyCertificate.globalHeatLossCoefficient),
-        V: parseFloat(energyCertificate.volumeOfHeatedZone),
-        K: parseFloat(energyCertificate.heatEmissionCoefficient),
-        Ag: parseFloat(energyCertificate.freeHeatGains),
+        wallArea: parseFloat(energyCertificate.wallArea),
+        wallUValue: parseFloat(energyCertificate.wallUValue),
+        windowArea: parseFloat(energyCertificate.windowArea),
+        windowUValue: parseFloat(energyCertificate.windowUValue),
+        boilerEfficiency: parseFloat(energyCertificate.boilerEfficiency),
+        boilerCapacity: parseFloat(energyCertificate.boilerCapacity),
+        waterMass: parseFloat(energyCertificate.waterMass),
+        fuelType: energyCertificate.fuelType,
       };
 
-      const { heatingCurve: calculatedHeatingCurve, energyBalance: calculatedEnergyBalance } = calculateHeatingCurveAndEnergyBalance(data);
+      // Perform calculations based on calculations.js functions
+      const totalHeatLoss = calculateHeatingEnergy(data.wallUValue, data.windowUValue, data.wallArea, data.windowArea, data.Tc, data.Te);
+      const energyRequirementToTarget = calculateEnergyRequirementToTarget(totalHeatLoss, data.Ti, data.Tc, data.Te);
+      const dailyEnergyRequirement = calculateDailyEnergyRequirement(totalHeatLoss, 24); // Assuming 24 hours heating
+      const targetWaterTemperature = calculateWaterTargetTemperatureToReachTargetTemp(energyRequirementToTarget, data.waterMass, data.Tw);
+      const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(energyRequirementToTarget, data.fuelType, data.boilerEfficiency);
+      const dailyFuelConsumption = calculateDailyFuelConsumption([fuelConsumptionToTarget]); // Example daily fuel consumption
+      const dailyEnergyConsumption = calculateDailyEnergyConsumption([dailyEnergyRequirement]); // Example daily energy consumption
+      const energyBalance = calculateEnergyBalance(dailyEnergyRequirement, totalHeatLoss * 24); // Example energy balance calculation
 
-      setHeatingCurve(calculatedHeatingCurve);
-      setEnergyBalance(calculatedEnergyBalance);
+      // Set the calculated values
+      setHeatingCurve(targetWaterTemperature);
+      setEnergyBalance(energyBalance);
     }
   }, [climateControl, energyCertificate, outdoorTemperature, waterFlowTemperature]);
 
