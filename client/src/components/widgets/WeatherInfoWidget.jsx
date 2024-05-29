@@ -1,12 +1,14 @@
 import React from "react";
 import { useWeather } from "../../context/WeatherContext";
-import { WiStrongWind, WiSunrise, WiSunset } from "react-icons/wi";
 import { FaTemperatureHigh } from "react-icons/fa";
 import Lottie from "react-lottie";
 import clearDayAnimation from "../animations/clear-day.json";
 import scatteredCloudsAnimation from "../animations/scattered-clouds.json";
 import humidityAnimation from "../animations/humidity.json";
 import windAnimation from "../animations/wind.json";
+import sunriseAnimation from "../animations/sunrise.json";
+import sunsetAnimation from "../animations/sunset.json";
+import thermometerCelciusAnimation from "../animations/thermometer-celcius.json";
 
 const WeatherInfoWidget = () => {
   const {
@@ -46,6 +48,33 @@ const WeatherInfoWidget = () => {
     },
   };
 
+  const sunriseOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: sunriseAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const sunsetOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: sunsetAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const thermometerCelciusOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: thermometerCelciusAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   const humidityOptions = {
     loop: true,
     autoplay: true,
@@ -58,17 +87,18 @@ const WeatherInfoWidget = () => {
 
   return (
     <div className="bg-gradient-to-r from-teal-400 to-blue-500 p-4 rounded-lg shadow-lg flex flex-col items-center text-white transition-transform transform hover:scale-105 h-full">
-      <div className="flex items-center space-x-4 mb-4">
+      <div className="flex items-center justify-between space-x-3 mb-4">
         <Lottie options={defaultOptions} height={120} width={120} />
         <div>
           <p className="text-2xl font-semibold">{weatherDescription}</p>
         </div>
+        <div className="flex items-center space-x-2 text-4xl font-bold">
+        <Lottie options={thermometerCelciusOptions} height={100} width={90} />
+        {outdoorTemperature}
       </div>
-      <div className="flex items-center space-x-2 text-4xl font-bold">
-        <p>{outdoorTemperature}</p>
-        <FaTemperatureHigh size="30" />
       </div>
-      <div className="flex justify-around items-center w-full text-lg">
+    
+      <div className="flex justify-between items-center w-full text-lg">
         <div className="flex  items-center">
         <Lottie options={windOptions} height={70} width={70} />
           <p>{windSpeed} m/s</p>
@@ -76,20 +106,29 @@ const WeatherInfoWidget = () => {
         <div className="flex  items-center">
           <Lottie
             options={humidityOptions}
-            height={60}
-            width={60}
+            height={70}
+            width={70}
             className="mb-2"
           />
-          <p>{humidity} %</p>
+          <p>{humidity}</p>
         </div>
       </div>
-      <div className="flex justify-around items-center w-full text-lg mt-4">
+      <div className="flex justify-between items-center w-full text-lg mt-4">
         <div className="flex items-center">
-          <WiSunrise size="24" className="mb-2" />
+        <Lottie
+            options={sunriseOptions}
+            height={70}
+            width={70}
+            className="mb-2"
+          />
           <p>{sunrise}</p>
         </div>
         <div className="flex items-center">
-          <WiSunset size="24" className="mb-2" />
+          <Lottie
+            options={sunsetOptions}
+            height={70}
+            width={70}
+            className="mb-2"/>
           <p>{sunset}</p>
         </div>
       </div>
