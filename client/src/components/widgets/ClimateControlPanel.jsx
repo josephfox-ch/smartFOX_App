@@ -64,7 +64,7 @@ const ClimateControlPanel = () => {
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    showAlert("info", "Temperature INCREASED", `Desired Temperature for home ${selectedHome.name} increased to ${newTemperature}°C`);
+    showAlert("info", `Temperature INCREASED ${newTemperature}°C`, `Desired Temperature for home '${selectedHome.name}'`);
     logEnergyUsage(1);
 
     if (isOn) {
@@ -84,7 +84,7 @@ const ClimateControlPanel = () => {
 
     setDesiredTemperature(newTemperature);
     await updateClimateControl(climateControl.id, { ...climateControl, desiredTemperature: newTemperature });
-    showAlert("info", "Temperature DECREASED", `Desired Temperature for home '${selectedHome.name}' decreased to ${newTemperature}°C`);
+    showAlert("info", `Temperature DECREASED ${newTemperature}°C`, `Desired Temperature for home '${selectedHome.name}'`);
     logEnergyUsage(1);
 
     if (isOn) {
@@ -126,8 +126,7 @@ const ClimateControlPanel = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
-      <h2 className="text-2xl font-bold mb-4">Climate Control Panel</h2>
+    <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-4 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
       <div className="flex space-x-6 items-center">
         <button
           onClick={handleToggleMode}
