@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import * as s3Service from "../api/services/s3Service";
 import { useHomes } from "./HomeContext";
 import { useClimate } from "./ClimateContext";
@@ -6,13 +12,9 @@ import { useWeather } from "./WeatherContext";
 import {
   calculateHeatingEnergy,
   calculateEnergyRequirementToTarget,
-  calculateDailyEnergyRequirement,
   calculateWaterTargetTemperatureToReachTargetTemp,
   calculateFuelConsumptionToReachTargetTemp,
-  calculateDailyFuelConsumption,
-  calculateDailyEnergyConsumption,
   calculateEnergyBalance,
-  checkBoilerCapacity
 } from "../utils/calculations";
 
 const EnergyContext = createContext();
@@ -24,6 +26,9 @@ export const EnergyProvider = ({ children }) => {
   const [energyCertificate, setEnergyCertificate] = useState(null);
   const [heatingCurve, setHeatingCurve] = useState("N/A");
   const [energyBalance, setEnergyBalance] = useState("N/A");
+  const [energyRequirementToTarget, setEnergyRequirementToTarget] =
+    useState("N/A");
+  const [fuelConsumptionToTarget, setFuelConsumptionToTarget] = useState("N/A");
   const [waterFlowTemperature, setWaterFlowTemperature] = useState(null);
 
   useEffect(() => {
@@ -35,10 +40,15 @@ export const EnergyProvider = ({ children }) => {
   const fetchWaterFlowTemperature = useCallback(async () => {
     if (selectedHome) {
       try {
-        const temperature = await s3Service.getWaterFlowTemperature(selectedHome.id);
+        const temperature = await s3Service.getWaterFlowTemperature(
+          selectedHome.id
+        );
         setWaterFlowTemperature(parseFloat(temperature));
       } catch (error) {
-        console.error(`Failed to fetch water flow temperature for home with ID: ${selectedHome.id}`, error);
+        console.error(
+          `Failed to fetch water flow temperature for home with ID: ${selectedHome.id}`,
+          error
+        );
       }
     }
   }, [selectedHome]);
@@ -50,7 +60,7 @@ export const EnergyProvider = ({ children }) => {
   const performCalculations = useCallback(() => {
     if (
       climateControl &&
-      climateControl.status === 'on' && // Only perform calculations when the heating system is on
+      climateControl.status === "on" &&
       energyCertificate &&
       outdoorTemperature !== null &&
       waterFlowTemperature !== null
@@ -70,28 +80,82 @@ export const EnergyProvider = ({ children }) => {
         fuelType: energyCertificate.fuelType,
       };
 
-      // Perform calculations based on calculations.js functions
-      const totalHeatLoss = calculateHeatingEnergy(data.wallUValue, data.windowUValue, data.wallArea, data.windowArea, data.Tc, data.Te);
-      const energyRequirementToTarget = calculateEnergyRequirementToTarget(totalHeatLoss, data.Ti, data.Tc, data.Te);
-      const dailyEnergyRequirement = calculateDailyEnergyRequirement(totalHeatLoss, 24); // Assuming 24 hours heating
-      const targetWaterTemperature = calculateWaterTargetTemperatureToReachTargetTemp(energyRequirementToTarget, data.waterMass, data.Tw);
-      const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(energyRequirementToTarget, data.fuelType, data.boilerEfficiency);
-      const dailyFuelConsumption = calculateDailyFuelConsumption([fuelConsumptionToTarget]); // Example daily fuel consumption
-      const dailyEnergyConsumption = calculateDailyEnergyConsumption([dailyEnergyRequirement]); // Example daily energy consumption
-      const energyBalance = calculateEnergyBalance(dailyEnergyRequirement, totalHeatLoss * 24); // Example energy balance calculation
+      console.log("Calculation data:", data);
 
-      // Set the calculated values
+      const totalHeatLoss = calculateHeatingEnergy(
+        data.wallUValue,
+        data.windowUValue,
+        data.wallArea,
+        data.windowArea,
+        data.Tc,
+        data.Te
+      );
+      console.log("Total Heat Loss:", totalHeatLoss);
+
+      const energyRequirementToTarget = calculateEnergyRequirementToTarget(
+        totalHeatLoss,
+        data.Ti,
+        data.Tc,
+        data.Te
+      );
+      console.log("Energy Requirement to Target:", energyRequirementToTarget);
+
+      const targetWaterTemperature =
+        calculateWaterTargetTemperatureToReachTargetTemp(
+          energyRequirementToTarget,
+          data.waterMass,
+          data.Tw
+        );
+      console.log("Target Water Temperature:", targetWaterTemperature);
+
+      const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(
+        energyRequirementToTarget,
+        data.fuelType,
+        data.boilerEfficiency
+      );
+      console.log("Fuel Consumption to Target:", fuelConsumptionToTarget);
+
+      const energyBalance = calculateEnergyBalance(
+        energyRequirementToTarget,
+        totalHeatLoss
+      );
+      console.log("Energy Requirement to Target XX:", energyRequirementToTarget);
+      console.log("Total Heat Loss: XX", totalHeatLoss);
+      console.log("Energy Balance: XX", energyBalance);
+
+      // Set values sequentially to ensure calculations are finished before setting states
       setHeatingCurve(targetWaterTemperature);
+      setEnergyRequirementToTarget(energyRequirementToTarget);
+      setFuelConsumptionToTarget(fuelConsumptionToTarget);
       setEnergyBalance(energyBalance);
     } else {
+      console.log("Missing data for calculations:", {
+        climateControl,
+        energyCertificate,
+        outdoorTemperature,
+        waterFlowTemperature,
+      });
       setHeatingCurve("N/A");
+      setEnergyRequirementToTarget("N/A");
+      setFuelConsumptionToTarget("N/A");
       setEnergyBalance("N/A");
     }
-  }, [climateControl, energyCertificate, outdoorTemperature, waterFlowTemperature]);
+  }, [
+    climateControl,
+    energyCertificate,
+    outdoorTemperature,
+    waterFlowTemperature,
+  ]);
 
   useEffect(() => {
     performCalculations();
-  }, [performCalculations]);
+  }, [
+    performCalculations,
+    climateControl,
+    energyCertificate,
+    outdoorTemperature,
+    waterFlowTemperature,
+  ]);
 
   return (
     <EnergyContext.Provider
@@ -102,12 +166,12 @@ export const EnergyProvider = ({ children }) => {
         setEnergyBalance,
         waterFlowTemperature,
         performCalculations,
-      }}
-    >
+        energyRequirementToTarget,
+        fuelConsumptionToTarget,
+      }}>
       {children}
     </EnergyContext.Provider>
   );
 };
 
 export const useEnergy = () => useContext(EnergyContext);
-
