@@ -6,8 +6,18 @@ import { useClimate } from "../../context/ClimateContext";
 import { useAlert } from "../../context/AlertContext";
 import { useHomes } from "../../context/HomeContext";
 import { useEnergy } from "../../context/EnergyContext";
+import Lottie from "react-lottie";
 import { formatNumber } from "../../utils/utils";
+import humidityAnimation from "../../components/animations/humidity.json";
 
+const humidityOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: humidityAnimation,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 const ClimateControlPanel = () => {
   const { selectedHome } = useHomes();
@@ -55,6 +65,11 @@ const ClimateControlPanel = () => {
   };
 
   const handleTemperatureIncrease = async () => {
+    if (mode === "away") {
+      showAlert("warning", "Cannot change temperature in 'Away' mode", "Climate Control");
+      return;
+    }
+
     let newTemperature;
     if (mode === "cooling") {
       newTemperature = Math.min(desiredTemperature + 1, 25);
@@ -75,6 +90,11 @@ const ClimateControlPanel = () => {
   };
 
   const handleTemperatureDecrease = async () => {
+    if (mode === "away") {
+      showAlert("warning", "Cannot change temperature in 'Away' mode", "Climate Control");
+      return;
+    }
+
     let newTemperature;
     if (mode === "cooling") {
       newTemperature = Math.max(desiredTemperature - 1, 16);
@@ -122,13 +142,13 @@ const ClimateControlPanel = () => {
     await updateClimateControl(climateControl.id, { ...climateControl, mode: newMode });
     showAlert('warning', `'${newMode.toUpperCase()}' mode ON for home '${selectedHome.name}'`);
 
-    if (isOn) {
+    if (isOn && newMode !== "away") {
       performCalculations();
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-4 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
+    <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
       <div className="flex space-x-6 items-center">
         <button
           onClick={handleToggleMode}
@@ -140,8 +160,12 @@ const ClimateControlPanel = () => {
         <div className="flex flex-col items-center">
           <FaHome size="40" className="mb-2" />
           <div className="text-3xl font-bold">
-            {climateControl.currentTemperature !== null && formatNumber(climateControl.currentTemperature)} <TbTemperatureCelsius size="24" />
+            {formatNumber(climateControl.currentTemperature)} <TbTemperatureCelsius size="24" />
           </div>
+        </div>
+        <div className="flex items-center">
+          <Lottie options={humidityOptions} height={80} width={80} />
+          <p className="text-xl font-bold ">{climateControl.humidity}</p>
         </div>
         <button
           onClick={handleTogglePower}
@@ -172,5 +196,4 @@ const ClimateControlPanel = () => {
 };
 
 export default ClimateControlPanel;
-
 

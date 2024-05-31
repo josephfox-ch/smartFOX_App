@@ -90,6 +90,7 @@ export const EnergyProvider = ({ children }) => {
         data.Tc,
         data.Te
       );
+      console.log("Total Heat Loss:", totalHeatLoss);
 
       const energyRequirementToTarget = calculateEnergyRequirementToTarget(
         totalHeatLoss,
@@ -97,6 +98,7 @@ export const EnergyProvider = ({ children }) => {
         data.Tc,
         data.Te
       );
+      console.log("Energy Requirement to Target:", energyRequirementToTarget);
 
       const targetWaterTemperature =
         calculateWaterTargetTemperatureToReachTargetTemp(
@@ -104,23 +106,35 @@ export const EnergyProvider = ({ children }) => {
           data.waterMass,
           data.Tw
         );
+      console.log("Target Water Temperature:", targetWaterTemperature);
 
       const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(
         energyRequirementToTarget,
         data.fuelType,
         data.boilerEfficiency
       );
+      console.log("Fuel Consumption to Target:", fuelConsumptionToTarget);
 
       const energyBalance = calculateEnergyBalance(
         energyRequirementToTarget,
         totalHeatLoss
       );
+      console.log("Energy Requirement to Target XX:", energyRequirementToTarget);
+      console.log("Total Heat Loss: XX", totalHeatLoss);
+      console.log("Energy Balance: XX", energyBalance);
+
 
       setHeatingCurve(targetWaterTemperature);
       setEnergyRequirementToTarget(energyRequirementToTarget);
       setFuelConsumptionToTarget(fuelConsumptionToTarget);
       setEnergyBalance(energyBalance);
     } else {
+      console.log("Missing data for calculations:", {
+        climateControl,
+        energyCertificate,
+        outdoorTemperature,
+        waterFlowTemperature,
+      });
       setHeatingCurve("N/A");
       setEnergyRequirementToTarget("N/A");
       setFuelConsumptionToTarget("N/A");
