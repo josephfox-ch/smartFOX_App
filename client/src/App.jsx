@@ -5,7 +5,6 @@ import { HomeProvider } from "./context/HomeContext";
 import { WeatherProvider } from "./context/WeatherContext";
 import { AlertProvider } from "./context/AlertContext";
 import { ClimateProvider } from "./context/ClimateContext";
-import { CalculationProvider } from "./context/CalculationContext";
 import { EnergyProvider } from "./context/EnergyContext";
 import { HVACSystemLogProvider } from "./context/HVACSystemLogContext";
 import { EnergyUsageProvider } from "./context/EnergyUsageContext";
@@ -21,8 +20,7 @@ function App() {
         <HomeProvider>
           <ClimateProvider>
             <DoorProvider>
-              <WeatherProvider>
-                <CalculationProvider>
+              <WeatherProvider>     
                   <EnergyProvider>
                     <EnergyUsageProvider>
                       <HVACSystemLogProvider>
@@ -36,7 +34,6 @@ function App() {
                       </HVACSystemLogProvider>
                     </EnergyUsageProvider>
                   </EnergyProvider>
-                </CalculationProvider>
               </WeatherProvider>
             </DoorProvider>
           </ClimateProvider>

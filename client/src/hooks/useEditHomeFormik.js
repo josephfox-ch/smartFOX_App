@@ -30,18 +30,17 @@ const useEditHomeFormik = (homeId) => {
       timeZone: selectedHome?.timeZone || "Europe/Zurich",
       latitude: selectedHome?.latitude || "",
       longitude: selectedHome?.longitude || "",
-      buildingVolume: selectedHome?.EnergyCertificate?.buildingVolume || null,
-      volumeOfHeatedZone:
-        selectedHome?.EnergyCertificate?.volumeOfHeatedZone || null,
-      globalHeatLossCoefficient:
-        selectedHome?.EnergyCertificate?.globalHeatLossCoefficient || null,
-      heatEmissionCoefficient:
-        selectedHome?.EnergyCertificate?.heatEmissionCoefficient || null,
-      freeHeatGains: selectedHome?.EnergyCertificate?.freeHeatGains || null,
-      constructionYear:
-        selectedHome?.EnergyCertificate?.constructionYear || null,
-      renewalDate:
-        formatDate(selectedHome?.EnergyCertificate?.renewalDate) || null,
+      buildingArea: selectedHome?.EnergyCertificate?.buildingArea || null,
+      insulationQuality: selectedHome?.EnergyCertificate?.insulationQuality || "",
+      wallArea: selectedHome?.EnergyCertificate?.wallArea || null,
+      wallUValue: selectedHome?.EnergyCertificate?.wallUValue || null,
+      windowArea: selectedHome?.EnergyCertificate?.windowArea || null,
+      windowUValue: selectedHome?.EnergyCertificate?.windowUValue || null,
+      boilerEfficiency: selectedHome?.EnergyCertificate?.boilerEfficiency || null,
+      boilerCapacity: selectedHome?.EnergyCertificate?.boilerCapacity || null,
+      waterMass: selectedHome?.EnergyCertificate?.waterMass || null,
+      fuelType: selectedHome?.EnergyCertificate?.fuelType || "",
+      constructionYear: selectedHome?.EnergyCertificate?.constructionYear || null,
     },
     enableReinitialize: true,
     validationSchema: combinedValidationSchema,
@@ -92,3 +91,4 @@ const useEditHomeFormik = (homeId) => {
 };
 
 export default useEditHomeFormik;
+

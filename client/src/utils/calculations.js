@@ -60,64 +60,60 @@ export const checkBoilerCapacity = (boilerCapacity, dailyEnergyRequirement) => {
   return dailyEnergyRequirement <= boilerCapacityWh;
 };
 
-// Example Usage:
-const wallUValue = 0.5; // W/m²°C
-const windowUValue = 2.0; // W/m²°C
-const wallArea = 100; // m²
-const windowArea = 20; // m²
-const currentTemp = 19; // °C
-const targetTemp = 21; // °C
-const outsideTemp = 0; // °C
-const heatingHours = 24; // hours
-const waterMass = 20; // kg
-const currentWaterTemp = 30; // °C
-const boilerEfficiency = 90; // %
-const boilerCapacity = 10; // kW
-const fuelType = 'naturalGas';
+// // Example Usage:
+// const wallUValue = 0.5; // W/m²°C
+// const windowUValue = 2.0; // W/m²°C
+// const wallArea = 100; // m²
+// const windowArea = 20; // m²
+// const currentTemp = 19; // °C
+// const targetTemp = 21; // °C
+// const outsideTemp = 0; // °C
+// const heatingHours = 24; // hours
+// const waterMass = 20; // kg
+// const currentWaterTemp = 30; // °C
+// const boilerEfficiency = 90; // %
+// const boilerCapacity = 10; // kW
+// const fuelType = 'naturalGas';
 
-// Heat Loss Calculation
-const totalHeatLoss = calculateHeatingEnergy(wallUValue, windowUValue, wallArea, windowArea, targetTemp, outsideTemp);
+// // Heat Loss Calculation
+// const totalHeatLoss = calculateHeatingEnergy(wallUValue, windowUValue, wallArea, windowArea, targetTemp, outsideTemp);
 
-// Energy Requirement (to reach target temperature)
-const energyRequirementToTarget = calculateEnergyRequirementToTarget(totalHeatLoss, currentTemp, targetTemp, outsideTemp);
+// // Energy Requirement (to reach target temperature)
+// const energyRequirementToTarget = calculateEnergyRequirementToTarget(totalHeatLoss, currentTemp, targetTemp, outsideTemp);
 
-// Daily Energy Requirement
-const dailyEnergyRequirement = calculateDailyEnergyRequirement(totalHeatLoss, heatingHours);
+// // Daily Energy Requirement
+// const dailyEnergyRequirement = calculateDailyEnergyRequirement(totalHeatLoss, heatingHours);
 
-// Target Water Temperature to Reach Desired Indoor Temperature
-const targetWaterTemperature = calculateWaterTargetTemperatureToReachTargetTemp(energyRequirementToTarget, waterMass, currentWaterTemp);
+// // Target Water Temperature to Reach Desired Indoor Temperature
+// const targetWaterTemperature = calculateWaterTargetTemperatureToReachTargetTemp(energyRequirementToTarget, waterMass, currentWaterTemp);
 
-// Fuel Consumption to Reach Target Temperature
-const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(energyRequirementToTarget, fuelType, boilerEfficiency);
+// // Fuel Consumption to Reach Target Temperature
+// const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(energyRequirementToTarget, fuelType, boilerEfficiency);
 
-// Example data for Daily Fuel Consumption Calculation
-const fuelConsumptionRecords = [5, 6, 7, 8]; // Example fuel consumption records (in m³ or kg per activation)
-const dailyFuelConsumption = calculateDailyFuelConsumption(fuelConsumptionRecords);
+// // Example data for Daily Fuel Consumption Calculation
+// const fuelConsumptionRecords = [5, 6, 7, 8]; // Example fuel consumption records (in m³ or kg per activation)
+// const dailyFuelConsumption = calculateDailyFuelConsumption(fuelConsumptionRecords);
 
-// Example data for Daily Energy Consumption Calculation
-const energyConsumptionRecords = [1000, 1200, 1100, 1300]; // Example energy consumption records (in Wh per activation)
-const dailyEnergyConsumption = calculateDailyEnergyConsumption(energyConsumptionRecords);
+// // Example data for Daily Energy Consumption Calculation
+// const energyConsumptionRecords = [1000, 1200, 1100, 1300]; // Example energy consumption records (in Wh per activation)
+// const dailyEnergyConsumption = calculateDailyEnergyConsumption(energyConsumptionRecords);
 
-// Energy Balance (based on example energy input and output data)
-const energyInput = dailyEnergyRequirement; // In this example, we use daily energy requirement as energy input
-const energyOutput = totalHeatLoss * heatingHours; // In this example, we use total heat loss as energy output
-const energyBalance = calculateEnergyBalance(energyInput, energyOutput);
+// // Energy Balance (based on example energy input and output data)
+// const energyInput = dailyEnergyRequirement; // In this example, we use daily energy requirement as energy input
+// const energyOutput = totalHeatLoss * heatingHours; // In this example, we use total heat loss as energy output
+// const energyBalance = calculateEnergyBalance(energyInput, energyOutput);
 
-// Boiler Capacity Check
-const isBoilerCapacitySufficient = checkBoilerCapacity(boilerCapacity, dailyEnergyRequirement);
+// // Boiler Capacity Check
+// const isBoilerCapacitySufficient = checkBoilerCapacity(boilerCapacity, dailyEnergyRequirement);
 
-console.log("Heat Loss:", totalHeatLoss, "W");
-console.log("Energy Requirement to Reach Target Temperature:", energyRequirementToTarget, "Wh");
-console.log("Daily Energy Requirement:", dailyEnergyRequirement, "Wh");
-console.log("Target Water Temperature:", targetWaterTemperature, "°C");
-console.log("Fuel Consumption to Reach Target Temperature:", fuelConsumptionToTarget, "m³ or kg");
-console.log("Daily Fuel Consumption:", dailyFuelConsumption, "m³ or kg");
-console.log("Daily Energy Consumption:", dailyEnergyConsumption, "Wh");
-console.log("Energy Balance:", energyBalance, "Wh");
-console.log("Is Boiler Capacity Sufficient?:", isBoilerCapacitySufficient);
-
-
-
-
+// console.log("Heat Loss:", totalHeatLoss, "W");
+// console.log("Energy Requirement to Reach Target Temperature:", energyRequirementToTarget, "Wh");
+// console.log("Daily Energy Requirement:", dailyEnergyRequirement, "Wh");
+// console.log("Target Water Temperature:", targetWaterTemperature, "°C");
+// console.log("Fuel Consumption to Reach Target Temperature:", fuelConsumptionToTarget, "m³ or kg");
+// console.log("Daily Fuel Consumption:", dailyFuelConsumption, "m³ or kg");
+// console.log("Daily Energy Consumption:", dailyEnergyConsumption, "Wh");
+// console.log("Energy Balance:", energyBalance, "Wh");
+// console.log("Is Boiler Capacity Sufficient?:", isBoilerCapacitySufficient);
 
   
