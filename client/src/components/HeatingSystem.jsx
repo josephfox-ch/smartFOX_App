@@ -69,7 +69,7 @@ const HeatingSystem = () => {
       <div className="flex flex-col items-center mb-4">
         <p>Boiler Status: {boilerStatus ? "On" : "Off"}</p>
         <p>Water Temperature: {waterTemperature.toFixed(2)}°C</p>
-        <p>Indoor Temperature: {indoorTemperature.toFixed(2)}°C</p>
+        <p>Indoor Temperature: {indoorTemperature !== null && indoorTemperature.toFixed(2)}°C</p>
         <p>Outdoor Temperature: {outdoorTemperature ? outdoorTemperature.toFixed(2) : "N/A"}°C</p>
       </div>
       <LineChart data={{

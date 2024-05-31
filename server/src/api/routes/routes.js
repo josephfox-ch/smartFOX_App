@@ -7,6 +7,7 @@ import climateControlRoutes from './climateControlRoutes.js'
 import hvacSystemLogRoutes from "./hvacSystemLogRoutes.js";
 import energyUsageRoutes from "./energyUsageRoutes.js";
 import accessControlRoutes from "./accessControlRoutes.js";
+import firebaseRoutes from "./firebaseRoutes.js";
 
 export const useRoutes = (app) => {
   app.use("/api/v1/auth", authRoutes);
@@ -18,4 +19,5 @@ export const useRoutes = (app) => {
   app.use("/api/v1/hvac-system-log", hvacSystemLogRoutes);
   app.use("/api/v1/energy-usage", energyUsageRoutes);
   app.use("/api/v1/access-control", accessControlRoutes);
+  app.use("/api/v1/sensor", firebaseRoutes);
 };

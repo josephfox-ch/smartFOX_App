@@ -1,10 +1,12 @@
 import "./loadEnv.js";
+import "./src/config/firebase.js"
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
-import path from "path";
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from 'url';
 import { sessionMiddleware } from "./src/api/middlewares/sessionMiddleware.js";
 import { useRoutes } from "./src/api/routes/routes.js";
 import logger from "./src/config/logger.js";
@@ -12,6 +14,8 @@ import expressWinston from "express-winston";
 import errorHandler from "./src/api/middlewares/errorHandler.js";
 import "./src/api/models/index.js";
 import { connectDB } from "./src/config/db.js";
+
+
 
 const app = express();
 
@@ -31,6 +35,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
+
+
 
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
