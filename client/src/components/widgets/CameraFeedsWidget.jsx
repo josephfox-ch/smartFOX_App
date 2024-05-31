@@ -11,7 +11,7 @@ const CameraFeedsWidget = () => (
         { id: 5, name: 'Backyard', image: '/backyard.png' },
         { id: 6, name: 'Frontyard', image: '/frontyard.png' },
       ].map(camera => (
-        <div key={camera.id} className="relative bg-black rounded-lg shadow-md text-black text-center h-35">
+        <div key={camera.id} className="relative bg-black rounded-lg shadow-md text-black dark:text-gray-300 text-center h-35">
           <img src={camera.image} alt={`${camera.name}`} className="w-full h-35 object-cover rounded-t-lg" />
           <div className="absolute top-0 left-0 bg-red-600 text-white text-xs px-2 py-1 rounded-br-lg">
             Live

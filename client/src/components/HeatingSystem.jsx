@@ -103,7 +103,7 @@ const HeatingSystem = () => {
   }, [climateControl, targetWaterTemperature]);
 
   return (
-    <div className="bg-gradient-to-br from-gray-300 to-purple-200 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 transition-transform transform hover:scale-105 h-full">
+    <div className="bg-gradient-to-br from-gray-300 to-purple-200 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 dark:text-gray-300 transition-transform transform hover:scale-105 h-full">
       <h3 className="text-2xl font-bold mb-4 text-center">SmartFOX® Conditioner</h3>
       <div className="flex flex-col items-center mb-4 space-y-2">
         <div className="flex items-center space-x-2">
