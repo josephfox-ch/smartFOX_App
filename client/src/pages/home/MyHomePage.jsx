@@ -9,6 +9,7 @@ import DoorsWidget from "../../components/widgets/DoorsWidget";
 import LightingWidget from "../../components/widgets/LightingWidget";
 import CameraFeedsWidget from "../../components/widgets/CameraFeedsWidget";
 import HeatingSystem from "../../components/HeatingSystem"; 
+import SensorDataDisplay from "../../SensorDataDisplay";
 
 const MyHomePage = () => {
   const { selectedHome, loading, error } = useHomes();
@@ -51,7 +52,7 @@ const MyHomePage = () => {
           </p>
         )}
       </div>
-      
+      <SensorDataDisplay/>
     </div>
   );
 };

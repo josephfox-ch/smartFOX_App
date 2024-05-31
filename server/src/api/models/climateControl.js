@@ -24,6 +24,10 @@ const ClimateControl = sequelize.define("ClimateControl", {
     type: DataTypes.FLOAT,
     allowNull: true, 
   },
+  humidity: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
   status:{
     type: DataTypes.ENUM,
     values: ['on', 'off', 'error'],
