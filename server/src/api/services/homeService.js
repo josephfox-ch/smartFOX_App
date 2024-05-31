@@ -1,4 +1,5 @@
-import { Home, ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog,LightingControl, LightingReport,AccessControl,Door } from "../models/index.js";
+import { Home, ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport, AccessControl, Door } from "../models/index.js";
+import { getDht22Data } from "./firebaseService.js";
 import sequelize from "../../config/db.js";
 import logger from "../../config/logger.js";
 
@@ -55,12 +56,14 @@ export const createHomeWithEnergyCertificate = async (userId, homeData, energyCe
       `Energy certificate created for home ${newHome.id}: ${newEnergyCertificate.id}`
     );
 
-  
+    // Fetch DHT22 sensor data
+    const dhtData = await getDht22Data();
+    const { temperature, humidity } = dhtData;
 
     const defaultModels = [
-      { model: Door, data: { homeId: newHome.id, userId: newHome.userId ,name:newHome.name} },
-      { model: ClimateControl, data: {homeId: newHome.id}},
-      { model: AccessControl, data: {homeId: newHome.id, userId: newHome.userId ,permissionLevel: 'parents'}},
+      { model: Door, data: { homeId: newHome.id, userId: newHome.userId, name: newHome.name } },
+      { model: ClimateControl, data: { homeId: newHome.id, currentTemperature: temperature, humidity: humidity } },
+      { model: AccessControl, data: { homeId: newHome.id, userId: newHome.userId, permissionLevel: 'parents' } },
       { model: TemperatureRecord, data: { homeId: newHome.id } },
       { model: HVACSystemLog, data: { homeId: newHome.id, status: 'off', startedAt: new Date() } },
       { model: LightingControl, data: { homeId: newHome.id } },
@@ -130,10 +133,27 @@ export const updateHomeWithEnergyCertificate = async (userId, homeId, homeData, 
       throw new Error("Energy Certificate not found or user unauthorized");
     }
 
+    // Fetch DHT22 sensor data
+    const dhtData = await getDht22Data();
+    const { temperature, humidity } = dhtData;
+
+    // Update ClimateControl with the new sensor data
+    const [updatedClimateControlCount] = await ClimateControl.update(
+      {
+        currentTemperature: temperature,
+        humidity: humidity,
+      },
+      { where: { homeId }, transaction }
+    );
+
+    if (!updatedClimateControlCount) {
+      throw new Error("Climate Control not found or user unauthorized");
+    }
+
     await transaction.commit();
     const updatedHome = await Home.findOne({
       where: { id: homeId, userId },
-      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport,Door],
+      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport, Door],
     });
 
     logger.info(`Home and Energy Certificate updated for user ${userId}: ${homeId}`);
@@ -165,7 +185,7 @@ export const getHomeDetails = async (userId, homeId) => {
   try {
     const home = await Home.findOne({
       where: { id: homeId, userId },
-      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport,Door]
+      include: [ClimateControl, EnergyCertificate, EnergyUsage, TemperatureRecord, HVACSystemLog, LightingControl, LightingReport, Door]
     });
     if (!home) {
       throw new Error("Home not found or user unauthorized");

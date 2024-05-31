@@ -31,7 +31,7 @@ const DoorsWidget = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
+    <div className="bg-gradient-to-br from-gray-100 to-gray-300 p-3 rounded-lg shadow-lg  items-center space-y-6 text-gray-800 transition-transform transform hover:scale-105 h-full">
       <h3 className="font-medium text-xl mb-4 text-gray-800 dark:text-gray-100">
         Doors
       </h3>

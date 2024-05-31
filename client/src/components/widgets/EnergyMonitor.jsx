@@ -7,6 +7,7 @@ import { formatNumber } from "../../utils/utils";
 import { FaThermometerHalf } from "react-icons/fa";
 import { GiElectric } from "react-icons/gi";
 import HeatingSystem from "../HeatingSystem"; 
+import { BsFillLightningChargeFill } from "react-icons/bs";
 
 const EnergyMonitor = () => {
   const { energyRequirementToTarget, heatingCurve, waterFlowTemperature, energyBalance, fuelConsumptionToTarget, performCalculations } = useEnergy();
@@ -67,12 +68,12 @@ const EnergyMonitor = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105 h-full">
+    <div className="bg-gradient-to-br from-gray-300 to-orange-200 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 transition-transform transform hover:scale-105 h-full">
       <h3 className="font-medium text-xl mb-4 text-gray-800 dark:text-gray-100 text-center">
         Energy Monitor
       </h3>
       <div className="flex flex-col items-center mb-4">
-        <ImFire color={isClimateControlOn ? "orange" : "gray"} size="50" className="mb-2" />
+        <BsFillLightningChargeFill color={isClimateControlOn ? "orange" : "gray"} size="50" className="mb-2" />
         <div className="text-center text-gray-600 dark:text-gray-300">
           <p><strong>Energy Requirement to Target:</strong> {energyRequirementToTarget !== "N/A" ? `${formatNumber(energyRequirementToTarget)} Wh` : "N/A"}</p>
           <p><strong>Heating Curve:</strong> {heatingCurve !== "N/A" ? `${formatNumber(heatingCurve)}°C` : "N/A"}</p>
