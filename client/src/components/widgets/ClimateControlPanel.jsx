@@ -140,7 +140,7 @@ const ClimateControlPanel = () => {
         <div className="flex flex-col items-center">
           <FaHome size="40" className="mb-2" />
           <div className="text-3xl font-bold">
-            {formatNumber(climateControl.currentTemperature)} <TbTemperatureCelsius size="24" />
+            {climateControl.currentTemperature !== null && formatNumber(climateControl.currentTemperature)} <TbTemperatureCelsius size="24" />
           </div>
         </div>
         <button
