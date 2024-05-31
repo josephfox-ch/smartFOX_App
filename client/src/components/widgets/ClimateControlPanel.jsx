@@ -6,6 +6,8 @@ import { useClimate } from "../../context/ClimateContext";
 import { useAlert } from "../../context/AlertContext";
 import { useHomes } from "../../context/HomeContext";
 import { useEnergy } from "../../context/EnergyContext";
+import { formatNumber } from "../../utils/utils";
+
 
 const ClimateControlPanel = () => {
   const { selectedHome } = useHomes();
@@ -138,7 +140,7 @@ const ClimateControlPanel = () => {
         <div className="flex flex-col items-center">
           <FaHome size="40" className="mb-2" />
           <div className="text-3xl font-bold">
-            {climateControl.currentTemperature} <TbTemperatureCelsius size="24" />
+            {formatNumber(climateControl.currentTemperature)} <TbTemperatureCelsius size="24" />
           </div>
         </div>
         <button
@@ -170,12 +172,5 @@ const ClimateControlPanel = () => {
 };
 
 export default ClimateControlPanel;
-
-
-
-
-
-
-
 
 

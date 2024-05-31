@@ -123,7 +123,7 @@ export const EnergyProvider = ({ children }) => {
       console.log("Total Heat Loss: XX", totalHeatLoss);
       console.log("Energy Balance: XX", energyBalance);
 
-      // Set values sequentially to ensure calculations are finished before setting states
+
       setHeatingCurve(targetWaterTemperature);
       setEnergyRequirementToTarget(energyRequirementToTarget);
       setFuelConsumptionToTarget(fuelConsumptionToTarget);
