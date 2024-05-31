@@ -1,5 +1,5 @@
 import express from 'express';
-import { getDht22Data } from '../../config/firebase.js';
+import { getDht22Data } from '../services/firebaseService.js';
 
 const router = express.Router();
 
