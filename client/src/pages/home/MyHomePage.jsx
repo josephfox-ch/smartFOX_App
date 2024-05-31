@@ -8,6 +8,7 @@ import ClimateControlPanel from "../../components/widgets/ClimateControlPanel";
 import DoorsWidget from "../../components/widgets/DoorsWidget";
 import LightingWidget from "../../components/widgets/LightingWidget";
 import CameraFeedsWidget from "../../components/widgets/CameraFeedsWidget";
+import HeatingSystem from "../../components/HeatingSystem"; 
 
 const MyHomePage = () => {
   const { selectedHome, loading, error } = useHomes();
@@ -32,12 +33,17 @@ const MyHomePage = () => {
                 </div>
               </div>
               <EnergyMonitor />
-              <CameraFeedsWidget />
+              <HeatingSystem /> 
+              
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <DoorsWidget />
-              <LightingWidget />
+            <div className="grid grid-cols-1 gap-6 mb-6">
+            <CameraFeedsWidget />   
             </div>
+            <div className="grid grid-cols-2 gap-6">
+            <DoorsWidget /> 
+            <LightingWidget />  
+            </div>
+            
           </>
         ) : (
           <p className="text-gray-600 dark:text-gray-300">
@@ -45,9 +51,11 @@ const MyHomePage = () => {
           </p>
         )}
       </div>
+      
     </div>
   );
 };
 
 export default MyHomePage;
+
 

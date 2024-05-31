@@ -3,8 +3,10 @@ import LineChart from "../charts/LineChart";
 import { useEnergy } from "../../context/EnergyContext";
 import { useClimate } from "../../context/ClimateContext";
 import { ImFire } from "react-icons/im";
+import { formatNumber } from "../../utils/utils";
 import { FaThermometerHalf } from "react-icons/fa";
 import { GiElectric } from "react-icons/gi";
+import HeatingSystem from "../HeatingSystem"; 
 
 const EnergyMonitor = () => {
   const { energyRequirementToTarget, heatingCurve, waterFlowTemperature, energyBalance, fuelConsumptionToTarget, performCalculations } = useEnergy();
@@ -18,13 +20,7 @@ const EnergyMonitor = () => {
     }
   }, [climateControl, performCalculations]);
 
-  const formatNumber = (num) => {
-    if (num !== "N/A" && !isNaN(num)) {
-      const formatted = parseFloat(num).toFixed(3);
-      return formatted.endsWith("00") ? parseFloat(num).toFixed(1) : formatted;
-    }
-    return num;
-  };
+ 
 
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -93,6 +89,7 @@ const EnergyMonitor = () => {
 };
 
 export default EnergyMonitor;
+
 
 
 
