@@ -148,7 +148,7 @@ const ClimateControlPanel = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
+    <div className="bg-gradient-to-r from-blue-500 to-purple-500 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
       <div className="flex space-x-6 items-center">
         <button
           onClick={handleToggleMode}

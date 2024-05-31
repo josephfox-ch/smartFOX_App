@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import LineChart from "../charts/LineChart";
 import { useEnergy } from "../../context/EnergyContext";
 import { useClimate } from "../../context/ClimateContext";
-import { ImFire } from "react-icons/im";
 import { formatNumber } from "../../utils/utils";
-import { FaThermometerHalf } from "react-icons/fa";
-import { GiElectric } from "react-icons/gi";
-import HeatingSystem from "../HeatingSystem"; 
 import { BsFillLightningChargeFill } from "react-icons/bs";
 
 const EnergyMonitor = () => {
@@ -68,13 +64,13 @@ const EnergyMonitor = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-300 to-orange-200 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 transition-transform transform hover:scale-105 h-full">
-      <h3 className="font-medium text-xl mb-4 text-gray-800 dark:text-gray-100 text-center">
+    <div className="bg-gradient-to-br from-gray-300 to-orange-200 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400  p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 dark:text-gray-100 transition-transform transform hover:scale-105  h-full">
+      <h3 className="text-2xl font-bold mb-4 text-center mb-4 text-gray-800 dark:text-gray-100 text-center ">
         Energy Monitor
       </h3>
       <div className="flex flex-col items-center mb-4">
         <BsFillLightningChargeFill color={isClimateControlOn ? "orange" : "gray"} size="50" className="mb-2" />
-        <div className="text-center text-gray-600 dark:text-gray-300">
+        <div className="text-center text-gray-700 dark:text-gray-300">
           <p><strong>Energy Requirement to Target:</strong> {energyRequirementToTarget !== "N/A" ? `${formatNumber(energyRequirementToTarget)} Wh` : "N/A"}</p>
           <p><strong>Heating Curve:</strong> {heatingCurve !== "N/A" ? `${formatNumber(heatingCurve)}°C` : "N/A"}</p>
           <p><strong>Current Water Temperature:</strong> {waterFlowTemperature !== "N/A" ? `${formatNumber(waterFlowTemperature)}°C` : "N/A"}</p>
@@ -82,7 +78,7 @@ const EnergyMonitor = () => {
           <p><strong>Fuel Consumption to Target:</strong> {fuelConsumptionToTarget !== "N/A" ? `${formatNumber(fuelConsumptionToTarget)} units` : "N/A"}</p>
         </div>
       </div>
-      <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded shadow h-64 w-full">
+      <div className="bg-gray-100 dark:bg-gray-700   p-4 rounded shadow h-64 w-full">
         <LineChart data={data} options={options} />
       </div>
     </div>
