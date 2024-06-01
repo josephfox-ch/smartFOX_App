@@ -15,8 +15,6 @@ import errorHandler from "./src/api/middlewares/errorHandler.js";
 import "./src/api/models/index.js";
 import { connectDB } from "./src/config/db.js";
 
-
-
 const app = express();
 
 if (process.env.NODE_ENV !== "production") {
@@ -27,7 +25,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN,  
+  origin: process.env.CORS_ORIGIN.split(','),  
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -35,8 +33,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
-
-
 
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
@@ -46,7 +42,7 @@ app.use(helmet.contentSecurityPolicy({
     styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
     fontSrc: ["'self'", "https://fonts.gstatic.com"],
     imgSrc: ["'self'", "data:"],
-    connectSrc: ["'self'", 'https://localhost:5173'],
+    connectSrc: ["'self'", 'https://smartfoxhome.netlify.app'],
     frameSrc: ["'none'"],
     objectSrc: ["'none'"],
     upgradeInsecureRequests: [],
@@ -98,6 +94,7 @@ connectDB()
   });
 
 export default app;
+
 
 
   
