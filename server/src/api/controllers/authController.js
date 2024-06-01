@@ -32,8 +32,7 @@ const register = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message:
-        "Registration successful. Please check your email for the one-time-password.",
+      message: "Registration successful. Please check your email for the one-time-password.",
       userId: user.id,
       otpSent: !!otp,
     });
@@ -53,8 +52,7 @@ const verifyRegistration = async (req, res) => {
   logger.info(`Verifying registration for user ID ${userId}`);
 
   try {
-    const { success, user, token, message } =
-      await AuthService.verifyRegistration(userId, otp);
+    const { success, user, token, message } = await AuthService.verifyRegistration(userId, otp);
 
     if (!success) {
       return res.status(400).json({ success: false, message });
@@ -62,7 +60,12 @@ const verifyRegistration = async (req, res) => {
 
     logger.info(`User verified successfully: ${user.email}`);
 
-    req.session.token = token;
+   
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: 'none',
+    });
 
     res.status(200).json({
       success: true,
@@ -70,9 +73,7 @@ const verifyRegistration = async (req, res) => {
       user,
     });
   } catch (error) {
-    logger.error(
-      `OTP Verification failed for user ID ${userId}: ${error.message}`
-    );
+    logger.error(`OTP Verification failed for user ID ${userId}: ${error.message}`);
     res.status(500).json({
       success: false,
       message: "OTP Verification failed",
@@ -178,19 +179,18 @@ const login = async (req, res) => {
   logger.info(`Attempting login for ${email}`);
 
   try {
-    const { success, user, token } = await AuthService.login({
-      email,
-      password,
-    });
+    const { success, user, token } = await AuthService.login({ email, password });
 
     if (!success) {
       logger.warn(`Invalid credentials for ${email}`);
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid credentials." });
+      return res.status(401).json({ success: false, message: "Invalid credentials." });
     }
 
-    req.session.token = token;
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: 'none',
+    });
 
     logger.info(`Login successful for ${email}`);
 
