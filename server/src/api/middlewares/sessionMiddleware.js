@@ -6,6 +6,6 @@ export const sessionMiddleware = cookieSession({
   maxAge: 24 * 60 * 60 * 1000 * 30 * 6, // 6 months
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax",
+  sameSite: "none",
   signed: true,
 });

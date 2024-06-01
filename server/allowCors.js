@@ -1,6 +1,13 @@
 const allowCors = (fn) => async (req, res) => {
+  const allowedOrigins = ['https://smartfoxhome.netlify.app', 'http://localhost:3000']; 
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'https://smartfoxhome.netlify.app');
+  }
     res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', 'https://www.smartfoxhome.netlify.app'); 
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader(
       'Access-Control-Allow-Headers',

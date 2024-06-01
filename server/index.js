@@ -13,7 +13,7 @@ import expressWinston from "express-winston";
 import errorHandler from "./src/api/middlewares/errorHandler.js";
 import "./src/api/models/index.js";
 import { connectDB } from "./src/config/db.js";
-import allowCors from "./allowCors.js"; 
+import allowCors from "./allowCors.js";
 
 const app = express();
 
@@ -24,16 +24,15 @@ if (process.env.NODE_ENV !== "production") {
   }
 }
 
-
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN.split(','),  
+  origin: process.env.CORS_ORIGIN.split(','),
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
-app.options('https://smartfoxhome.netlify.app', cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
@@ -57,7 +56,6 @@ app.use(express.static("public"));
 app.use(sessionMiddleware);
 
 useRoutes(app);
-
 
 app.use((req, res, next) => {
   allowCors(next)(req, res);
