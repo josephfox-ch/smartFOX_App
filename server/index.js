@@ -1,12 +1,11 @@
 import "./loadEnv.js";
-import "./src/config/firebase.js"
+import "./src/config/firebase.js";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from 'url';
 import { sessionMiddleware } from "./src/api/middlewares/sessionMiddleware.js";
 import { useRoutes } from "./src/api/routes/routes.js";
 import logger from "./src/config/logger.js";
@@ -14,6 +13,7 @@ import expressWinston from "express-winston";
 import errorHandler from "./src/api/middlewares/errorHandler.js";
 import "./src/api/models/index.js";
 import { connectDB } from "./src/config/db.js";
+import allowCors from "./allowCors.js"; 
 
 const app = express();
 
@@ -24,6 +24,7 @@ if (process.env.NODE_ENV !== "production") {
   }
 }
 
+
 const corsOptions = {
   origin: process.env.CORS_ORIGIN.split(','),  
   credentials: true,
@@ -32,7 +33,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.options('https://smartfoxhome.netlify.app', cors(corsOptions));
 
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
@@ -56,6 +57,11 @@ app.use(express.static("public"));
 app.use(sessionMiddleware);
 
 useRoutes(app);
+
+
+app.use((req, res, next) => {
+  allowCors(next)(req, res);
+});
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan(process.env.ACCESS_LOG_FORMAT));
@@ -94,7 +100,5 @@ connectDB()
   });
 
 export default app;
-
-
 
   
