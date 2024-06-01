@@ -1,21 +1,16 @@
 import { Sequelize } from "sequelize";
 import logger from "./logger.js";
-import mysql2 from "mysql2";
 
 const options = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
-  dialect: process.env.DB_DIALECT,
+  dialect: 'postgres',
   logging: (msg) => {
     if (msg.includes("Error")) {
       console.log(msg);
     }
   },
 };
-
-if (options.dialect === 'mysql') {
-  options.dialectModule = mysql2;
-}
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
