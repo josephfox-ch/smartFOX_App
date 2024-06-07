@@ -21,7 +21,7 @@ const AvatarEditForm = () => {
   const confirmDeleteAvatar = async () => {
     try {
       await s3Service.deleteAvatarFromS3(user.id);
-      showAlert("warning", "Warning", "Avatar deleted.");
+      showAlert("error", "Warning", "Avatar deleted.");
       updateUser({ avatarUrl: "" });
       closeModal();
     } catch (error) {

@@ -15,6 +15,8 @@ import {
   calculateWaterTargetTemperatureToReachTargetTemp,
   calculateFuelConsumptionToReachTargetTemp,
   calculateEnergyBalance,
+  calculateIndoorTemperatureIncrease,
+  calculateWaterTemperatureIncrease
 } from "../utils/calculations";
 
 const EnergyContext = createContext();
@@ -30,6 +32,8 @@ export const EnergyProvider = ({ children }) => {
     useState("N/A");
   const [fuelConsumptionToTarget, setFuelConsumptionToTarget] = useState("N/A");
   const [waterFlowTemperature, setWaterFlowTemperature] = useState(null);
+  const [waterTemperatureIncreasePerSecond,setWaterTemperatureIncreasePerSecond] = useState("N/A");
+  const [indoorTemperatureIncreasePerSecond,setIndoorTemperatureIncreasePerSecond] = useState("N/A");
 
   useEffect(() => {
     if (selectedHome) {
@@ -70,6 +74,8 @@ export const EnergyProvider = ({ children }) => {
         Ti: parseFloat(climateControl.currentTemperature),
         Tc: parseFloat(climateControl.desiredTemperature),
         Tw: parseFloat(waterFlowTemperature),
+        buildingArea: parseFloat(energyCertificate.buildingArea),
+        buildingHeight: parseFloat(energyCertificate.buildingHeight),
         wallArea: parseFloat(energyCertificate.wallArea),
         wallUValue: parseFloat(energyCertificate.wallUValue),
         windowArea: parseFloat(energyCertificate.windowArea),
@@ -119,22 +125,22 @@ export const EnergyProvider = ({ children }) => {
         energyRequirementToTarget,
         totalHeatLoss
       );
-      console.log("Energy Requirement to Target XX:", energyRequirementToTarget);
-      console.log("Total Heat Loss: XX", totalHeatLoss);
-      console.log("Energy Balance: XX", energyBalance);
+
+      const heatedVolumeOfBuilding = data.buildingArea*data.buildingHeight
+
+      const waterTemperatureIncreasePerSecond = calculateWaterTemperatureIncrease(data.boilerCapacity, data.boilerEfficiency)
+
+      const indoorTemperatureIncreasePerSecond = calculateIndoorTemperatureIncrease(heatedVolumeOfBuilding, data.boilerCapacity); 
+ 
 
 
       setHeatingCurve(targetWaterTemperature);
       setEnergyRequirementToTarget(energyRequirementToTarget);
       setFuelConsumptionToTarget(fuelConsumptionToTarget);
       setEnergyBalance(energyBalance);
+      setWaterTemperatureIncreasePerSecond(waterTemperatureIncreasePerSecond);
+      setIndoorTemperatureIncreasePerSecond(indoorTemperatureIncreasePerSecond);
     } else {
-      console.log("Missing data for calculations:", {
-        climateControl,
-        energyCertificate,
-        outdoorTemperature,
-        waterFlowTemperature,
-      });
       setHeatingCurve("N/A");
       setEnergyRequirementToTarget("N/A");
       setFuelConsumptionToTarget("N/A");
@@ -168,6 +174,8 @@ export const EnergyProvider = ({ children }) => {
         performCalculations,
         energyRequirementToTarget,
         fuelConsumptionToTarget,
+        waterTemperatureIncreasePerSecond,
+        indoorTemperatureIncreasePerSecond,
       }}>
       {children}
     </EnergyContext.Provider>

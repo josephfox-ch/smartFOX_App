@@ -31,6 +31,7 @@ const useEditHomeFormik = (homeId) => {
       latitude: selectedHome?.latitude || "",
       longitude: selectedHome?.longitude || "",
       buildingArea: selectedHome?.EnergyCertificate?.buildingArea || null,
+      buildingHeight: selectedHome?.EnergyCertificate?.buildingHeight || null,
       insulationQuality: selectedHome?.EnergyCertificate?.insulationQuality || "",
       wallArea: selectedHome?.EnergyCertificate?.wallArea || null,
       wallUValue: selectedHome?.EnergyCertificate?.wallUValue || null,

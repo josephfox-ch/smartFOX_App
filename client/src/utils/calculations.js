@@ -1,13 +1,22 @@
 const SPECIFIC_HEAT_CAPACITY_WATER = 4.18; // kJ/kg°C
+const SPECIFIC_HEAT_CAPACITY_AIR = 1005; // J/(kg · K)
+const FLOW_RATE_OF_WATER = 0.5; // kg/s
 const FUEL_LOWER_HEATING_VALUES = {
   naturalGas: 35.8, // MJ/m³
   electricity: 3.6, // MJ/kWh (as a comparison unit)
   coal: 24, // MJ/kg
-  oil: 42.6 // MJ/kg
+  oil: 42.6, // MJ/kg
 };
 
 // 1. Heat Loss Calculation
-export const calculateHeatingEnergy = (wallUValue, windowUValue, wallArea, windowArea, targetTemp, outsideTemp) => {
+export const calculateHeatingEnergy = (
+  wallUValue,
+  windowUValue,
+  wallArea,
+  windowArea,
+  targetTemp,
+  outsideTemp
+) => {
   const deltaT = targetTemp - outsideTemp;
   const wallHeatLoss = wallArea * wallUValue * deltaT; // W
   const windowHeatLoss = windowArea * windowUValue * deltaT; // W
@@ -16,36 +25,63 @@ export const calculateHeatingEnergy = (wallUValue, windowUValue, wallArea, windo
 };
 
 // 2. Energy Requirement (to reach target temperature)
-export const calculateEnergyRequirementToTarget = (totalHeatLoss, currentTemp, targetTemp, outsideTemp) => {
-  return totalHeatLoss * (targetTemp - currentTemp) / (targetTemp - outsideTemp); // Wh
+export const calculateEnergyRequirementToTarget = (
+  totalHeatLoss,
+  currentTemp,
+  targetTemp,
+  outsideTemp
+) => {
+  return (
+    (totalHeatLoss * (targetTemp - currentTemp)) / (targetTemp - outsideTemp)
+  ); // Wh
 };
 
 // 3. Daily Energy Requirement
-export const calculateDailyEnergyRequirement = (totalHeatLoss, heatingHours) => {
+export const calculateDailyEnergyRequirement = (
+  totalHeatLoss,
+  heatingHours
+) => {
   return totalHeatLoss * heatingHours; // Wh
 };
 
 // 4. Target Water Temperature to Reach Desired Indoor Temperature
-export const calculateWaterTargetTemperatureToReachTargetTemp = (energyRequirement, waterMass, currentWaterTemp) => {
+export const calculateWaterTargetTemperatureToReachTargetTemp = (
+  energyRequirement,
+  waterMass,
+  currentWaterTemp
+) => {
   const energyRequirementKJ = energyRequirement * 3.6; // Convert Wh to kJ
-  return energyRequirementKJ / (waterMass * SPECIFIC_HEAT_CAPACITY_WATER) + currentWaterTemp; // °C
+  return (
+    energyRequirementKJ / (waterMass * SPECIFIC_HEAT_CAPACITY_WATER) +
+    currentWaterTemp
+  ); // °C
 };
 
 // 5. Fuel Consumption to Reach Target Temperature
-export const calculateFuelConsumptionToReachTargetTemp = (energyRequirement, fuelType, boilerEfficiency) => {
+export const calculateFuelConsumptionToReachTargetTemp = (
+  energyRequirement,
+  fuelType,
+  boilerEfficiency
+) => {
   const fuelEnergyContent = FUEL_LOWER_HEATING_VALUES[fuelType]; // MJ
-  const energyRequirementMJ = energyRequirement / 1000 * 3.6; // Convert Wh to MJ
-  return energyRequirementMJ / (fuelEnergyContent * boilerEfficiency / 100); // fuel quantity
+  const energyRequirementMJ = (energyRequirement / 1000) * 3.6; // Convert Wh to MJ
+  return energyRequirementMJ / ((fuelEnergyContent * boilerEfficiency) / 100); // fuel quantity
 };
 
 // 6. Daily Fuel Consumption Calculation
 export const calculateDailyFuelConsumption = (fuelConsumptionRecords) => {
-  return fuelConsumptionRecords.reduce((total, consumption) => total + consumption, 0);
+  return fuelConsumptionRecords.reduce(
+    (total, consumption) => total + consumption,
+    0
+  );
 };
 
 // 7. Daily Energy Consumption Calculation
 export const calculateDailyEnergyConsumption = (energyConsumptionRecords) => {
-  return energyConsumptionRecords.reduce((total, consumption) => total + consumption, 0);
+  return energyConsumptionRecords.reduce(
+    (total, consumption) => total + consumption,
+    0
+  );
 };
 
 // 8. Energy Balance
@@ -60,6 +96,31 @@ export const checkBoilerCapacity = (boilerCapacity, dailyEnergyRequirement) => {
   return dailyEnergyRequirement <= boilerCapacityWh;
 };
 
+// 9. Water Temperature Increases per second
+export const calculateWaterTemperatureIncrease = (boilerCapacity, boilerEfficiency) => {
+  const powerOutput = (boilerCapacity * 1000) * (boilerEfficiency / 100); // Boiler output in J/s
+  const temperatureIncrease =
+    powerOutput / (FLOW_RATE_OF_WATER * SPECIFIC_HEAT_CAPACITY_WATER * 1000); // Convert kJ to J
+  console.log('Water-temp-increase:', temperatureIncrease)
+  return temperatureIncrease;
+};
+
+// 10. Indoor Temperature Increases per second
+export const calculateIndoorTemperatureIncrease = (volume, boilerCapacity) => {
+  const airDensity = 1.2; // kg/m³
+
+  // Convert boiler power to joules (boilerCapacity is in kW)
+  const boilerPowerInJoules = boilerCapacity * 1000; // W = J/s 
+
+  // Calculate the mass of air in the house
+  const airMass = volume * airDensity; // kg
+  
+  // Calculate the temperature increase per second
+  const temperatureIncrease = boilerPowerInJoules / (airMass * SPECIFIC_HEAT_CAPACITY_AIR); // K/s
+  
+  console.log('Indoor-temp-increase:', temperatureIncrease);
+  return temperatureIncrease;
+};
 // // Example Usage:
 // const wallUValue = 0.5; // W/m²°C
 // const windowUValue = 2.0; // W/m²°C
@@ -115,5 +176,3 @@ export const checkBoilerCapacity = (boilerCapacity, dailyEnergyRequirement) => {
 // console.log("Daily Energy Consumption:", dailyEnergyConsumption, "Wh");
 // console.log("Energy Balance:", energyBalance, "Wh");
 // console.log("Is Boiler Capacity Sufficient?:", isBoilerCapacitySufficient);
-
-  

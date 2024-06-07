@@ -226,44 +226,45 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Building Area (m²)*
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="buildingArea"
-                  name="buildingArea"
-                  placeholder="Enter building area (m²)"
-                />
-                <ErrorMessage
-                  name="buildingArea"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="buildingArea"
+                    name="buildingArea"
+                    placeholder="Enter building area (m²)"
+                  />
+                  <ErrorMessage
+                    name="buildingArea"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
               <div className="w-full sm:w-1/2">
                 <label
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="insulationQuality"
+                  htmlFor="buildingArea"
                 >
-                  Insulation Quality*
+                  Building Height (m)*
                 </label>
-                <Field
-                  as="select"
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  id="insulationQuality"
-                  name="insulationQuality"
-                >
-                  <option value="" label="Select insulation quality" />
-                  <option value="good" label="Good" />
-                  <option value="average" label="Average" />
-                  <option value="poor" label="Poor" />
-                </Field>
-                <ErrorMessage
-                  name="insulationQuality"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="buildingHeight"
+                    name="buildingHeight"
+                    placeholder="Enter height of building (m)"
+                  />
+                  <ErrorMessage
+                    name="buildingHeight"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
             </div>
+
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
@@ -272,18 +273,20 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Wall Area (m²)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="wallArea"
-                  name="wallArea"
-                  placeholder="Enter wall area (m²)"
-                />
-                <ErrorMessage
-                  name="wallArea"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="wallArea"
+                    name="wallArea"
+                    placeholder="Enter wall area (m²)"
+                  />
+                  <ErrorMessage
+                    name="wallArea"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
               <div className="w-full sm:w-1/2">
                 <label
@@ -292,20 +295,23 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Wall U-Value (W/m²°C)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="wallUValue"
-                  name="wallUValue"
-                  placeholder="Enter wall U-value (W/m²°C)"
-                />
-                <ErrorMessage
-                  name="wallUValue"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="wallUValue"
+                    name="wallUValue"
+                    placeholder="Enter wall U-value (W/m²°C)"
+                  />
+                  <ErrorMessage
+                    name="wallUValue"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
             </div>
+
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
@@ -314,18 +320,20 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Window Area (m²)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="windowArea"
-                  name="windowArea"
-                  placeholder="Enter window area (m²)"
-                />
-                <ErrorMessage
-                  name="windowArea"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="windowArea"
+                    name="windowArea"
+                    placeholder="Enter window area (m²)"
+                  />
+                  <ErrorMessage
+                    name="windowArea"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
               <div className="w-full sm:w-1/2">
                 <label
@@ -334,20 +342,23 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Window U-Value (W/m²°C)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="windowUValue"
-                  name="windowUValue"
-                  placeholder="Enter window U-value (W/m²°C)"
-                />
-                <ErrorMessage
-                  name="windowUValue"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="windowUValue"
+                    name="windowUValue"
+                    placeholder="Enter window U-value (W/m²°C)"
+                  />
+                  <ErrorMessage
+                    name="windowUValue"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
             </div>
+
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
@@ -356,19 +367,22 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Boiler Efficiency (%)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="boilerEfficiency"
-                  name="boilerEfficiency"
-                  placeholder="Enter boiler efficiency (%)"
-                />
-                <ErrorMessage
-                  name="boilerEfficiency"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="boilerEfficiency"
+                    name="boilerEfficiency"
+                    placeholder="Enter boiler efficiency (%)"
+                  />
+                  <ErrorMessage
+                    name="boilerEfficiency"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
+
               <div className="w-full sm:w-1/2">
                 <label
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -376,20 +390,23 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Boiler Capacity (kW)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="boilerCapacity"
-                  name="boilerCapacity"
-                  placeholder="Enter boiler capacity (kW)"
-                />
-                <ErrorMessage
-                  name="boilerCapacity"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="boilerCapacity"
+                    name="boilerCapacity"
+                    placeholder="Enter boiler capacity (kW)"
+                  />
+                  <ErrorMessage
+                    name="boilerCapacity"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
             </div>
+
             <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
               <div className="w-full sm:w-1/2">
                 <label
@@ -398,19 +415,22 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Water Mass (kg)
                 </label>
-                <Field
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  type="number"
-                  id="waterMass"
-                  name="waterMass"
-                  placeholder="Enter water mass (kg)"
-                />
-                <ErrorMessage
-                  name="waterMass"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="waterMass"
+                    name="waterMass"
+                    placeholder="Enter water mass (kg)"
+                  />
+                  <ErrorMessage
+                    name="waterMass"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
+
               <div className="w-full sm:w-1/2">
                 <label
                   className="mb-3 block text-sm font-medium text-black dark:text-white"
@@ -418,44 +438,76 @@ const EditHomeForm = ({ formik, handleGetCoordinates, handleSubmit }) => {
                 >
                   Fuel Type
                 </label>
-                <Field
-                  as="select"
-                  className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                  id="fuelType"
-                  name="fuelType"
-                >
-                  <option value="" label="Select fuel type" />
-                  <option value="naturalGas" label="Natural Gas" />
-                  <option value="electricity" label="Electricity" />
-                  <option value="coal" label="Coal" />
-                  <option value="oil" label="Oil" />
-                </Field>
-                <ErrorMessage
-                  name="fuelType"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+                <div className="relative">
+                  <Field
+                    as="select"
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    id="fuelType"
+                    name="fuelType"
+                  >
+                    <option value="" label="Select fuel type" />
+                    <option value="naturalGas" label="Natural Gas" />
+                    <option value="electricity" label="Electricity" />
+                    <option value="coal" label="Coal" />
+                    <option value="oil" label="Oil" />
+                  </Field>
+                  <ErrorMessage
+                    name="fuelType"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
             </div>
-            <div className="w-full sm:w-1/2">
-              <label
-                className="mb-3 block text-sm font-medium text-black dark:text-white"
-                htmlFor="constructionYear"
-              >
-                Construction Year
-              </label>
-              <Field
-                className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
-                type="number"
-                id="constructionYear"
-                name="constructionYear"
-                placeholder="Enter construction year"
-              />
-              <ErrorMessage
-                name="constructionYear"
-                component="div"
-                className="text-red-500 text-sm"
-              />
+            <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+              <div className="w-full sm:w-1/2">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="insulationQuality"
+                >
+                  Insulation Quality*
+                </label>
+                <div className="relative">
+                  <Field
+                    as="select"
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    id="insulationQuality"
+                    name="insulationQuality"
+                  >
+                    <option value="" label="Select insulation quality" />
+                    <option value="good" label="Good" />
+                    <option value="average" label="Average" />
+                    <option value="poor" label="Poor" />
+                  </Field>
+                  <ErrorMessage
+                    name="insulationQuality"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2">
+                <label
+                  className="mb-3 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="constructionYear"
+                >
+                  Construction Year
+                </label>
+                <div className="relative">
+                  <Field
+                    className="w-full border border-stroke bg-gray py-2 pl-4.5 pr-4.5 text-black focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 dark:border-darkinputborder dark:bg-darkinput dark:text-white"
+                    type="number"
+                    id="constructionYear"
+                    name="constructionYear"
+                    placeholder="Enter construction year"
+                  />
+                  <ErrorMessage
+                    name="constructionYear"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+              </div>
             </div>
             <div className="flex justify-end gap-4 mt-6">
               <button
