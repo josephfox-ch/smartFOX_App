@@ -3,19 +3,14 @@ import { useClimate } from "../context/ClimateContext";
 import { useEnergy } from "../context/EnergyContext";
 import { useWeather } from "../context/WeatherContext";
 import LineChart from "./charts/LineChart";
-import { FaFire, FaThermometerHalf, FaThermometerThreeQuarters, FaTemperatureLow } from "react-icons/fa";
+import { FaFire, FaThermometerHalf } from "react-icons/fa";
 import { ImFire } from "react-icons/im";
 
-const HEATING_RATE = 0.2; // Rate of increase in water temperature when the boiler is on (°C/second)
-const COOLING_RATE = 0.05; // Rate of decrease in water temperature when the boiler is off (°C/second)
 const CHECK_INTERVAL = 1000; // Interval for status check (ms)
-const TIME_TO_TARGET_WATER = 180; // Time for water temperature to reach the target (seconds)
-const TIME_TO_TARGET_INDOOR = 90; // Time for indoor temperature to reach the target (seconds)
-const TIME_TO_COOL_INDOOR = 120; // Time for indoor temperature to cool to the target (seconds)
 
 const HeatingSystem = () => {
   const { climateControl } = useClimate();
-  const { performCalculations, heatingCurve } = useEnergy();
+  const { performCalculations, heatingCurve,waterTemperatureIncreasePerSecond,indoorTemperatureIncreasePerSecond } = useEnergy();
   const { outdoorTemperature } = useWeather();
   const [boilerStatus, setBoilerStatus] = useState(false);
   const [waterTemperature, setWaterTemperature] = useState(35); // Start at 35°C
@@ -42,44 +37,36 @@ const HeatingSystem = () => {
     }
   }, [heatingCurve]);
 
+
+
   const updateWaterTemperature = useCallback(() => {
     setWaterTemperature(prevTemp => {
       if (boilerStatus) {
-        const increment = (targetWaterTemperature - prevTemp) / TIME_TO_TARGET_WATER;
-        const newTemp = Math.min(prevTemp + increment, targetWaterTemperature);
-        return isNaN(newTemp) ? 35 : newTemp;
-      } else {
-        const newTemp = Math.max(prevTemp - COOLING_RATE, outdoorTemperature);
+        const newTemp = prevTemp + waterTemperatureIncreasePerSecond;
         return isNaN(newTemp) ? 35 : newTemp;
       }
+      return prevTemp;
     });
-  }, [boilerStatus, targetWaterTemperature, outdoorTemperature]);
+  }, [boilerStatus]);
 
   const updateIndoorTemperature = useCallback(() => {
     setIndoorTemperature(prevTemp => {
-      if (boilerStatus) {
-        const heatingEffect = (desiredTemperature - prevTemp) / TIME_TO_TARGET_INDOOR;
-        let newTemp = prevTemp + heatingEffect;
-        if (climateControl.mode === "heating") {
-          newTemp = Math.min(newTemp, desiredTemperature); // Prevent exceeding target temperature in heating mode
-        } else if (climateControl.mode === "cooling") {
-          newTemp = Math.max(newTemp, desiredTemperature); // Prevent dropping below target temperature in cooling mode
-        }
-        return isNaN(newTemp) ? climateControl.currentTemperature : newTemp;
-      } else {
-        const coolingEffect = (prevTemp - desiredTemperature) / TIME_TO_COOL_INDOOR;
-        const newTemp = prevTemp - coolingEffect;
+      if (boilerStatus && prevTemp < desiredTemperature) {
+        const newTemp = prevTemp + indoorTemperatureIncreasePerSecond;
         return isNaN(newTemp) ? climateControl.currentTemperature : newTemp;
       }
+      return prevTemp;
     });
-  }, [boilerStatus, desiredTemperature, outdoorTemperature, climateControl]);
+  }, [boilerStatus]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (climateControl && climateControl.status === "on" && climateControl.mode !== "away") {
-        setBoilerStatus(true);
-        updateWaterTemperature();
-        updateIndoorTemperature();
+      if (climateControl && climateControl.mode !== "away") {
+        setBoilerStatus(climateControl.status === "on" && indoorTemperature < desiredTemperature);
+        if (boilerStatus) {
+          updateWaterTemperature();
+          updateIndoorTemperature();
+        }
       } else {
         setBoilerStatus(false);
       }
@@ -87,7 +74,7 @@ const HeatingSystem = () => {
     }, CHECK_INTERVAL);
 
     return () => clearInterval(intervalId);
-  }, [updateWaterTemperature, updateIndoorTemperature, performCalculations, climateControl]);
+  }, [updateWaterTemperature, updateIndoorTemperature, performCalculations, climateControl, desiredTemperature, indoorTemperature, boilerStatus]);
 
   useEffect(() => {
     if (climateControl && climateControl.status === "on" && climateControl.mode !== "away") {
@@ -147,4 +134,3 @@ const HeatingSystem = () => {
 };
 
 export default HeatingSystem;
-
