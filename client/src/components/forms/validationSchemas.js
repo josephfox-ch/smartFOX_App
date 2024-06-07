@@ -59,40 +59,33 @@ export const homeValidationSchema = Yup.object({
   ),
 });
 
-
 export const energyCertificateValidationSchema = Yup.object({
   buildingArea: Yup.number()
     .nullable()
-    .typeError('Building Area must be a number'),
+    .typeError("Building Area must be a number"),
+  buildingHeight: Yup.number()
+    .nullable()
+    .typeError("Building Height must be a number"),
   constructionYear: Yup.number()
     .nullable()
-    .typeError('Construction Year must be a number'),
-  windowArea: Yup.number()
-    .nullable()
-    .typeError('Window Area must be a number'),
+    .typeError("Construction Year must be a number"),
+  windowArea: Yup.number().nullable().typeError("Window Area must be a number"),
   windowUValue: Yup.number()
     .nullable()
-    .typeError('Window U-Value must be a number'),
-  wallArea: Yup.number()
-    .nullable()
-    .typeError('Wall Area must be a number'),
+    .typeError("Window U-Value must be a number"),
+  wallArea: Yup.number().nullable().typeError("Wall Area must be a number"),
   wallUValue: Yup.number()
     .nullable()
-    .typeError('Wall U-Value must be a number'),
+    .typeError("Wall U-Value must be a number"),
   boilerEfficiency: Yup.number()
     .nullable()
-    .typeError('Boiler Efficiency must be a number'),
+    .typeError("Boiler Efficiency must be a number"),
   boilerCapacity: Yup.number()
     .nullable()
-    .typeError('Boiler Capacity must be a number'),
-  waterMass: Yup.number()
-    .nullable()
-    .typeError('Water Mass must be a number'),
-  fuelType: Yup.string()
-    .nullable()
-    .typeError('Fuel Type must be selected'),
+    .typeError("Boiler Capacity must be a number"),
+  waterMass: Yup.number().nullable().typeError("Water Mass must be a number"),
+  fuelType: Yup.string().nullable().typeError("Fuel Type must be selected"),
   insulationQuality: Yup.string()
     .nullable()
-    .typeError('Insulation Quality must be selected')
+    .typeError("Insulation Quality must be selected"),
 });
-

@@ -35,6 +35,7 @@ const useHomeFormik = () => {
       latitude: "",
       longitude: "",
       buildingArea: "",
+      buildingHeight: "",
       insulationQuality: "",
       WallArea: "",
       wallUValue: "",

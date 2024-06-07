@@ -148,11 +148,11 @@ const ClimateControlPanel = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-purple-500 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400 p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
-      <div className="flex space-x-6 items-center">
+    <div className="bg-gradient-to-r from-blue-500 to-purple-500 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400 p-8 space-x-3 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-white">
+      <div className="flex  items-center">
         <button
           onClick={handleToggleMode}
-          className={`w-28 h-28 p-4 flex flex-col items-center justify-center rounded-full transition-all transform hover:scale-110 ${mode === "heating" ? "bg-yellow-500" : mode === "cooling" ? "bg-blue-500" : "bg-red-500"}`}
+          className={`w-28 h-28 p-4  flex flex-col items-center justify-center rounded-full transition-all transform hover:scale-110 ${mode === "heating" ? "bg-yellow-500" : mode === "cooling" ? "bg-blue-500" : "bg-red-500"}`}
         >
           {mode === "heating" ? <FaSun size="35" /> : mode === "cooling" ? <FaSnowflake size="35" /> : <RiTakeawayLine size="35" />}
           <p className="mt-2 text-sm">{mode.charAt(0).toUpperCase() + mode.slice(1)} Mode</p>

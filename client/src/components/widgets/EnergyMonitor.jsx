@@ -64,7 +64,7 @@ const EnergyMonitor = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-orange-300 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400  p-8 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 dark:text-gray-100 transition-transform transform hover:scale-105  h-full">
+    <div className="bg-gradient-to-br from-gray-100 to-orange-300 dark:bg-gradient-to-br dark:from-gray-600 dark:to-gray-400  p-2 rounded-lg shadow-lg flex flex-col items-center space-y-6 text-gray-800 dark:text-gray-100 transition-transform transform hover:scale-105  h-full">
       <h3 className="text-2xl font-bold mb-4 text-center mb-4 text-gray-800 dark:text-gray-100 text-center ">
         Energy Monitor
       </h3>
@@ -78,7 +78,7 @@ const EnergyMonitor = () => {
           <p><strong>Fuel Consumption to Target:</strong> {fuelConsumptionToTarget !== "N/A" ? `${formatNumber(fuelConsumptionToTarget)} units` : "N/A"}</p>
         </div>
       </div>
-      <div className="bg-gray-100 dark:bg-gray-700   p-4 rounded shadow h-64 w-full">
+      <div className="bg-gray-100 dark:bg-gray-700   p-2 rounded shadow h-64 w-full">
         <LineChart data={data} options={options} />
       </div>
     </div>
