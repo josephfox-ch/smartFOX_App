@@ -3,15 +3,14 @@ import { useClimate } from "../context/ClimateContext";
 import { useEnergy } from "../context/EnergyContext";
 import { useWeather } from "../context/WeatherContext";
 import LineChart from "./charts/LineChart";
-import { FaFire, FaThermometerHalf } from "react-icons/fa";
+import { FaThermometerHalf } from "react-icons/fa";
 import { ImFire } from "react-icons/im";
 
 const CHECK_INTERVAL = 1000; // Interval for status check (ms)
 
-const HeatingSystem = () => {
+const SmartFOXConditioner = () => {
   const { climateControl } = useClimate();
-  const { performCalculations, heatingCurve,waterTemperatureIncreasePerSecond,indoorTemperatureIncreasePerSecond } = useEnergy();
-  const { outdoorTemperature } = useWeather();
+  const { performCalculations, heatingCurve, waterTemperatureIncreasePerSecond, indoorTemperatureIncreasePerSecond } = useEnergy();
   const [boilerStatus, setBoilerStatus] = useState(false);
   const [waterTemperature, setWaterTemperature] = useState(35); // Start at 35°C
   const [indoorTemperature, setIndoorTemperature] = useState(climateControl ? climateControl.currentTemperature : 20);
@@ -26,46 +25,44 @@ const HeatingSystem = () => {
   }, [climateControl, targetWaterTemperature]);
 
   useEffect(() => {
-    if (climateControl && climateControl.status !== "on") {
-      setBoilerStatus(false);
-    }
-  }, [climateControl]);
-
-  useEffect(() => {
     if (heatingCurve !== null) {
       setTargetWaterTemperature(heatingCurve);
     }
   }, [heatingCurve]);
 
-
-
   const updateWaterTemperature = useCallback(() => {
     setWaterTemperature(prevTemp => {
-      if (boilerStatus) {
+      if (climateControl.status === "on" && prevTemp < targetWaterTemperature) {
         const newTemp = prevTemp + waterTemperatureIncreasePerSecond;
         return isNaN(newTemp) ? 35 : newTemp;
       }
       return prevTemp;
     });
-  }, [boilerStatus]);
+  }, [climateControl?.status, waterTemperatureIncreasePerSecond, targetWaterTemperature]);
 
   const updateIndoorTemperature = useCallback(() => {
     setIndoorTemperature(prevTemp => {
-      if (boilerStatus && prevTemp < desiredTemperature) {
+      if (prevTemp < desiredTemperature) {
         const newTemp = prevTemp + indoorTemperatureIncreasePerSecond;
         return isNaN(newTemp) ? climateControl.currentTemperature : newTemp;
       }
       return prevTemp;
     });
-  }, [boilerStatus]);
+  }, [indoorTemperatureIncreasePerSecond, desiredTemperature, climateControl?.currentTemperature]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (climateControl && climateControl.mode !== "away") {
-        setBoilerStatus(climateControl.status === "on" && indoorTemperature < desiredTemperature);
-        if (boilerStatus) {
-          updateWaterTemperature();
-          updateIndoorTemperature();
+        if (climateControl.status === "on") {
+          setBoilerStatus(true);
+          if (waterTemperature < targetWaterTemperature) {
+            updateWaterTemperature();
+          }
+          if (indoorTemperature < desiredTemperature) {
+            updateIndoorTemperature();
+          }
+        } else {
+          setBoilerStatus(false);
         }
       } else {
         setBoilerStatus(false);
@@ -74,13 +71,7 @@ const HeatingSystem = () => {
     }, CHECK_INTERVAL);
 
     return () => clearInterval(intervalId);
-  }, [updateWaterTemperature, updateIndoorTemperature, performCalculations, climateControl, desiredTemperature, indoorTemperature, boilerStatus]);
-
-  useEffect(() => {
-    if (climateControl && climateControl.status === "on" && climateControl.mode !== "away") {
-      setBoilerStatus(true);
-    }
-  }, [climateControl]);
+  }, [updateWaterTemperature, updateIndoorTemperature, performCalculations, climateControl, desiredTemperature, indoorTemperature, waterTemperature, targetWaterTemperature]);
 
   useEffect(() => {
     if (climateControl && targetWaterTemperature !== null) {
@@ -133,4 +124,4 @@ const HeatingSystem = () => {
   );
 };
 
-export default HeatingSystem;
+export default SmartFOXConditioner;

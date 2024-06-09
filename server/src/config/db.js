@@ -1,30 +1,20 @@
-import { Sequelize } from "sequelize";
+import Sequelize from "sequelize";
 import logger from "./logger.js";
-import pg from "pg";
-
-const options = {
-  host: process.env.POSTGRES_HOST,
-  port: process.env.POSTGRES_PORT,
-  dialect: "postgres",
-  dialectModule: pg,
-  logging: (msg) => {
-    if (msg.includes("Error")) {
-      console.log(msg);
-    }
-  },
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false, 
-    },
-  },
-};
 
 const sequelize = new Sequelize(
-  process.env.POSTGRES_DATABASE,
-  process.env.POSTGRES_USER,
-  process.env.POSTGRES_PASSWORD,
-  options
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    logging: (msg) => {
+      if (msg.includes("Error")) {
+        console.log(msg);
+      }
+    },
+  }
 );
 
 export const connectDB = async () => {
@@ -32,12 +22,8 @@ export const connectDB = async () => {
     await sequelize.authenticate();
     logger.info("Database connection has been established successfully.");
     await sequelize.sync({
-      force:
-        process.env.NODE_ENV === "development" &&
-        process.env.SEQUELIZE_FORCE === "true",
-      alter:
-        process.env.NODE_ENV !== "production" &&
-        process.env.SEQUELIZE_ALTER === "true",
+      force: false,
+      alter: true,
     });
     logger.info("Database has been synced.");
   } catch (error) {
@@ -47,4 +33,5 @@ export const connectDB = async () => {
 };
 
 export default sequelize;
+
 
