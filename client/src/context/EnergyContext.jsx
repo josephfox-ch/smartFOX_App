@@ -85,9 +85,9 @@ export const EnergyProvider = ({ children }) => {
         waterMass: parseFloat(energyCertificate.waterMass),
         fuelType: energyCertificate.fuelType,
       };
-
+  
       console.log("Calculation data:", data);
-
+  
       const totalHeatLoss = calculateHeatingEnergy(
         data.wallUValue,
         data.windowUValue,
@@ -97,7 +97,7 @@ export const EnergyProvider = ({ children }) => {
         data.Te
       );
       console.log("Total Heat Loss:", totalHeatLoss);
-
+  
       const energyRequirementToTarget = calculateEnergyRequirementToTarget(
         totalHeatLoss,
         data.Ti,
@@ -105,7 +105,7 @@ export const EnergyProvider = ({ children }) => {
         data.Te
       );
       console.log("Energy Requirement to Target:", energyRequirementToTarget);
-
+  
       const targetWaterTemperature =
         calculateWaterTargetTemperatureToReachTargetTemp(
           energyRequirementToTarget,
@@ -113,27 +113,31 @@ export const EnergyProvider = ({ children }) => {
           data.Tw
         );
       console.log("Target Water Temperature:", targetWaterTemperature);
-
+  
       const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(
         energyRequirementToTarget,
         data.fuelType,
         data.boilerEfficiency
       );
       console.log("Fuel Consumption to Target:", fuelConsumptionToTarget);
-
+  
       const energyBalance = calculateEnergyBalance(
         energyRequirementToTarget,
         totalHeatLoss
       );
-
-      const heatedVolumeOfBuilding = data.buildingArea*data.buildingHeight
-
-      const waterTemperatureIncreasePerSecond = calculateWaterTemperatureIncrease(data.boilerCapacity, data.boilerEfficiency)
-
-      const indoorTemperatureIncreasePerSecond = calculateIndoorTemperatureIncrease(heatedVolumeOfBuilding, data.boilerCapacity); 
- 
-
-
+  
+      const heatedVolumeOfBuilding = data.buildingArea * data.buildingHeight;
+  
+      const waterTemperatureIncreasePerSecond = calculateWaterTemperatureIncrease(
+        data.boilerCapacity,
+        data.boilerEfficiency
+      );
+  
+      const indoorTemperatureIncreasePerSecond = calculateIndoorTemperatureIncrease(
+        heatedVolumeOfBuilding,
+        data.boilerCapacity
+      );
+  
       setHeatingCurve(targetWaterTemperature);
       setEnergyRequirementToTarget(energyRequirementToTarget);
       setFuelConsumptionToTarget(fuelConsumptionToTarget);
@@ -147,16 +151,6 @@ export const EnergyProvider = ({ children }) => {
       setEnergyBalance("N/A");
     }
   }, [
-    climateControl,
-    energyCertificate,
-    outdoorTemperature,
-    waterFlowTemperature,
-  ]);
-
-  useEffect(() => {
-    performCalculations();
-  }, [
-    performCalculations,
     climateControl,
     energyCertificate,
     outdoorTemperature,
