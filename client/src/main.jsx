@@ -5,7 +5,6 @@ import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./context/AuthContext";
 import ErrorBoundary from "./components/ErrorBoundry";
 import initLogRocket from "./utils/logRocket.js";
-import logger from "./utils/logger.js";
 import "./index.css";
 import "./css/style.css";
 import "./css/satoshi.css";
@@ -18,7 +17,7 @@ const root = createRoot(document.getElementById("root"));
 root.render(
   <ErrorBoundary>
     <AuthProvider>
-      <Router>
+      <Router future={{ v7_startTransition: true }}>
         <App />
       </Router>
     </AuthProvider>
