@@ -23,7 +23,6 @@ export const HomeProvider = ({ children }) => {
       } else {
         setSelectedHome(null);
       }
-      console.log("homes-fetched", sortedHomes);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -37,7 +36,6 @@ export const HomeProvider = ({ children }) => {
       setError(null);
       const homeDetails = await HomeService.getHomeDetails(homeId);
       setSelectedHome(homeDetails);
-      console.log("home-details-fetched", homeDetails);
     } catch (err) {
       setError(err.message);
     } finally {

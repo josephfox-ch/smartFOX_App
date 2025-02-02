@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { AuthProvider } from "./context/AuthContext";
 import ErrorBoundary from "./components/ErrorBoundry";
 import initLogRocket from "./utils/logRocket.js";
+import logger from "./utils/logger.js";
 import "./index.css";
 import "./css/style.css";
 import "./css/satoshi.css";

@@ -21,7 +21,6 @@ export const UserProvider = ({ children }) => {
       const response = await AuthService.getUser();
       if (response.user) {
         setUser(response.user);
-        console.log("user-fetched", response.user);
       } else {
         throw new Error("No user data found");
       }
@@ -37,7 +36,6 @@ export const UserProvider = ({ children }) => {
     try {
       const response = await UserService.updateUser(updatedFields);
       const updatedUser = response.user;
-      console.log("User updated successfully in Database", response.user);
       setUser((prevUser) => ({
         ...prevUser,
         ...updatedUser,

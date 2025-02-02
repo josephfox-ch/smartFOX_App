@@ -15,7 +15,6 @@ export const ClimateProvider = ({ children }) => {
       setLoading(true);
       const data = await ClimateService.getClimateControlByHomeId(homeId);
       setClimateControl(data);
-      console.log('climate-control-fetched', data);
     } catch (err) {
       setError(err.message);
     } finally {

@@ -100,7 +100,6 @@ const AuthService = {
   getUser: async () => {
     try {
       const response = await API.get("/user");
-      console.log("api-user-get", response.data);
       return response.data;
     } catch (error) {
       throw new Error(

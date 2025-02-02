@@ -3,7 +3,6 @@ import API from '../API';
 const getDoors = async (homeId) => {
   try {
     const response = await API.get(`/door/${homeId}`);
-    console.log('doors-service', response.data)
     return response.data;
   } catch (error) {
     console.error(`Error fetching doors for home ${homeId}:`, error);

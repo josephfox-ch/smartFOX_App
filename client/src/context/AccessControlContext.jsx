@@ -21,7 +21,6 @@ export const AccessControlProvider = ({ children }) => {
       setAccessControls(data.accessControl);
       const permissionLevel = accessControls.length > 0 ? accessControls[0].permissionLevel : null;
       setAccessLevel(permissionLevel);
-      console.log('accessControls-fetched', data);
     } catch (err) {
       setError(err.message);
     } finally {
