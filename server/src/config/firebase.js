@@ -1,20 +1,19 @@
 import admin from 'firebase-admin';
-import { fileURLToPath } from 'url';
-import path from "path";
-import fs from "fs";
+import dotenv from 'dotenv';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const serviceAccount = path.join(__dirname, 'serviceAccountKey.json');
+dotenv.config();
 
-if (!fs.existsSync(serviceAccount)) {
-  throw new Error('Service account key file not found: ' + serviceAccount);
+if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+  throw new Error("Missing GOOGLE_APPLICATION_CREDENTIALS in .env file");
 }
+
+
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://dht22-af3b2-default-rtdb.europe-west1.firebasedatabase.app'
+  databaseURL: 'https://dht22-af3b2-default-rtdb.europe-west1.firebasedatabase.app',
 });
 
 const db = admin.database();
