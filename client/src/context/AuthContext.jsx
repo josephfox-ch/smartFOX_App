@@ -46,14 +46,19 @@ const AuthProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       const data = await AuthService.login(credentials);
+      console.log('data-user',data)
       if (data.user) {
+        console.log(document.cookie);
+        // Token'ı cookie'ye ekleyin
+        document.cookie = `token=${data.token}; path=/; HttpOnly`; // HttpOnly güvenlik için
         dispatch({ type: "LOGIN_SUCCESS", payload: { user: data.user } });
       } else {
         throw new Error(data.message || "Login failed due to server error");
       }
     } catch (error) {
       console.error("Login failed:", error);
-      throw error;
+      // Hata kullanıcıya bildirilebilir, UI üzerinde gösterilebilir
+      throw error;  // Hata tekrar fırlatılabilir
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
@@ -63,6 +68,8 @@ const AuthProvider = ({ children }) => {
     try {
       const data = await AuthService.logout();
       if (data.success) {
+        // Token'ı cookie'den silin
+        document.cookie = "token=; path=/; max-age=0"; // Cookie'yi temizle
         dispatch({ type: "LOGOUT" });
       } else {
         throw new Error(data.message);
@@ -83,7 +90,7 @@ const AuthProvider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
       }
     } catch (error) {
-      // console.error("Authentication verification failed:", error);
+      console.error("Authentication verification failed:", error);
       dispatch({ type: "LOGOUT" });
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });

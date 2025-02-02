@@ -1,4 +1,4 @@
-import * as AuthService from "../services/authService.js";
+import * as AuthService from "../services/authservice.js";
 import { User } from "../models/index.js";
 import logger from "../../config/logger.js";
 
@@ -60,11 +60,11 @@ const verifyRegistration = async (req, res) => {
 
     logger.info(`User verified successfully: ${user.email}`);
 
-   
-    res.cookie('token', token, {
+    // Set token in cookie
+    res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     res.status(200).json({
@@ -186,10 +186,11 @@ const login = async (req, res) => {
       return res.status(401).json({ success: false, message: "Invalid credentials." });
     }
 
-    res.cookie('token', token, {
+    // Set token in cookie
+    res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     logger.info(`Login successful for ${email}`);
@@ -209,20 +210,30 @@ const login = async (req, res) => {
 };
 
 const validateSession = async (req, res) => {
-  const token = req.session.token;
+  // Get the token from the cookies
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "No token provided. Please log in again.",
+    });
+  }
+
   try {
+    // Validate the token
     const user = await AuthService.validateSession(token);
+
     res.status(200).json({
       success: true,
       message: "Session has validated successfully.",
       user,
     });
   } catch (error) {
-    // logger.error(`Failed to validate session: ${error.message}`);
     res.status(401).json({
       success: false,
       message:
-        "For your security, Your session has expired. Please log in again.",
+        "For your security, your session has expired or the token is invalid. Please log in again.",
       error: error.message,
     });
   }
@@ -231,6 +242,14 @@ const validateSession = async (req, res) => {
 const logout = async (req, res) => {
   try {
     await AuthService.logout(req);
+
+    // Clear the token cookie from the client-side
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", 
+    });
+
     logger.info("User logged out successfully.");
     res.status(200).json({
       success: true,

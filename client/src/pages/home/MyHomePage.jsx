@@ -8,7 +8,7 @@ import ClimateControlPanel from "../../components/widgets/ClimateControlPanel";
 import DoorsWidget from "../../components/widgets/DoorsWidget";
 import LightingWidget from "../../components/widgets/LightingWidget";
 import CameraFeedsWidget from "../../components/widgets/CameraFeedsWidget";
-import HeatingSystem from "../../components/HeatingSystem"; 
+import SmartFOXConditioner from "../../components/SmartFOXConditioner"; 
 
 const MyHomePage = () => {
   const { selectedHome, loading, error } = useHomes();
@@ -33,7 +33,7 @@ const MyHomePage = () => {
                 </div>
               </div>
               <EnergyMonitor />
-              <HeatingSystem /> 
+              <SmartFOXConditioner /> 
               
             </div>
             <div className="grid grid-cols-1 gap-6 mb-6">

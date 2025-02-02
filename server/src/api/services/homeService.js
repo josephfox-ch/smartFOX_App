@@ -196,4 +196,3 @@ export const getHomeDetails = async (userId, homeId) => {
     throw new Error("Could not fetch home details");
   }
 };
-

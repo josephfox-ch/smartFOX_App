@@ -30,7 +30,10 @@
     "concurrently": "^8.2.2"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "cookie-parser": "^1.4.7",
     "react-icons": "^5.1.0",
+    "react-lottie": "^1.2.8",
     "react-phone-input-2": "^2.15.1"
   }
 }

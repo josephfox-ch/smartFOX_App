@@ -109,15 +109,21 @@ export const calculateWaterTemperatureIncrease = (boilerCapacity, boilerEfficien
 export const calculateIndoorTemperatureIncrease = (volume, boilerCapacity) => {
   const airDensity = 1.2; // kg/m³
 
+  // Ensure volume and boilerCapacity are valid numbers
+  if (!volume || !boilerCapacity) {
+    console.error('Invalid volume or boiler capacity');
+    return NaN;
+  }
+
   // Convert boiler power to joules (boilerCapacity is in kW)
-  const boilerPowerInJoules = boilerCapacity * 1000; // W = J/s 
+  const boilerPowerInJoules = boilerCapacity * 1000; // W = J/s
 
   // Calculate the mass of air in the house
   const airMass = volume * airDensity; // kg
   
   // Calculate the temperature increase per second
   const temperatureIncrease = boilerPowerInJoules / (airMass * SPECIFIC_HEAT_CAPACITY_AIR); // K/s
-  
+
   console.log('Indoor-temp-increase:', temperatureIncrease);
   return temperatureIncrease;
 };
