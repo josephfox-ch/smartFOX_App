@@ -86,7 +86,7 @@ export const EnergyProvider = ({ children }) => {
         fuelType: energyCertificate.fuelType,
       };
   
-      console.log("Calculation data:", data);
+    
   
       const totalHeatLoss = calculateHeatingEnergy(
         data.wallUValue,
@@ -96,7 +96,7 @@ export const EnergyProvider = ({ children }) => {
         data.Tc,
         data.Te
       );
-      console.log("Total Heat Loss:", totalHeatLoss);
+     
   
       const energyRequirementToTarget = calculateEnergyRequirementToTarget(
         totalHeatLoss,
@@ -104,7 +104,7 @@ export const EnergyProvider = ({ children }) => {
         data.Tc,
         data.Te
       );
-      console.log("Energy Requirement to Target:", energyRequirementToTarget);
+      
   
       const targetWaterTemperature =
         calculateWaterTargetTemperatureToReachTargetTemp(
@@ -112,14 +112,14 @@ export const EnergyProvider = ({ children }) => {
           data.waterMass,
           data.Tw
         );
-      console.log("Target Water Temperature:", targetWaterTemperature);
+      
   
       const fuelConsumptionToTarget = calculateFuelConsumptionToReachTargetTemp(
         energyRequirementToTarget,
         data.fuelType,
         data.boilerEfficiency
       );
-      console.log("Fuel Consumption to Target:", fuelConsumptionToTarget);
+      
   
       const energyBalance = calculateEnergyBalance(
         energyRequirementToTarget,

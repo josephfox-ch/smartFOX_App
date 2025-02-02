@@ -2,9 +2,8 @@ import { verifyToken } from "../../helpers/jwtHelper.js";
 import logger from "../../config/logger.js";
 
 export const authenticateUser = async (req, res, next) => {
-  console.log('req-cookies',req.cookies);
+  // Check if token is present in cookies.
   const token = req.cookies.token; 
-  console.log('token',token);
 
   if (!token) {
     logger.warn("No token provided in cookies.");

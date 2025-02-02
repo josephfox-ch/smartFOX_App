@@ -88,7 +88,6 @@ const AuthService = {
   validateSession: async () => {
     try {
       const response = await API.post("/auth/validate-session");
-      console.log("api-session-validate", response.data);
       return response.data;
     } catch (error) {
       throw new Error(

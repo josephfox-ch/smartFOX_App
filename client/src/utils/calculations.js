@@ -101,7 +101,7 @@ export const calculateWaterTemperatureIncrease = (boilerCapacity, boilerEfficien
   const powerOutput = (boilerCapacity * 1000) * (boilerEfficiency / 100); // Boiler output in J/s
   const temperatureIncrease =
     powerOutput / (FLOW_RATE_OF_WATER * SPECIFIC_HEAT_CAPACITY_WATER * 1000); // Convert kJ to J
-  console.log('Water-temp-increase:', temperatureIncrease)
+  
   return temperatureIncrease;
 };
 
@@ -124,7 +124,7 @@ export const calculateIndoorTemperatureIncrease = (volume, boilerCapacity) => {
   // Calculate the temperature increase per second
   const temperatureIncrease = boilerPowerInJoules / (airMass * SPECIFIC_HEAT_CAPACITY_AIR); // K/s
 
-  console.log('Indoor-temp-increase:', temperatureIncrease);
+  
   return temperatureIncrease;
 };
 // // Example Usage:
