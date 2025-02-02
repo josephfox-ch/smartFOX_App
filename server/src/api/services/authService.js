@@ -240,8 +240,7 @@ const validateSession = async (token) => {
 };
 
 const logout = async (req) => {
-  req.session = null;
-  logger.info("User logged out successfully");
+  req.session = null; 
 };
 
 export {

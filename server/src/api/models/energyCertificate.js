@@ -63,6 +63,10 @@ const EnergyCertificate = sequelize.define("EnergyCertificate", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  totalHeatCapacity: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
 });
 
 export default EnergyCertificate;

@@ -1,12 +1,12 @@
 import "./loadEnv.js";
 import "./src/config/firebase.js";
 import express from "express";
+import cookieParser from "cookie-parser"; 
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import fs from "fs";
 import path from "path";
-import { sessionMiddleware } from "./src/api/middlewares/sessionMiddleware.js";
 import { useRoutes } from "./src/api/routes/routes.js";
 import logger from "./src/config/logger.js";
 import expressWinston from "express-winston";
@@ -16,6 +16,7 @@ import { connectDB } from "./src/config/db.js";
 import allowCors from "./allowCors.js";
 
 const app = express();
+
 
 if (process.env.NODE_ENV !== "production") {
   const logDir = path.resolve("logs");
@@ -27,33 +28,21 @@ if (process.env.NODE_ENV !== "production") {
 const corsOptions = {
   origin: process.env.CORS_ORIGIN.split(','),
   credentials: true,
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 app.use(helmet());
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
-    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-    fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    imgSrc: ["'self'", "data:"],
-    connectSrc: ["'self'", 'https://smartfoxhome.netlify.app'],
-    frameSrc: ["'none'"],
-    objectSrc: ["'none'"],
-    upgradeInsecureRequests: [],
-  },
-}));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(sessionMiddleware);
 
 useRoutes(app);
 
